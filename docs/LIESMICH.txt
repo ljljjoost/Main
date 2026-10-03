@@ -1,0 +1,40 @@
+KLEINE SCHRITTE – als App fürs Handy
+====================================
+
+Was das ist
+Dieser Ordner enthält das Arbeitsheft als eigenständige Web-App. Einmal hochgeladen,
+lässt es sich wie eine App auf dem Home-Bildschirm installieren, läuft im Vollbild
+und auch ohne Netz.
+
+1. Hochladen (einmalig, am Rechner)
+- Den gesamten Inhalt dieses Ordners hochladen: index.html, sw.js, manifest.webmanifest
+  und die Unterordner icons, fonts, vendor. Geeignet ist jeder Anbieter für statische
+  Webseiten (z. B. GitHub Pages, Netlify, Cloudflare Pages) oder eigener Webspace.
+- Die Adresse muss mit https:// beginnen, sonst funktionieren Installation und
+  Offline-Betrieb nicht.
+- Alle Dateien bleiben zusammen in einem Ordner, die Unterordner unverändert.
+
+2. Installieren (auf dem iPhone)
+- Die Adresse in Safari öffnen. Aus WhatsApp oder Instagram heraus erst
+  „In Safari öffnen" wählen.
+- Teilen-Symbol antippen, dann „Zum Home-Bildschirm", dann „Hinzufügen".
+- Ab dann nur noch über das Katzen-Symbol öffnen. Die App hat ihren eigenen Speicher:
+  Einträge, die vorher in Safari gemacht wurden, sind dort nicht zu sehen.
+
+3. Bisherige Einträge mitnehmen
+- In der alten Fassung: Nachlesen, dann „Sicherung speichern".
+- In der App: Nachlesen, dann „Sicherung laden" und die Datei auswählen.
+
+4. Später etwas ändern
+- Neue Dateien hochladen und in sw.js die Versionsangabe in der Zeile
+  „const CACHE = ..." ändern. Sonst zeigt das Handy weiter die alte Fassung.
+
+Gut zu wissen
+- Alle Einträge bleiben auf dem Gerät. Es gibt keinen Server und kein Konto.
+- Wird das Symbol vom Home-Bildschirm gelöscht, sind die Einträge weg.
+  Vorher eine Sicherung speichern.
+- Erinnerungen und Mitteilungen kann diese Fassung nicht.
+
+Fremde Bausteine im Paket
+- Schriften Bitter, Figtree, Patrick Hand: SIL Open Font License 1.1
+- jsPDF 2.5.1: MIT-Lizenz

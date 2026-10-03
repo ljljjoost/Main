@@ -1,0 +1,1972 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kleine Schritte</title>
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FBF8F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C1917" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kleine Schritte">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<style>
+@font-face{font-family:'Bitter';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/bitter-700.woff2) format('woff2')}
+@font-face{font-family:'Bitter';font-weight:800;font-style:normal;font-display:swap;src:url(fonts/bitter-800.woff2) format('woff2')}
+@font-face{font-family:'Figtree';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/figtree-400.woff2) format('woff2')}
+@font-face{font-family:'Figtree';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/figtree-400-italic.woff2) format('woff2')}
+@font-face{font-family:'Figtree';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/figtree-700.woff2) format('woff2')}
+@font-face{font-family:'Patrick Hand';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/patrick-hand-400.woff2) format('woff2')}
+</style>
+<script defer src="vendor/jspdf.umd.min.js"></script>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+  --paper:#FBF8F3; --nav:#FFFDF9; --ink:#2A2725; --ink2:#5C554E; --ink3:#756C62;
+  --band:#EFE7DA; --band2:#E0D2BE; --rose:#EDD3C6; --accent:#A64B32; --on-accent:#FFFFFF;
+  --paw:#C9A698; --line:#D6CBBB; --pen:#27407A; --cat:#26231F; --moon:#EFE7DA;
+  --thumb:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath d='M6 5l8 6h8l8-6v14a12 12 0 0 1-24 0z' fill='%232A2725' stroke='%232A2725' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='13.5' cy='20' r='1.9' fill='%23FBF8F3'/%3E%3Ccircle cx='22.5' cy='20' r='1.9' fill='%23FBF8F3'/%3E%3C/svg%3E");
+  --thumb-unset:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath d='M6 5l8 6h8l8-6v14a12 12 0 0 1-24 0z' fill='%23C9A698' stroke='%23C9A698' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='13.5' cy='20' r='1.9' fill='%23FBF8F3'/%3E%3Ccircle cx='22.5' cy='20' r='1.9' fill='%23FBF8F3'/%3E%3C/svg%3E");
+  --serif:"Bitter",Rockwell,Georgia,serif;
+  --sans:"Figtree",Verdana,"DejaVu Sans",system-ui,sans-serif;
+  --hand:"Patrick Hand","Bradley Hand","Segoe Print","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#1C1917; --nav:#221E1B; --ink:#F1EBE2; --ink2:#C9BFB3; --ink3:#A2978A;
+    --band:#2C2723; --band2:#42392F; --rose:#4A332B; --accent:#E8A086; --on-accent:#221611;
+    --paw:#8E7468; --line:#4B4239; --pen:#B5CBF7; --cat:#0E0C0B; --moon:#EAD3AE;
+    --thumb:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath d='M6 5l8 6h8l8-6v14a12 12 0 0 1-24 0z' fill='%23F1EBE2' stroke='%23F1EBE2' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='13.5' cy='20' r='1.9' fill='%231C1917'/%3E%3Ccircle cx='22.5' cy='20' r='1.9' fill='%231C1917'/%3E%3C/svg%3E");
+    --thumb-unset:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath d='M6 5l8 6h8l8-6v14a12 12 0 0 1-24 0z' fill='%236F5C52' stroke='%236F5C52' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='13.5' cy='20' r='1.9' fill='%231C1917'/%3E%3Ccircle cx='22.5' cy='20' r='1.9' fill='%231C1917'/%3E%3C/svg%3E");
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#1C1917; --nav:#221E1B; --ink:#F1EBE2; --ink2:#C9BFB3; --ink3:#A2978A;
+  --band:#2C2723; --band2:#42392F; --rose:#4A332B; --accent:#E8A086; --on-accent:#221611;
+  --paw:#8E7468; --line:#4B4239; --pen:#B5CBF7; --cat:#0E0C0B; --moon:#EAD3AE;
+  --thumb:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath d='M6 5l8 6h8l8-6v14a12 12 0 0 1-24 0z' fill='%23F1EBE2' stroke='%23F1EBE2' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='13.5' cy='20' r='1.9' fill='%231C1917'/%3E%3Ccircle cx='22.5' cy='20' r='1.9' fill='%231C1917'/%3E%3C/svg%3E");
+  --thumb-unset:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath d='M6 5l8 6h8l8-6v14a12 12 0 0 1-24 0z' fill='%236F5C52' stroke='%236F5C52' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='13.5' cy='20' r='1.9' fill='%231C1917'/%3E%3Ccircle cx='22.5' cy='20' r='1.9' fill='%231C1917'/%3E%3C/svg%3E");
+}
+
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+main{max-width:35rem;margin:0 auto;padding:22px 20px 116px;outline:none}
+h1,.h1{font-family:var(--serif);font-weight:800;font-size:1.85rem;line-height:1.14;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:700;font-size:1.3rem;line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+button{font-family:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sub{font-style:italic;color:var(--accent);margin:.4rem 0 0}
+.hint{color:var(--ink3);font-size:.9rem;font-style:italic;font-weight:400}
+
+/* ---------- Bausteine aus dem Heft ---------- */
+.paw{width:20px;height:20px;fill:currentColor;color:var(--paw);flex:none}
+.rule{display:flex;align-items:center;gap:10px;margin:12px 0 18px}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--line)}
+.rule .paw{width:13px;height:13px}
+.band{background:var(--band);color:var(--accent);font-weight:700;padding:8px 12px;margin:28px 0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;line-height:1.3}
+.band .cap{text-transform:uppercase;letter-spacing:.07em;font-size:.8rem}
+.band .rest{font-size:.9rem}
+.band .link{padding:0;font-size:.85rem;font-weight:400}
+.paws{list-style:none;margin:0;padding:0}
+.paws>li{display:grid;grid-template-columns:32px 1fr;padding:14px 0;border-bottom:1px solid var(--line)}
+.paws>li:last-child{border-bottom:0}
+.paws .paw{margin-top:3px}
+.paws b{display:block;font-size:1.03rem}
+.paws .txt{display:block;font-size:.97rem}
+.steps{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px;counter-reset:s}
+.steps li{background:var(--band);padding:12px 14px 12px 56px;position:relative;counter-increment:s}
+.steps li::before{content:counter(s);position:absolute;left:14px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--rose);color:var(--accent);font-weight:700;display:grid;place-items:center}
+.steps b{display:block}
+.steps span{font-size:.94rem;color:var(--ink2)}
+.callout{background:var(--rose);padding:14px 16px;margin:14px 0 0}
+.callout b{display:block;font-size:1.04rem;margin-bottom:4px}
+.callout p{margin:0}
+.callout.soft{background:var(--band)}
+.callout.soft b{color:var(--accent);font-size:1rem}
+
+/* ---------- Knöpfe ---------- */
+.btn{display:block;width:100%;border:0;border-radius:999px;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:1rem;line-height:1.2;padding:14px 22px;min-height:50px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.btn[disabled]{opacity:.6}
+.link{background:none;border:0;padding:10px 0;color:var(--accent);font-size:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+.chip{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:8px 14px;min-height:42px;font-size:.93rem;color:var(--ink);cursor:pointer;text-align:left}
+.chip[aria-pressed="true"]{background:var(--rose);border-color:var(--accent)}
+.choice{display:flex;gap:8px;margin:8px 0 0}
+.choice button{flex:1 1 auto;white-space:nowrap;min-height:46px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:.97rem;padding:8px 10px;cursor:pointer}
+.choice button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ---------- Handschrift auf Linien ---------- */
+.hand{font-family:var(--hand);color:var(--pen)}
+input.hand,textarea.hand{display:block;width:100%;border:0;border-radius:0;background-color:transparent;font-size:1.3rem;outline:none;margin:0;-webkit-appearance:none;appearance:none}
+input.hand{line-height:1.3;padding:5px 2px 3px;border-bottom:1.5px solid var(--line)}
+input.hand:focus{border-bottom-color:var(--accent)}
+textarea.hand{--lh:32px;--rl:var(--line);line-height:var(--lh);padding:0 2px;resize:none;overflow:hidden;min-height:calc(var(--lh)*2);background-image:linear-gradient(to bottom,transparent calc(var(--lh) - 1.5px),var(--rl) calc(var(--lh) - 1.5px));background-size:100% var(--lh);background-position:0 -3px;background-attachment:local}
+textarea.hand.one{min-height:var(--lh)}
+textarea.hand:focus{--rl:var(--accent)}
+.hand::placeholder{color:var(--ink3);opacity:.7}
+.q{display:block;font-weight:700;margin:0 0 2px}
+.q.accent{color:var(--accent)}
+.field{margin:22px 0 0}
+
+/* ---------- Regler mit Katzenkopf ---------- */
+.scale{margin:20px 0 0}
+.scale-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.scale output{font-family:var(--hand);color:var(--pen);font-size:1.55rem;line-height:1;min-width:3ch;text-align:right;white-space:nowrap}
+.scale output small{font-size:1rem}
+input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:44px;background:transparent;margin:0;--f:.5;cursor:pointer}
+input[type=range]:focus{outline:none}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(to right,var(--accent) calc(18px + (100% - 36px) * var(--f)),var(--band2) 0)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:36px;height:36px;margin-top:-17px;border:0;border-radius:0;background:var(--thumb) center/contain no-repeat}
+input[type=range][data-unset]::-webkit-slider-runnable-track{background:var(--band2)}
+input[type=range][data-unset]::-webkit-slider-thumb{background-image:var(--thumb-unset)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--band2)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--accent)}
+input[type=range][data-unset]::-moz-range-progress{background:var(--band2)}
+input[type=range]::-moz-range-thumb{width:36px;height:36px;border:0;border-radius:0;background:var(--thumb) center/contain no-repeat}
+input[type=range][data-unset]::-moz-range-thumb{background-image:var(--thumb-unset)}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+.ticks{position:relative;height:18px;margin-top:-6px;font-size:.74rem;color:var(--ink3)}
+.ticks span{position:absolute;left:calc(18px + (100% - 36px) * var(--f));transform:translateX(-50%)}
+
+/* ---------- Start ---------- */
+.notice{background:var(--band);padding:12px 14px;font-size:.92rem;margin:0 0 18px}
+.pending{background:var(--rose);padding:14px 16px 16px;margin:0 0 22px}
+.pending.soft{background:var(--band)}
+.pending p{margin:0}
+.pending .hand{font-size:1.3rem;line-height:1.25;margin:2px 0 12px;overflow-wrap:anywhere}
+.cover{text-align:center;padding-top:10px}
+.cover h1{font-size:clamp(2rem,11.2vw,3.4rem);line-height:1.02}
+.cover .rule{max-width:17rem;margin:14px auto 6px}
+.cat{display:block}
+.cat .moon{fill:var(--moon)}
+.cat .body{fill:var(--cat)}
+.cat .tail{fill:none;stroke:var(--cat);stroke-width:15;stroke-linecap:round}
+.cover .cat{width:min(56vw,216px);height:auto;margin:6px auto 8px}
+.quote{font-style:italic;color:var(--ink2);max-width:23rem;margin:10px auto 0;text-wrap:balance}
+.owner{display:flex;align-items:baseline;gap:10px;justify-content:center;margin:16px auto 0;max-width:20rem;font-size:.86rem;color:var(--ink3)}
+.owner label{white-space:nowrap}
+.owner input{flex:1;min-width:0;text-align:center}
+.first{margin:26px 0 0}
+.first p{margin:0 0 4px;color:var(--ink2);font-size:.95rem}
+.first ol{list-style:none;margin:0;padding:0}
+.first button{display:flex;gap:14px;align-items:center;width:100%;min-height:46px;padding:8px 2px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font-size:1rem;text-align:left;cursor:pointer}
+.first .box svg{opacity:0}
+.first .done .box svg{opacity:1}
+.first .done span:last-child{color:var(--ink3)}
+.actions{margin:26px 0 0}
+.sug{margin:14px 0 0;font-size:.95rem}
+.sug .hand{font-size:1.25rem;line-height:1.2}
+.sug .link{padding:6px 0;display:block}
+.trail-sec{margin:30px 0 0}
+.trail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 3px;padding:8px 0}
+.trail .p{width:22px;height:22px;fill:currentColor;color:var(--paw)}
+.trail .p:nth-child(odd){transform:translateY(-5px) rotate(78deg)}
+.trail .p:nth-child(even){transform:translateY(5px) rotate(102deg)}
+.trail .p.last{color:var(--accent)}
+.trail .p.ghost{color:var(--band2);opacity:.7}
+.trail .bowl{width:38px;height:25px;margin-left:10px;color:var(--band2)}
+.trail-txt{color:var(--ink2);font-size:.95rem;margin:2px 0 0}
+.gap{margin:34px 0 0}
+.gap>p{margin:10px 0 0}
+.gap-bar{display:flex;height:12px;margin:12px 0 8px;background:var(--band)}
+.gap-bar i{display:block;height:100%}
+.gap-bar .no{background:var(--ink)}
+.gap-bar .some{background:var(--paw)}
+.gap-bar .yes{background:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 18px;list-style:none;margin:0;padding:0;font-size:.93rem}
+.legend li::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;background:var(--c)}
+.notes-h{font-weight:700;margin:20px 0 0;font-size:.95rem}
+.notes{list-style:none;margin:2px 0 0;padding:0}
+.notes li{font-family:var(--hand);color:var(--pen);font-size:1.22rem;line-height:1.3;padding:7px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.foot-links{margin:30px 0 0;display:grid;gap:2px}
+
+/* ---------- Experimente ---------- */
+.exp-list{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+.exp-card{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:13px 2px;color:inherit;font-size:1rem;cursor:pointer}
+.exp-card .meta{display:flex;justify-content:space-between;gap:10px;font-size:.84rem;color:var(--ink3)}
+.exp-card .t{display:block;font-size:1.3rem;line-height:1.25;margin-top:2px;overflow-wrap:anywhere}
+.status{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.status.done{color:var(--accent);font-weight:700}
+.status .paw{width:14px;height:14px;color:var(--accent)}
+.empty{color:var(--ink2);margin:22px 0 0}
+.back{display:inline-block;padding:4px 0 12px;font-size:.92rem}
+.exp-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.exp-head h1{display:flex;align-items:center;gap:10px}
+.exp-head h1 .paw{width:26px;height:26px}
+.datum{display:flex;align-items:baseline;gap:8px;font-size:.9rem;color:var(--ink2)}
+.datum input{width:auto;min-width:7.6em;font-size:1.2rem;padding:2px}
+.memo{border-left:3px solid var(--rose);padding:2px 0 2px 12px;margin:18px 0 0;font-size:.9rem;color:var(--ink2)}
+.memo .hand{display:block;font-size:1.2rem;line-height:1.25;overflow-wrap:anywhere}
+.fear{border:0;border-left:3px solid var(--rose);margin:14px 0 0;padding:0 0 4px 14px;position:relative;min-width:0}
+.fear legend{font-size:.82rem;font-weight:700;color:var(--ink3);padding:0;float:left;width:100%;margin-bottom:2px}
+.fear .x-btn{position:absolute;right:-6px;top:-12px}
+.x-btn{width:42px;height:42px;border:0;background:none;color:var(--ink3);font-size:1.5rem;line-height:1;cursor:pointer;flex:none}
+.wd{display:grid;grid-template-columns:3.1rem 1fr;align-items:start;clear:both;padding-top:6px}
+.wd label{font-weight:700;line-height:32px}
+.add-fear{margin:8px 0 0}
+select.pick{display:block;width:100%;margin:10px 0 0;min-height:44px;border:1.5px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font-family:inherit;font-size:.93rem;padding:8px 14px;text-overflow:ellipsis}
+.later{color:var(--ink3);font-style:italic;margin:0}
+.timer{margin:0 0 4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.timer .hand{font-size:1.5rem;line-height:1.2}
+.timer.over .hand{font-size:1.2rem}
+.fear-out{border-left:3px solid var(--rose);padding:0 0 2px 14px;margin:12px 0 0}
+.fear-out .hand{font-size:1.2rem;line-height:1.25;margin:0;overflow-wrap:anywhere}
+.fear-out .hint{display:block;margin:2px 0 0}
+.done-band{display:flex;gap:14px;align-items:flex-start;background:var(--band);padding:14px;margin:28px 0 0;cursor:pointer;position:relative}
+.done-band input{position:absolute;opacity:0;width:26px;height:26px;margin:0}
+.done-band .box{border-color:var(--accent);border-width:2px;width:26px;height:26px}
+.done-band b{color:var(--accent)}
+.box{flex:none;width:22px;height:22px;border:1.5px solid var(--ink2);border-radius:2px;margin-top:1px;position:relative;display:block}
+.box svg{position:absolute;left:-6px;top:-7px;width:calc(100% + 12px);height:calc(100% + 14px);fill:none;stroke:var(--pen);stroke-width:2.4;stroke-linecap:round;opacity:0;overflow:visible}
+input:checked+.box svg{opacity:1}
+input:focus-visible+.box{outline:2px solid var(--accent);outline-offset:3px}
+.under{margin:10px 0 0;display:grid;gap:0;justify-items:start}
+.confirm{background:var(--band);padding:12px 14px;margin:12px 0 0}
+.confirm p{margin:0 0 10px}
+.confirm .row{display:flex;gap:10px}
+.confirm .btn{min-height:44px;padding:10px 14px;font-size:.95rem}
+.sum{margin:0}
+.sum dt{font-size:.85rem;color:var(--ink3);margin-top:12px}
+.sum dt:first-child{margin-top:0}
+.sum dd{margin:0}
+.sum dd.hand{font-size:1.25rem;line-height:1.3;white-space:pre-wrap;overflow-wrap:anywhere}
+.sum dd small{font-family:var(--sans);font-size:.85rem;color:var(--ink3);display:block}
+.result{border:1.5px solid var(--ink);padding:16px 16px 6px;margin:20px 0 0}
+.stamp{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-family:var(--serif);font-weight:800;font-size:1.25rem;border:2.5px solid var(--accent);border-radius:8px;padding:4px 12px 4px 8px;transform:rotate(-4deg);margin:0 0 12px}
+.stamp .paw{color:var(--accent);width:24px;height:24px}
+.stamp small{font-family:var(--sans);font-weight:400;font-size:.8rem}
+.result ul{list-style:none;margin:0;padding:0}
+.result li{padding:10px 0;border-top:1px solid var(--line)}
+.result li>.hand{font-size:1.2rem;line-height:1.25;margin:0 0 6px;overflow-wrap:anywhere}
+.result .hint{margin:6px 0 0;display:block}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vs span{display:block;font-size:.82rem;color:var(--ink3)}
+.vs b{font-weight:400;font-size:1.5rem;line-height:1.2}
+.away{text-align:center;padding-top:8vh}
+.away .cat{width:150px;height:auto;margin:0 auto 18px}
+.away p{max-width:22rem;margin:14px auto 0;color:var(--ink2)}
+.away .btn{margin-top:28px}
+.keep{margin:18px 0 0;padding:14px 16px 16px;background:var(--band)}
+.keep p{margin:0}
+.keep .row{display:flex;gap:10px;margin-top:12px}
+.keep .btn{min-height:46px;padding:10px 12px}
+.card-img{display:block;width:100%;height:auto;margin-top:10px;border:1px solid var(--line)}
+.sheet-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 0 0}
+.sheet-nav p{margin:0;text-align:center}
+.sheet-nav .x-btn{font-size:2.1rem;color:var(--accent);width:48px;height:48px}
+.sheet-nav .x-btn[disabled]{opacity:.25}
+.sheet{margin:6px 0 0;border:1px solid var(--line);background:#FBF8F3;color:#5C554E;min-height:220px;font-size:.9rem}
+.sheet img{display:block;width:100%;height:auto;-webkit-touch-callout:default}
+.keep-row{display:flex;gap:10px;margin-top:14px}
+.keep-row .btn{min-height:46px;padding:10px 12px}
+
+/* ---------- Leiter ---------- */
+.seg{display:flex;border:1.5px solid var(--line);border-radius:999px;padding:3px;margin:18px 0 0}
+.seg button{flex:1;border:0;background:none;border-radius:999px;min-height:44px;padding:6px 8px;font-weight:700;font-size:.88rem;line-height:1.15;color:var(--ink2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.cat-hint{font-style:italic;color:var(--ink2);margin:-6px 0 0;font-size:.93rem}
+.ladder{list-style:none;margin:16px 0 0;padding:0 14px;position:relative}
+.ladder::before,.ladder::after{content:"";position:absolute;top:0;bottom:0;width:7px;background:var(--band2);border-radius:4px}
+.ladder::before{left:0}
+.ladder::after{right:0}
+.rung{position:relative;border-bottom:5px solid var(--band2);margin:0 -8px;padding:0 8px}
+.rung-main{display:flex;align-items:center;gap:10px;width:100%;padding:12px 6px 10px;border:0;background:none;text-align:left;color:inherit;cursor:pointer;min-height:54px}
+.rtxt{flex:1;font-size:1.25rem;line-height:1.2;overflow-wrap:anywhere;min-width:0}
+.tbox{flex:none;min-width:48px;text-align:center;border:1.5px solid var(--ink2);padding:1px 6px;font-size:1.3rem;line-height:1.3}
+.rung.zone .tbox{border-color:var(--accent);background:var(--rose)}
+.rung-meta{display:flex;flex-wrap:wrap;gap:2px 12px;padding:0 6px 8px;margin-top:-6px;font-size:.82rem;color:var(--ink3)}
+.rung-meta .here{color:var(--accent);font-weight:700}
+.rung-panel{padding:0 6px 16px}
+.rung-panel .btn{margin-top:18px}
+.ladder-empty{color:var(--ink2);margin:16px 0 0}
+.add-rung{margin:30px 0 0;padding-top:18px;border-top:1px solid var(--line)}
+.add-rung .btn{margin-top:20px}
+.legend-note{background:var(--band);padding:12px 14px;margin:28px 0 0;font-size:.92rem}
+.legend-note p{margin:0}
+
+/* ---------- Helfer ---------- */
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;align-items:flex-start}
+.checks label{flex:1;display:flex;gap:14px;align-items:flex-start;padding:11px 2px;min-height:46px;cursor:pointer;position:relative;min-width:0}
+.checks label>span:last-child{overflow-wrap:anywhere;min-width:0}
+.checks input{position:absolute;opacity:0;width:24px;height:24px;margin:0}
+.add-row{display:flex;align-items:flex-end;gap:6px;margin:4px 0 0}
+.add-row input{flex:1;min-width:0}
+.plus{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent);background:none;color:var(--accent);font-size:1.5rem;line-height:1;cursor:pointer;flex:none}
+.count{color:var(--ink2);font-size:.93rem;margin:26px 0 0}
+
+/* ---------- Nachlesen ---------- */
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+.page{padding-top:8px;margin-top:44px}
+.page:first-of-type{margin-top:0}
+.park{margin:12px 0 0}
+.park-list{list-style:none;margin:10px 0 0;padding:0}
+.park-list li{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.park-list .hand{flex:1;font-size:1.22rem;line-height:1.3;padding:6px 0;overflow-wrap:anywhere;min-width:0}
+.park-list small{color:var(--ink3);font-size:.8rem;white-space:nowrap}
+.stack{display:grid;gap:10px;margin:14px 0 0}
+.fine{font-size:.9rem;color:var(--ink2);margin:14px 0 0}
+.fine p{margin:0 0 .7em}
+
+/* ---------- Leiste unten, Meldungen ---------- */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--nav);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs-in{display:flex;max-width:35rem;margin:0 auto}
+.tabs button{flex:1;min-width:0;background:none;border:0;padding:8px 1px 7px;min-height:60px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink3);font-weight:700;font-size:clamp(.6rem,2.9vw,.7rem);cursor:pointer}
+.tabs button[aria-current="page"]{color:var(--accent)}
+.tabs svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabs svg .f{fill:currentColor;stroke:none}
+#toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:20;max-width:calc(100% - 32px);width:max-content;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:no-preference){
+  .cover .cat .tail{transform-origin:56px 208px;animation:sway 7s ease-in-out infinite}
+  @keyframes sway{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-7deg)}}
+  .result.just .stamp{animation:stamp .5s cubic-bezier(.2,1.5,.4,1) both}
+  @keyframes stamp{from{transform:rotate(-16deg) scale(2.3);opacity:0}to{transform:rotate(-4deg) scale(1);opacity:1}}
+  input+.box svg path{stroke-dasharray:44;stroke-dashoffset:44}
+  input:checked+.box svg path{stroke-dashoffset:0;transition:stroke-dashoffset .22s ease-out}
+  input:checked+.box svg path+path{transition-delay:.12s}
+}
+@media (min-width:40rem){
+  main{padding-top:40px}
+  h1,.h1{font-size:2.1rem}
+}
+</style>
+<style>
+/* ===== Feinschliff: wärmer, ruhiger, aufgeräumter ===== */
+:root{
+  --r:18px; --r-s:12px;
+  --card:#FFFDF9; --good:#3F7D5C; --good-bg:#DCEBDF;
+  --shadow:0 1px 2px rgba(60,40,20,.05),0 4px 16px rgba(60,40,20,.06);
+  --ease-out:cubic-bezier(.23,1,.32,1);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--card:#25211E;--good:#8CC7A5;--good-bg:#23382C;--shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25)}}
+:root[data-theme="dark"]{--card:#25211E;--good:#8CC7A5;--good-bg:#23382C;--shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25)}
+
+html{-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+button,.chip,.tabs button,.seg button{-webkit-user-select:none;user-select:none}
+select.pick{font-size:16px}
+h1,.h1,h2{letter-spacing:-.02em}
+
+/* Flächen werden zu weichen Karten */
+.band{border-radius:var(--r-s);padding:9px 14px;margin:32px 0 14px}
+.callout,.pending,.notice,.confirm,.keep,.legend-note,.done-band,.steps li{border-radius:var(--r)}
+.callout,.pending{padding:16px 18px}
+.steps li{padding:14px 16px 14px 58px}
+.steps li::before{top:14px}
+.memo,.fear,.fear-out{border-left-width:3px;border-radius:2px}
+
+/* Knöpfe: spürbares Feedback beim Tippen */
+.btn,.chip,.choice button,.seg button,.plus,.tabs button,.exp-card,.first button,.rung-main{transition:transform 140ms var(--ease-out),background-color 160ms ease,color 160ms ease,border-color 160ms ease,box-shadow 160ms ease}
+.btn:active,.chip:active,.choice button:active,.plus:active,.exp-card:active{transform:scale(.97)}
+.tabs button:active svg{transform:scale(.9)}
+.tabs svg{transition:transform 140ms var(--ease-out)}
+.btn{box-shadow:0 1px 0 rgba(255,255,255,.15) inset,0 6px 16px -6px color-mix(in srgb,var(--accent) 60%,transparent);min-height:52px}
+.btn.ghost{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.chip,.choice button{background:var(--card)}
+.chip[aria-pressed="true"]{background:var(--rose)}
+.choice button[aria-pressed="true"]{background:var(--ink)}
+
+/* Experiment-Liste als Karten */
+.exp-list{border-top:0;display:grid;gap:10px}
+.exp-card{background:var(--card);border:0;border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.exp-card .t{font-size:1.25rem}
+
+/* Startseite */
+.first ol{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:2px 14px;margin-top:8px}
+.first li:last-child button{border-bottom:0}
+.gap-bar{border-radius:999px;overflow:hidden}
+
+/* Untere Leiste: Milchglas */
+.tabs{background:color-mix(in srgb,var(--nav) 82%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-top:.5px solid var(--line)}
+.tabs button[aria-current="page"] svg{stroke-width:2.1}
+#toast{box-shadow:0 8px 24px rgba(0,0,0,.18)}
+
+/* ===== Vorher vs. Nachher ===== */
+.result{border:0;border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:20px 18px 14px;margin:22px 0 0}
+.res-k{font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);margin:2px 0 4px}
+.res-lead{font-family:var(--serif);font-weight:700;font-size:1.2rem;line-height:1.25;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance}
+.result li{border-top:1px solid var(--line);padding:14px 0 6px}
+.result li>.hand{margin:0 0 8px}
+.cgrp{margin:0 0 12px}
+.cgrp.tens{border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
+.cgrp-h{display:block;font-size:.8rem;font-weight:700;color:var(--ink2);margin:0 0 6px}
+.cbar{display:grid;grid-template-columns:5.2rem minmax(0,1fr) minmax(3rem,auto);align-items:center;gap:10px;margin:6px 0}
+.cbar-l{font-size:.85rem;color:var(--ink3)}
+.cbar-t{height:10px;border-radius:999px;background:var(--band);overflow:hidden}
+.cbar-t i{display:block;height:100%;width:var(--v);border-radius:inherit;background:var(--paw);transform-origin:left;transition:transform 600ms var(--ease-out)}
+.cbar.mid .cbar-t i{background:var(--band2)}
+.cbar.post .cbar-t i{background:var(--accent)}
+.cbar.good .cbar-t i{background:var(--good)}
+.cbar b{font-family:var(--hand);font-weight:400;color:var(--pen);font-size:1.2rem;line-height:1.1;text-align:right;white-space:nowrap}
+.cbar.post b{color:var(--accent)}
+.cbar.good b{color:var(--good)}
+@media (prefers-reduced-motion:no-preference){
+  @starting-style{.result.just .cbar-t i{transform:scaleX(0)}}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-paw" viewBox="0 0 24 24"><path d="M12 12.2c-3.3 0-6.2 2.9-6.2 5.6 0 1.9 1.4 2.9 3 2.9 1.2 0 2-.5 3.2-.5s2 .5 3.2.5c1.6 0 3-1 3-2.9 0-2.7-2.9-5.6-6.2-5.6z"/><ellipse cx="5.1" cy="10.4" rx="2" ry="2.6" transform="rotate(-22 5.1 10.4)"/><ellipse cx="9.2" cy="6.3" rx="2.1" ry="2.8" transform="rotate(-8 9.2 6.3)"/><ellipse cx="14.8" cy="6.3" rx="2.1" ry="2.8" transform="rotate(8 14.8 6.3)"/><ellipse cx="18.9" cy="10.4" rx="2" ry="2.6" transform="rotate(22 18.9 10.4)"/></symbol>
+  <symbol id="i-bowl" viewBox="0 0 40 26"><path fill="currentColor" d="M2 8c1 10 6 17 12 17h12c6 0 11-7 12-17z"/><ellipse fill="currentColor" cx="20" cy="8" rx="18" ry="5.5"/><ellipse style="fill:var(--paper)" cx="20" cy="7.6" rx="14" ry="3.3"/></symbol>
+</svg>
+
+<main id="view" tabindex="-1"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="restore-file" class="vh" accept="application/json,.json" tabindex="-1" aria-hidden="true">
+
+<nav class="tabs" aria-label="Bereiche des Hefts">
+  <div class="tabs-in">
+    <button data-act="tab" data-tab="start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5l4 3.2h6l4-3.2v9a7 7 0 0 1-14 0z"/><circle class="f" cx="9.5" cy="13" r="1.1"/><circle class="f" cx="14.5" cy="13" r="1.1"/></svg>Start</button>
+    <button data-act="tab" data-tab="exp"><svg viewBox="0 0 24 24" aria-hidden="true"><use class="f" href="#i-paw"/></svg>Experimente</button>
+    <button data-act="tab" data-tab="leiter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v18M17 3v18M7 7.5h10M7 12h10M7 16.5h10"/></svg>Leiter</button>
+    <button data-act="tab" data-tab="helfer"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M8 12.5l3 3 5.5-6.5"/></svg>Helfer</button>
+    <button data-act="tab" data-tab="lesen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19v-5"/></svg>Nachlesen</button>
+  </div>
+</nav>
+<script>
+(function(){
+'use strict';
+
+/* ================= Inhalte des Hefts ================= */
+const HELPERS = [
+  {id:'g', label:'Im Gespräch', items:[
+    ['g1','Sätze vorher im Kopf durchgehen'],
+    ['g2','Lieber zuhören als selbst etwas erzählen'],
+    ['g3','Fragen stellen, damit ich nichts von mir sagen muss'],
+    ['g4','Blickkontakt kurz halten oder ausweichen'],
+    ['g5','Sehr schnell reden, um es hinter mich zu bringen'],
+    ['g6','Mich hinterher entschuldigen für Dinge, die niemand bemerkt hat']]},
+  {id:'r', label:'In der Gruppe', items:[
+    ['r1','Mich an eine vertraute Person hängen'],
+    ['r2','Am Rand sitzen oder in der Nähe der Tür'],
+    ['r3','Aufs Handy schauen, wenn es eine Pause gibt'],
+    ['r4','Etwas in der Hand halten (Glas, Tasche, Jacke)'],
+    ['r5','Früher gehen als geplant'],
+    ['r6','Vorher Alkohol trinken, um lockerer zu sein']]},
+  {id:'v', label:'Vorher und nachher', items:[
+    ['v1','Deutlich mehr vorbereiten als nötig'],
+    ['v2','Absagen, wenn ich einen guten Grund finde'],
+    ['v3','Ausrede statt ehrlichem Grund'],
+    ['v4','Nachricht schreiben statt anrufen oder persönlich sagen'],
+    ['v5','Hinterher jemanden fragen: „War das okay?“'],
+    ['v6','Das Gespräch abends nochmal komplett durchgehen']]}
+];
+const CYCLE = [
+  ['Situation','Etwas steht an: absagen, jemanden neu kennenlernen, im Mittelpunkt stehen.'],
+  ['Befürchtung','„Die halten mich für unzuverlässig.“ „Alle sehen, dass ich unsicher bin.“'],
+  ['Vermeiden oder absichern','Absagen. Oder hingehen, aber innerlich die ganze Zeit aufpassen, kontrollieren, planen.'],
+  ['Sofortige Erleichterung','Puh, überstanden. Genau diese Erleichterung sorgt dafür, dass es beim nächsten Mal wieder so läuft.']
+];
+const RULES = [
+  ['Klein und oft schlägt groß und selten','Vier winzige Übungen pro Woche bringen mehr als eine große im Monat. Die Wiederholung macht es, nicht die Härte.'],
+  ['Vorher raten, nachher nachsehen','Immer erst aufschreiben, was du erwartest — sonst erinnert das Gehirn hinterher alles so, wie es zur Befürchtung passt.'],
+  ['Ein Sicherheitsnetz weglassen','Nicht die ganze Situation muss schwer sein. Es reicht, eine gewohnte Absicherung wegzulassen: nicht vorformulieren, nicht aufs Handy schauen, nicht zuerst die anderen fragen.'],
+  ['Erfolg heißt: gemacht','Nicht „souverän gewirkt“. Nicht „hat sich gut angefühlt“. Nur: gemacht. Rot werden, stottern, Pause — alles erlaubt und zählt trotzdem.'],
+  ['Nicht nach Rückversicherung fragen','„War das okay eben?“ ist auch eine Absicherung. Erst selbst einschätzen, dann erst fragen, wenn du willst.'],
+  ['Zehn Minuten grübeln, dann Schluss','Direkt danach auswerten und aufschreiben. Wenn es abends wiederkommt: nur notieren, nicht neu durchkauen.']
+];
+const EXERCISES = [
+  ['Drei Dinge merken','Nimm dir vor, dir während des Gesprächs drei Dinge über die andere Person zu merken. Das bindet die Aufmerksamkeit dort, wo sie hingehört.'],
+  ['Augenfarbe','Bei jedem, mit dem du länger sprichst: welche Augenfarbe? Klingt albern, funktioniert erstaunlich gut.'],
+  ['Zuhören statt vorformulieren','Wenn du merkst, dass du den nächsten Satz baust: absichtlich aufhören und wieder zuhören. Die Pause, die dabei entsteht, fällt niemandem auf außer dir.'],
+  ['Umgebung scannen','In einer Pause: drei Geräusche, drei Farben im Raum. Statt aufs Handy.']
+];
+const RUMINATION = [
+  ['Zehn Minuten, dann Deckel drauf','Direkt danach das Protokoll ausfüllen. Das ist die Auswertung. Danach ist das Thema für heute erledigt.'],
+  ['Abends: notieren statt analysieren','Wenn es wiederkommt: ein Stichwort auf einen Zettel, und vertagen. Nicht nochmal durchspielen. Das Gehirn wird protestieren — es hat trotzdem unrecht.']
+];
+const LADDER = {
+  A:{label:'Bewertet werden', hint:'Neue Leute, Öffentlichkeit, im Mittelpunkt stehen', ph:'z. B. jemanden nach dem Weg fragen', ideas:[
+    'Jemanden nach dem Weg fragen','An der Kasse eine Rückfrage stellen','Einer fremden Person ein Kompliment machen',
+    'In einer Runde von meinem Wochenende erzählen','Auf einer Feier jemand Neues ansprechen','Vor anderen eine Frage stellen',
+    'Anrufen statt schreiben','Vor der Gruppe anstoßen und etwas sagen']},
+  B:{label:'Jemanden enttäuschen', hint:'Nein sagen, absagen, Meinung vertreten, umentscheiden', ph:'z. B. einen Vorschlag ablehnen', ideas:[
+    'Eine Kleinigkeit ablehnen: „Nein danke, für mich nicht.“','Sagen, wohin ich essen gehen möchte','Eine andere Meinung aussprechen',
+    'Ein Treffen absagen — mit dem ehrlichen Grund','Im Restaurant etwas zurückgehen lassen','Eine Zusage zurücknehmen',
+    'Sagen, dass ich früher gehe — ohne Ausrede','Eine Bitte ablehnen, ohne mich zu rechtfertigen']}
+};
+const OUT = {nein:'nein', bisschen:'ein bisschen', ja:'ja'};
+const GAP_TITLE = 'Was wirklich passiert ist';
+const APP_BUILD = true;
+
+/* ================= Werkzeug ================= */
+const $ = (s,r) => (r||document).querySelector(s);
+const $$ = (s,r) => Array.from((r||document).querySelectorAll(s));
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const pad = n => String(n).padStart(2,'0');
+const todayIso = () => { const d=new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
+const fmtDate = iso => { const m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(iso||''); return m ? m[3]+'.'+m[2]+'.'+m[1].slice(2) : ''; };
+const fmtStamp = ms => { if(!ms) return ''; const d=new Date(ms); return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'; };
+const avg = a => a.length ? Math.round(a.reduce((s,v)=>s+v,0)/a.length) : null;
+const paw = cls => '<svg class="paw'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-paw"/></svg>';
+const rule = () => '<div class="rule" aria-hidden="true">'+paw()+'</div>';
+const xmark = () => '<span class="box"><svg viewBox="0 0 32 34" aria-hidden="true"><path d="M4 6C12 13 20 22 28 30"/><path d="M27 3C20 12 12 22 5 31"/></svg></span>';
+function catSvg(){
+  return '<svg class="cat" viewBox="0 0 208 228" role="img" aria-label="Schwarze Katze, von hinten gesehen">'
+    +'<circle class="moon" cx="104" cy="112" r="92"/><g class="body">'
+    +'<path class="tail" d="M56 208C30 214 10 196 14 170C16 156 28 150 38 156"/>'
+    +'<path d="M66 66L74 12L100 42Z"/><path d="M142 66L134 12L108 42Z"/><circle cx="104" cy="78" r="40"/>'
+    +'<path d="M72 108C52 128 42 168 46 200C47 212 54 218 66 218L150 218C160 218 166 212 166 200C168 165 158 128 136 108Z"/>'
+    +'</g></svg>';
+}
+
+/* ================= Speicher: nur in diesem Browser ================= */
+const KEY = 'kleine-schritte:v1';
+let storageOk = true;
+function blank(){ return {v:1, owner:'', seen:false, helpers:{checked:{}, custom:[]}, ladder:[], experiments:[], parking:[], timer:null}; }
+function newFear(){ return {id:uid(), when:'', then:'', prob:null, bad:null, outcome:null, badReal:null}; }
+const str = v => typeof v==='string' ? v : '';
+const num = v => (typeof v==='number' && isFinite(v)) ? Math.max(0,Math.min(100,Math.round(v))) : null;
+function normFear(f){
+  f = f||{};
+  return {id:str(f.id)||uid(), when:str(f.when), then:str(f.then), prob:num(f.prob), bad:num(f.bad),
+    outcome: OUT[f.outcome] ? f.outcome : null, badReal:num(f.badReal)};
+}
+function normExp(x){
+  const st = ['vorher','offen','gemacht','nicht'].indexOf(x.status)>=0 ? x.status : 'vorher';
+  const fears = Array.isArray(x.fears) && x.fears.length ? x.fears.slice(0,3).map(normFear) : [newFear()];
+  return {id:str(x.id)||uid(), nr:(typeof x.nr==='number'&&x.nr>0)?Math.floor(x.nr):1, date:str(x.date)||todayIso(), what:str(x.what),
+    ladderId:str(x.ladderId)||null, fears, tensionBefore:num(x.tensionBefore), dropped:str(x.dropped), focus:str(x.focus), status:st,
+    happened:str(x.happened), tensionStart:num(x.tensionStart), tensionEnd:num(x.tensionEnd),
+    droppedOk:['ja','teilweise','nein'].indexOf(x.droppedOk)>=0?x.droppedOk:null,
+    surprised:str(x.surprised), takeaway:str(x.takeaway), blocker:str(x.blocker),
+    createdAt:typeof x.createdAt==='number'?x.createdAt:Date.now(), doneAt:typeof x.doneAt==='number'?x.doneAt:null};
+}
+function normalize(s){
+  const b = blank();
+  if(!s || typeof s!=='object') return b;
+  b.owner = str(s.owner);
+  b.seen = !!s.seen;
+  if(s.helpers && typeof s.helpers==='object'){
+    if(s.helpers.checked && typeof s.helpers.checked==='object') Object.keys(s.helpers.checked).forEach(k => { if(s.helpers.checked[k]) b.helpers.checked[k]=true; });
+    if(Array.isArray(s.helpers.custom)) b.helpers.custom = s.helpers.custom.filter(c => c && c.id && str(c.text) && ['g','r','v'].indexOf(c.group)>=0).map(c => ({id:String(c.id), group:c.group, text:c.text}));
+  }
+  if(Array.isArray(s.ladder)) b.ladder = s.ladder.filter(r => r && r.id && str(r.text)).map(r => ({id:String(r.id), cat:r.cat==='B'?'B':'A', text:r.text, tension:num(r.tension)==null?50:num(r.tension), createdAt:typeof r.createdAt==='number'?r.createdAt:Date.now()}));
+  if(Array.isArray(s.experiments)) b.experiments = s.experiments.filter(x => x && typeof x==='object').map(normExp);
+  if(Array.isArray(s.parking)) b.parking = s.parking.filter(p => p && p.id && str(p.text)).map(p => ({id:String(p.id), text:p.text, at:typeof p.at==='number'?p.at:Date.now()}));
+  if(s.timer && s.timer.expId && typeof s.timer.endsAt==='number') b.timer = {expId:String(s.timer.expId), endsAt:s.timer.endsAt};
+  return b;
+}
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    localStorage.setItem(KEY+':probe','1'); localStorage.removeItem(KEY+':probe');
+    return normalize(raw ? JSON.parse(raw) : null);
+  }catch(e){ storageOk=false; return blank(); }
+}
+let saveT = null;
+function save(now){
+  clearTimeout(saveT);
+  const write = () => { try{ localStorage.setItem(KEY, JSON.stringify(state)); storageOk=true; }catch(e){ storageOk=false; } };
+  if(now) write(); else saveT = setTimeout(write, 300);
+}
+let state = load();
+const ui = {tab:'start', expId:null, editVorher:false, editNachher:false, away:false, justDone:false, confirm:null,
+  ladderCat:'A', openRung:null, ideas:false, rung:{text:'', tension:null}, custom:{}, park:'', anchor:null, pendingImport:null, cardImg:null, expMode:'liste', sheetIdx:0};
+
+/* ================= Abgeleitetes ================= */
+const cur = () => state.experiments.find(x => x.id===ui.expId) || null;
+function fearText(f){
+  const w=f.when.trim(), t=f.then.trim();
+  if(w && t) return 'Wenn '+w+', dann '+t;
+  return w || t || '';
+}
+const fearUsed = f => !!(f.when.trim() || f.then.trim() || f.prob!=null || f.bad!=null);
+function isEmptyDraft(x){
+  if(x.status!=='vorher') return false;
+  const r = x.ladderId ? state.ladder.find(r => r.id===x.ladderId) : null;
+  const whatEmpty = !x.what.trim() || (r && x.what===r.text);
+  return whatEmpty && !x.dropped.trim() && !x.focus && x.tensionBefore==null && !x.fears.some(fearUsed);
+}
+function pruneDrafts(keepId){
+  const n = state.experiments.length;
+  state.experiments = state.experiments.filter(x => x.id===keepId || !isEmptyDraft(x));
+  if(state.experiments.length!==n) save();
+}
+const doneCount = r => state.experiments.filter(x => x.ladderId===r.id && x.status==='gemacht').length;
+function suggestion(){
+  const c = state.ladder.filter(r => r.tension>=30 && r.tension<=60 && doneCount(r)<2
+      && !state.experiments.some(x => x.ladderId===r.id && (x.status==='vorher'||x.status==='offen')))
+    .sort((a,b) => a.tension-b.tension || a.createdAt-b.createdAt);
+  return c[0] || null;
+}
+function checkedHelpers(){
+  const out=[];
+  HELPERS.forEach(g => {
+    g.items.forEach(it => { if(state.helpers.checked[it[0]]) out.push(it[1]); });
+    state.helpers.custom.filter(c => c.group===g.id).forEach(c => { if(state.helpers.checked[c.id]) out.push(c.text); });
+  });
+  return out;
+}
+function helperCountText(){
+  const n = checkedHelpers().length;
+  if(!n) return 'Noch nichts angekreuzt.';
+  return (n===1 ? 'Ein Helfer angekreuzt.' : n+' Helfer angekreuzt.')+' Vor jedem Experiment suchst du dir einen davon aus, den du weglässt.';
+}
+function stats(){
+  const done = state.experiments.filter(x => x.status==='gemacht').sort((a,b) => (b.doneAt||0)-(a.doneAt||0));
+  const fears = [];
+  done.forEach(x => x.fears.forEach(f => { if(f.outcome) fears.push(f); }));
+  const c = {nein:0, bisschen:0, ja:0};
+  fears.forEach(f => { c[f.outcome]++; });
+  const hit = fears.filter(f => f.outcome!=='nein' && f.bad!=null && f.badReal!=null);
+  const ts = done.filter(x => x.tensionStart!=null && x.tensionEnd!=null);
+  return {doneN:done.length, n:fears.length, c,
+    avgProb:avg(fears.filter(f => f.prob!=null).map(f => f.prob)),
+    hitN:hit.length, badPred:avg(hit.map(f => f.bad)), badReal:avg(hit.map(f => f.badReal)),
+    tN:ts.length, tStart:avg(ts.map(x => x.tensionStart)), tEnd:avg(ts.map(x => x.tensionEnd)),
+    surprises:done.filter(x => x.surprised.trim()).slice(0,3).map(x => x.surprised.trim()),
+    takeaways:done.filter(x => x.takeaway.trim()).slice(0,3).map(x => x.takeaway.trim())};
+}
+function lastTakeaway(exceptId){
+  const d = state.experiments.filter(x => x.status==='gemacht' && x.id!==exceptId && x.takeaway.trim()).sort((a,b) => (b.doneAt||0)-(a.doneAt||0));
+  return d.length ? d[0].takeaway.trim() : '';
+}
+
+/* ================= Bausteine ================= */
+function head(title, sub){ return '<h1>'+title+'</h1>'+(sub?'<p class="sub">'+sub+'</p>':'')+rule(); }
+function band(cap, rest, extra){ return '<div class="band"><span><span class="cap">'+cap+'</span>'+(rest?' <span class="rest">· '+rest+'</span>':'')+'</span>'+(extra||'')+'</div>'; }
+function pawList(items){ return '<ul class="paws">'+items.map(it => '<li>'+paw()+'<div><b>'+it[0]+'</b><span class="txt">'+it[1]+'</span>'+(it[2]||'')+'</div></li>').join('')+'</ul>'; }
+function scale(o){
+  const unset = o.value==null, v = unset ? 50 : o.value;
+  const suf = o.suffix ? '<small>'+esc(o.suffix)+'</small>' : '';
+  return '<div class="scale"><div class="scale-head"><label for="'+o.id+'">'+o.label+'</label><output for="'+o.id+'">'+(unset?'–':v+suf)+'</output></div>'
+    +'<input type="range" id="'+o.id+'" min="0" max="100" step="5" value="'+v+'"'+(unset?' data-unset':'')+' style="--f:'+(v/100)+'" data-bind="'+o.bind+'"'
+    +(o.suffix?' data-suffix="'+esc(o.suffix)+'"':'')+(o.attrs?' '+o.attrs:'')+'>'
+    +'<div class="ticks" aria-hidden="true">'+[0,25,50,75,100].map(t => '<span style="--f:'+(t/100)+'">'+t+'</span>').join('')+'</div></div>';
+}
+function area(o){
+  return '<div class="field"><label class="q'+(o.accent?' accent':'')+'" for="'+o.id+'">'+o.label+(o.hint?' <span class="hint">'+o.hint+'</span>':'')+'</label>'
+    +'<textarea class="hand'+(o.one?' one':'')+'" id="'+o.id+'" rows="'+(o.one?1:2)+'" data-bind="'+o.bind+'"'+(o.ph?' placeholder="'+esc(o.ph)+'"':'')+'>'+esc(o.value)+'</textarea></div>';
+}
+function choice(act, opts, value, attrs){
+  return '<div class="choice">'+opts.map(o => '<button type="button" data-act="'+act+'" data-val="'+o[0]+'"'+(attrs?' '+attrs:'')+' aria-pressed="'+(value===o[0])+'">'+o[1]+'</button>').join('')+'</div>';
+}
+function confirmBox(text, yesAct, yesLabel){
+  return '<div class="confirm" role="alertdialog" aria-label="Rückfrage"><p>'+text+'</p><div class="row"><button class="btn" data-act="'+yesAct+'">'+yesLabel+'</button><button class="btn ghost" data-act="cancel">Abbrechen</button></div></div>';
+}
+
+/* ================= Start ================= */
+function viewStart(){
+  const open = state.experiments.filter(x => x.status==='offen').sort((a,b) => b.nr-a.nr);
+  const doneN = state.experiments.filter(x => x.status==='gemacht').length;
+  const sug = suggestion();
+  let h = '';
+  if(APP_BUILD && !isStandalone() && window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
+    h += '<p class="notice"><b>Als App aufs Handy:</b> unten auf das Teilen-Symbol tippen, dann „Zum Home-Bildschirm“. Danach nur noch über das Katzen-Symbol öffnen — dort liegen dann auch die Einträge.</p>';
+  if(!storageOk) h += '<p class="notice">Dieser Browser speichert gerade nichts dauerhaft. Deine Einträge bleiben nur, solange die Seite offen ist — sichere sie am Ende als PDF.</p>';
+  open.forEach(x => {
+    h += '<section class="pending"><p><b>Experiment Nr. '+x.nr+'</b> wartet auf sein Nachher</p><p class="hand">'+esc(x.what.trim()||'Ohne Titel')+'</p>'
+      +'<button class="btn" data-act="open-exp" data-id="'+x.id+'">Nachher ausfüllen</button></section>';
+  });
+  state.experiments.filter(x => x.status==='vorher' && !isEmptyDraft(x)).sort((a,b) => b.nr-a.nr).forEach(x => {
+    h += '<section class="pending soft"><p><b>Experiment Nr. '+x.nr+'</b>: Vorher angefangen</p><p class="hand">'+esc(x.what.trim()||'Ohne Titel')+'</p>'
+      +'<button class="btn ghost" data-act="open-exp" data-id="'+x.id+'">Weiter ausfüllen</button></section>';
+  });
+  h += '<header class="cover"><h1>Kleine Schritte</h1><p class="sub">Ein Arbeitsheft für mutige Experimente</p>'+rule()+catSvg()
+    +'<p class="quote">Mut ist nicht, keine Angst zu haben.<br>Mut ist, es trotzdem zu tun — und danach nachzusehen, was wirklich passiert ist.</p>'
+    +'<div class="owner"><label for="owner">Dieses Heft gehört</label><input class="hand" id="owner" data-bind="owner" value="'+esc(state.owner)+'" autocomplete="off" maxlength="40"></div></header>';
+  const steps = [[state.seen, 'Nachlesen, warum das hier funktioniert', 'data-act="goto" data-tab="lesen" data-anchor="warum"'],
+    [checkedHelpers().length>0, 'Heimliche Helfer ankreuzen', 'data-act="tab" data-tab="helfer"'],
+    [state.ladder.length>0, 'Leiter füllen', 'data-act="tab" data-tab="leiter"']];
+  if(steps.some(s => !s[0])) h += '<div class="first"><p>Neu hier? Am besten in dieser Reihenfolge:</p><ol>'
+    +steps.map(s => '<li><button type="button" '+s[2]+(s[0]?' class="done"':'')+'>'+xmark()+'<span>'+s[1]+(s[0]?' <span class="vh">(erledigt)</span>':'')+'</span></button></li>').join('')+'</ol></div>';
+  h += '<div class="actions"><button class="btn'+(open.length?' ghost':'')+'" data-act="new-exp">Neues Experiment anfangen</button>';
+  if(sug) h += '<p class="sug">Vorschlag von deiner Leiter: <span class="hand">'+esc(sug.text)+'</span> <span class="hint">(Anspannung '+sug.tension+')</span>'
+    +'<button class="link" data-act="new-exp" data-rung="'+sug.id+'">Damit anfangen</button></p>';
+  h += '</div>';
+  h += trail(doneN);
+  h += gapSection();
+  h += '<div class="foot-links">'+(finished().length ? '<button class="link" data-act="sheets">Befunde durchblättern</button>' : '')
+    +'<button class="link" data-act="goto" data-tab="lesen" data-anchor="gruebeln">Abends kommt es wieder hoch? Stichwort vertagen</button>'
+    +'<button class="link" data-act="pdf">Heft als PDF speichern</button></div>';
+  return h;
+}
+function trail(n){
+  const p = [];
+  for(let i=0;i<Math.min(n,48);i++) p.push('<svg class="p'+(i===n-1?' last':'')+'" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-paw"/></svg>');
+  if(!n) for(let i=0;i<3;i++) p.push('<svg class="p ghost" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-paw"/></svg>');
+  const txt = !n ? 'Noch keine Spur. Dein erstes Experiment setzt den ersten Pfotenabdruck.'
+    : n===1 ? 'Der erste kleine Schritt ist gemacht.' : n+' kleine Schritte bis hierher.';
+  return '<section class="trail-sec"><div class="trail">'+p.join('')+'<svg class="bowl" viewBox="0 0 40 26" aria-hidden="true"><use href="#i-bowl"/></svg></div><p class="trail-txt">'+txt+'</p></section>';
+}
+function gapSection(){
+  const s = stats();
+  let h = '<section class="gap"><h2>'+GAP_TITLE+'</h2>';
+  if(!s.doneN){
+    return h+'<p>Hier steht nach jedem Experiment, was dein Kopf angekündigt hat — und was dann wirklich war. Nach dem ersten Experiment kommt die erste Zeile.</p></section>';
+  }
+  if(s.n){
+    const pc = k => (s.c[k]/s.n*100).toFixed(1)+'%';
+    h += '<p>'+(s.n===1?'Eine Befürchtung überprüft':'<b>'+s.n+'</b> Befürchtungen überprüft')+'. Eingetroffen:</p>'
+      +'<div class="gap-bar" aria-hidden="true"><i class="no" style="width:'+pc('nein')+'"></i><i class="some" style="width:'+pc('bisschen')+'"></i><i class="yes" style="width:'+pc('ja')+'"></i></div>'
+      +'<ul class="legend"><li style="--c:var(--ink)">'+s.c.nein+' nein</li><li style="--c:var(--paw)">'+s.c.bisschen+' ein bisschen</li><li style="--c:var(--accent)">'+s.c.ja+' ja</li></ul>';
+    if(s.avgProb!=null) h += '<p>Gerechnet hattest du vorher im Schnitt mit <b>'+s.avgProb+' %</b>.</p>';
+    if(s.hitN) h += '<p>Wo etwas eintraf: befürchtet <b>'+s.badPred+'</b> von 100 schlimm, tatsächlich <b>'+s.badReal+'</b>.</p>';
+  } else {
+    h += '<p>'+(s.doneN===1?'Ein Experiment gemacht.':s.doneN+' Experimente gemacht.')+' Trag beim Nachher ein, ob die Befürchtung eingetroffen ist — dann siehst du hier den Vergleich.</p>';
+  }
+  if(s.tN) h += '<p>Anspannung im Schnitt: <b>'+s.tStart+'</b> am Anfang, <b>'+s.tEnd+'</b> am Ende.</p>';
+  if(s.surprises.length) h += '<p class="notes-h">Was dich überrascht hat</p><ul class="notes">'+s.surprises.map(t => '<li>'+esc(t)+'</li>').join('')+'</ul>';
+  if(s.takeaways.length) h += '<p class="notes-h">Was du mitnimmst</p><ul class="notes">'+s.takeaways.map(t => '<li>'+esc(t)+'</li>').join('')+'</ul>';
+  return h+'</section>';
+}
+
+/* ================= Experimente ================= */
+function statusHtml(x){
+  if(x.status==='gemacht') return '<span class="status done">'+paw()+'gemacht</span>';
+  if(x.status==='offen') return '<span class="status">wartet auf Nachher</span>';
+  if(x.status==='nicht') return '<span class="status">diesmal nicht</span>';
+  return '<span class="status">Vorher angefangen</span>';
+}
+const finished = () => state.experiments.filter(x => x.status==='gemacht' || x.status==='nicht').sort((a,b) => b.nr-a.nr);
+const isStandalone = () => !!(window.navigator.standalone || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches));
+function viewSheets(){
+  const fs = finished();
+  if(!fs.length) return '<p class="empty">Noch kein Befund. Sobald ein Experiment „Gemacht“ ist, liegt hier sein Blatt: Vorher und Nachher nebeneinander.</p>';
+  ui.sheetIdx = Math.max(0, Math.min(ui.sheetIdx, fs.length-1));
+  const x = fs[ui.sheetIdx], i = ui.sheetIdx;
+  return '<div class="sheet-nav"><button type="button" class="x-btn" data-act="sheet" data-dir="-1" aria-label="Neueres Blatt"'+(i===0?' disabled':'')+'>‹</button>'
+    +'<p>Nr. '+x.nr+', '+fmtDate(x.date)+' <span class="hint">('+(i+1)+' von '+fs.length+')</span></p>'
+    +'<button type="button" class="x-btn" data-act="sheet" data-dir="1" aria-label="Älteres Blatt"'+(i===fs.length-1?' disabled':'')+'>›</button></div>'
+    +'<div class="sheet" id="sheet" data-id="'+x.id+'"></div>'
+    +'<div class="keep-row"><button class="btn" data-act="card" data-kind="png" data-id="'+x.id+'">Als Bild</button><button class="btn ghost" data-act="card" data-kind="pdf" data-id="'+x.id+'">Als PDF</button></div>'
+    +'<div class="under"><button type="button" class="link" data-act="open-exp" data-id="'+x.id+'">Dieses Experiment öffnen</button></div>';
+}
+let sheetUrl = null;
+async function mountSheet(){
+  const el = $('#sheet');
+  if(!el) return;
+  const id = el.dataset.id, x = state.experiments.find(e => e.id===id);
+  if(!x) return;
+  try{
+    const c = await cardCanvas(x);
+    const blob = await new Promise(res => c.toBlob(res, 'image/png'));
+    if(!blob || !el.isConnected || el.dataset.id!==id) return;
+    if(sheetUrl) URL.revokeObjectURL(sheetUrl);
+    sheetUrl = URL.createObjectURL(blob);
+    const img = new Image();
+    img.alt = 'Experiment Nr. '+x.nr+': Vorher und Nachher nebeneinander';
+    img.src = sheetUrl;
+    el.textContent = ''; el.appendChild(img);
+  }catch(e){ el.textContent = 'Das Blatt ließ sich nicht anzeigen.'; }
+}
+function moveSheet(dir){
+  const n = finished().length, i = Math.max(0, Math.min(n-1, ui.sheetIdx+dir));
+  if(i!==ui.sheetIdx){ ui.sheetIdx = i; render(true); }
+}
+function viewExpList(){
+  const xs = state.experiments.slice().sort((a,b) => b.nr-a.nr);
+  let h = head('Experimente');
+  h += '<button class="btn" data-act="new-exp">Neues Experiment anfangen</button>';
+  if(!xs.length) return h+'<p class="empty">Noch kein Experiment. Das erste darf winzig sein.</p>';
+  h += '<div class="seg" role="group" aria-label="Ansicht">'+[['liste','Liste'],['befunde','Befunde']].map(m => '<button type="button" data-act="exp-mode" data-mode="'+m[0]+'" aria-pressed="'+(ui.expMode===m[0])+'">'+m[1]+'</button>').join('')+'</div>';
+  if(ui.expMode==='befunde') return h+viewSheets();
+  h += '<ul class="exp-list">'+xs.map(x => '<li><button class="exp-card" data-act="open-exp" data-id="'+x.id+'">'
+    +'<span class="meta"><span>Nr. '+x.nr+', '+fmtDate(x.date)+'</span>'+statusHtml(x)+'</span>'
+    +'<span class="t hand">'+esc(x.what.trim()||'Ohne Titel')+'</span></button></li>').join('')+'</ul>';
+  return h;
+}
+function keepBlock(x){
+  let h = '<div class="keep"><p class="q">Dieses Experiment speichern</p><p class="hint">Vorher und Nachher nebeneinander auf einem Blatt — zum Immer-wieder-Ansehen.</p>'
+    +'<div class="row"><button class="btn" data-act="card" data-kind="png">Als Bild</button><button class="btn ghost" data-act="card" data-kind="pdf">Als PDF</button></div>';
+  if(ui.cardImg && ui.cardImg.id===x.id) h += '<p class="hint" style="margin-top:12px">Speichern ging hier nicht direkt. Halte das Bild gedrückt, um es zu sichern.</p><img class="card-img" alt="Experiment Nr. '+x.nr+': Vorher und Nachher nebeneinander" src="'+ui.cardImg.url+'">';
+  return h+'</div>';
+}
+function viewAway(){
+  return '<section class="away">'+catSvg()+'<h1>Handy weg.</h1>'
+    +'<p>Dein Vorher ist gespeichert. Aufs Handy schauen ist auch nur ein heimlicher Helfer — also ab in die Tasche damit.</p>'
+    +'<p>Hinterher geht es hier mit dem Nachher weiter, spätestens zehn Minuten danach.</p>'
+    +'<button class="btn" data-act="away-ok">Fertig</button></section>';
+}
+function fearEdit(x, f, i){
+  const many = x.fears.length>1;
+  return '<fieldset class="fear"><legend'+(many?'':' class="vh"')+'>Befürchtung '+(i+1)+'</legend>'
+    +(many?'<button type="button" class="x-btn" data-act="del-fear" data-fid="'+f.id+'" aria-label="Befürchtung '+(i+1)+' entfernen">×</button>':'')
+    +'<div class="wd"><label for="w-'+f.id+'">Wenn</label><textarea class="hand one" rows="1" id="w-'+f.id+'" data-bind="fear.when" data-fid="'+f.id+'" placeholder="z. B. mich jemand vor allen etwas fragt">'+esc(f.when)+'</textarea></div>'
+    +'<div class="wd"><label for="t-'+f.id+'">dann</label><textarea class="hand one" rows="1" id="t-'+f.id+'" data-bind="fear.then" data-fid="'+f.id+'" placeholder="z. B. stocke ich und jemand lacht">'+esc(f.then)+'</textarea></div>'
+    +scale({id:'p-'+f.id, label:'Wie wahrscheinlich ist das?', value:f.prob, bind:'fear.prob', suffix:' %', attrs:'data-fid="'+f.id+'"'})
+    +scale({id:'b-'+f.id, label:'Wie schlimm wäre es wirklich?', value:f.bad, bind:'fear.bad', suffix:'/100', attrs:'data-fid="'+f.id+'"'})
+    +'</fieldset>';
+}
+function vorherEdit(x){
+  let h = '<div class="field"><span class="q">Was befürchte ich ganz konkret?</span><span class="hint">Wer tut oder sagt was? Nicht nur „es wird komisch“ — sondern etwas, das man sehen oder hören könnte. Nur das lässt sich nachher überprüfen.</span>';
+  x.fears.forEach((f,i) => { h += fearEdit(x,f,i); });
+  if(x.fears.length<3) h += '<button type="button" class="link add-fear" data-act="add-fear">Noch eine Befürchtung dazu</button>';
+  h += '</div>';
+  h += scale({id:'t-jetzt', label:'Anspannung jetzt', value:x.tensionBefore, bind:'exp.tensionBefore'});
+  const opts = checkedHelpers();
+  h += '<div class="field"><label class="q" for="dropped">Diese Absicherung lasse ich heute weg:</label>'
+    +'<textarea class="hand one" rows="1" id="dropped" data-bind="exp.dropped">'+esc(x.dropped)+'</textarea>';
+  if(opts.length) h += '<label class="vh" for="pick">Aus meinen heimlichen Helfern wählen</label><select class="pick" id="pick" data-bind="exp.pick"><option value="">Aus meinen heimlichen Helfern wählen …</option>'
+    +opts.map(t => '<option>'+esc(t)+'</option>').join('')+'</select>';
+  else h += '<p class="hint" style="margin:8px 0 0">Noch keine Helfer angekreuzt. <button type="button" class="link" data-act="tab" data-tab="helfer">Zur Liste</button></p>';
+  h += '</div>';
+  h += '<div class="field"><span class="q">Meine Aufmerksamkeit drehe ich nach außen mit:</span><span class="hint">Wenn du magst — eine Übung reicht.</span><div class="chips">'
+    +EXERCISES.map(e => '<button type="button" class="chip" data-act="focus" data-val="'+esc(e[0])+'" aria-pressed="'+(x.focus===e[0])+'">'+e[0]+'</button>').join('')+'</div></div>';
+  h += '<button class="btn" style="margin-top:28px" data-act="save-vorher">'+(x.status==='vorher'?'Vorher speichern':'Fertig')+'</button>';
+  return h;
+}
+function vorherSummary(x){
+  let h = '<dl class="sum">';
+  const used = x.fears.filter(fearUsed);
+  used.forEach((f,i) => {
+    const bits = [];
+    if(f.prob!=null) bits.push('wahrscheinlich: '+f.prob+' %');
+    if(f.bad!=null) bits.push('schlimm: '+f.bad+'/100');
+    h += '<dt>'+(used.length>1?'Befürchtung '+(i+1):'Was befürchte ich ganz konkret?')+'</dt><dd class="hand">'+esc(fearText(f)||'—')+(bits.length?'<small>'+bits.join(', ')+'</small>':'')+'</dd>';
+  });
+  if(x.tensionBefore!=null) h += '<dt>Anspannung vorher</dt><dd class="hand">'+x.tensionBefore+'</dd>';
+  if(x.dropped.trim()) h += '<dt>Diese Absicherung lasse ich weg</dt><dd class="hand">'+esc(x.dropped.trim())+'</dd>';
+  if(x.focus) h += '<dt>Aufmerksamkeit nach außen mit</dt><dd class="hand">'+esc(x.focus)+'</dd>';
+  if(!used.length && x.tensionBefore==null && !x.dropped.trim() && !x.focus) h += '<dt>Vorher</dt><dd class="hint">Nichts eingetragen.</dd>';
+  return h+'</dl>';
+}
+function timerHtml(x){
+  const t = state.timer && state.timer.expId===x.id ? state.timer : null;
+  if(!t) return '<p class="timer"><button type="button" class="chip" data-act="timer-start">Uhr stellen: 10 Minuten</button><span class="hint">Auswerten ja, durchkauen nein.</span></p>';
+  return '<p class="timer" id="timer"><span class="hand" id="timer-t"></span><button type="button" class="link" data-act="timer-stop">Uhr weglegen</button></p>';
+}
+function nachherEdit(x){
+  let h = timerHtml(x);
+  h += area({id:'happened', label:'Was ist wirklich passiert?', bind:'exp.happened', value:x.happened});
+  const used = x.fears.filter(fearUsed);
+  const list = used.length ? used : [x.fears[0]];
+  h += '<div class="field"><span class="q">Ist meine Befürchtung eingetroffen?</span>';
+  list.forEach(f => {
+    const t = fearText(f), wrap = list.length>1 || !!t;
+    h += (wrap?'<div class="fear-out">':'<div>')
+      +(t?'<p class="hand">'+esc(t)+'</p>':'')
+      +(f.prob!=null?'<span class="hint">Erwartet hattest du '+f.prob+' %.</span>':'')
+      +choice('outcome', [['nein','nein'],['bisschen','ein bisschen'],['ja','ja']], f.outcome, 'data-fid="'+f.id+'"');
+    if(f.outcome==='bisschen' || f.outcome==='ja')
+      h += scale({id:'br-'+f.id, label:'Wie schlimm war es tatsächlich?'+(f.bad!=null?' <span class="hint">Befürchtet: '+f.bad+'</span>':''), value:f.badReal, bind:'fear.badReal', suffix:'/100', attrs:'data-fid="'+f.id+'"'});
+    h += '</div>';
+  });
+  h += '</div>';
+  h += scale({id:'t-anfang', label:'Anspannung am Anfang', value:x.tensionStart, bind:'exp.tensionStart'});
+  h += scale({id:'t-ende', label:'Anspannung am Ende', value:x.tensionEnd, bind:'exp.tensionEnd'});
+  if(x.dropped.trim()) h += '<div class="field"><span class="q">Weggelassen wie geplant?</span><span class="hand" style="font-size:1.2rem">'+esc(x.dropped.trim())+'</span>'
+    +choice('dropped-ok', [['ja','ja'],['teilweise','teilweise'],['nein','nein']], x.droppedOk)+'</div>';
+  h += area({id:'surprised', label:'Was hat mich überrascht?', bind:'exp.surprised', value:x.surprised});
+  h += area({id:'takeaway', label:'Was nehme ich mit für nächstes Mal?', bind:'exp.takeaway', value:x.takeaway, accent:true});
+  h += '<label class="done-band"><input type="checkbox" data-bind="exp.done"'+(x.status==='gemacht'?' checked':'')+'>'+xmark()
+    +'<span><b>Gemacht.</b> <i>Das allein ist der Erfolg — unabhängig davon, wie es sich angefühlt hat.</i></span></label>';
+  if(x.status==='offen') h += '<div class="under"><button type="button" class="link" data-act="not-done">Nicht hingegangen oder abgebrochen?</button></div>';
+  else h += '<button class="btn" style="margin-top:22px" data-act="edit-done">Fertig</button>';
+  return h;
+}
+function nachherSummary(x){
+  let h = '<dl class="sum">';
+  if(x.happened.trim()) h += '<dt>Was ist wirklich passiert?</dt><dd class="hand">'+esc(x.happened.trim())+'</dd>';
+  if(x.tensionStart!=null || x.tensionEnd!=null) h += '<dt>Anspannung am Anfang, am Ende</dt><dd class="hand">'+(x.tensionStart!=null?x.tensionStart:'—')+', '+(x.tensionEnd!=null?x.tensionEnd:'—')+'</dd>';
+  if(x.dropped.trim() && x.droppedOk) h += '<dt>Absicherung weggelassen?</dt><dd class="hand">'+x.droppedOk+'</dd>';
+  if(x.surprised.trim()) h += '<dt>Was hat mich überrascht?</dt><dd class="hand">'+esc(x.surprised.trim())+'</dd>';
+  if(x.takeaway.trim()) h += '<dt>Was nehme ich mit für nächstes Mal?</dt><dd class="hand">'+esc(x.takeaway.trim())+'</dd>';
+  return h+'</dl>';
+}
+function cmpBar(label, v, cls, txt){
+  return '<div class="cbar '+cls+'"><span class="cbar-l">'+label+'</span><span class="cbar-t"><i style="--v:'+(v==null?0:v)+'%"></i></span><b>'+(txt!=null?txt:(v==null?'—':v))+'</b></div>';
+}
+function resultPanel(x){
+  const used = x.fears.filter(f => fearUsed(f) || f.outcome);
+  const OUTV = {nein:0, bisschen:50, ja:100};
+  let h = '<section class="result'+(ui.justDone?' just':'')+'"><p class="stamp">'+paw()+'Gemacht <small>'+fmtStamp(x.doneAt)+'</small></p>';
+  const rated = used.filter(f => f.outcome), notHappened = rated.filter(f => f.outcome==='nein').length;
+  const sev = used.filter(f => f.bad!=null && f.outcome && (f.outcome==='nein' || f.badReal!=null));
+  const diff = sev.reduce((a,f) => a + f.bad - (f.outcome==='nein' ? 0 : f.badReal), 0);
+  let lead = '';
+  if(rated.length) lead = notHappened===rated.length ? (rated.length>1?'Keine deiner Befürchtungen ist eingetroffen.':'Deine Befürchtung ist nicht eingetroffen.')
+    : notHappened ? notHappened+' von '+rated.length+' Befürchtungen sind nicht eingetroffen.' : '';
+  if(sev.length && diff>0) lead += (lead?' ':'')+'Es war '+Math.round(diff/sev.length)+' Punkte weniger schlimm als befürchtet.';
+  h += '<p class="res-k">Vorher vs. Nachher</p>'+(lead?'<p class="res-lead">'+lead+'</p>':'');
+  if(used.length){
+    h += '<ul>'+used.map(f => {
+      const t = fearText(f);
+      const real = f.outcome==='nein' ? 0 : f.badReal;
+      return '<li>'+(t?'<p class="hand">'+esc(t)+'</p>':'')
+        +'<div class="cgrp"><span class="cgrp-h">Tritt es ein?</span>'
+        +cmpBar('Erwartet', f.prob, 'pre', f.prob!=null?f.prob+' %':'—')
+        +cmpBar('Wirklich', f.outcome?OUTV[f.outcome]:null, 'post'+(f.outcome==='nein'?' good':''), OUT[f.outcome]||'—')+'</div>'
+        +(f.bad!=null && f.outcome && real!=null ? '<div class="cgrp"><span class="cgrp-h">Wie schlimm?</span>'
+          +cmpBar('Befürchtet', f.bad, 'pre')+cmpBar('Wirklich', real, 'post'+(real<f.bad?' good':''))+'</div>' : '')
+        +'</li>';
+    }).join('')+'</ul>';
+  }
+  if(x.tensionBefore!=null || x.tensionStart!=null || x.tensionEnd!=null)
+    h += '<div class="cgrp tens"><span class="cgrp-h">Anspannung</span>'
+      +(x.tensionBefore!=null?cmpBar('Vorher', x.tensionBefore, 'pre'):'')
+      +(x.tensionStart!=null?cmpBar('Anfang', x.tensionStart, 'mid'):'')
+      +(x.tensionEnd!=null?cmpBar('Ende', x.tensionEnd, 'post'+(x.tensionStart!=null&&x.tensionEnd<x.tensionStart?' good':'')):'')+'</div>';
+  return h+'</section>';
+}
+function viewExp(){
+  const x = cur();
+  if(!x) return viewExpList();
+  if(ui.away) return viewAway();
+  const vEdit = x.status==='vorher' || ui.editVorher;
+  const nEdit = x.status==='offen' || ((x.status==='gemacht'||x.status==='nicht') && ui.editNachher);
+  let h = '<button class="link back" data-act="back-list">‹ Alle Experimente</button>';
+  h += '<div class="exp-head"><h1>'+paw()+'Experiment Nr. '+x.nr+'</h1><div class="datum"><label for="date">Datum</label><input class="hand" type="date" id="date" data-bind="exp.date" value="'+esc(x.date)+'"></div></div>'+rule();
+  h += '<div class="field" style="margin-top:0"><label class="q" for="what">Was mache ich?</label><textarea class="hand one" rows="1" id="what" data-bind="exp.what" placeholder="z. B. auf die Geburtstagsfeier gehen">'+esc(x.what)+'</textarea></div>';
+  if(x.status==='gemacht' && !ui.editNachher) h += resultPanel(x)+keepBlock(x);
+  if(x.status==='nicht' && !ui.editNachher){
+    h += '<div class="callout"><b>Diesmal nicht — auch das ist eine Auskunft.</b><p>Kein Rückschritt. Die Stufe war heute zu hoch, mehr sagt das nicht. Such dir auf der Leiter eine tiefere und fang dort an.</p></div>'
+      +area({id:'blocker', label:'Was stand im Weg?', bind:'exp.blocker', value:x.blocker})
+      +'<div class="under"><button type="button" class="link" data-act="tab" data-tab="leiter">Zur Leiter</button><button type="button" class="link" data-act="undo-not-done">Doch gemacht? Zurück zum Nachher</button></div>'
+      +keepBlock(x);
+  }
+  if(x.status==='vorher'){
+    const memo = lastTakeaway(x.id);
+    if(memo) h += '<p class="memo">Vom letzten Mal mitgenommen:<span class="hand">'+esc(memo)+'</span></p>';
+  }
+  h += band('Vorher', 'ausfüllen, bevor es losgeht', (!vEdit ? '<button type="button" class="link" data-act="edit-vorher">ändern</button>' : ''));
+  h += vEdit ? vorherEdit(x) : vorherSummary(x);
+  if(x.status!=='nicht' || ui.editNachher){
+    h += band('Nachher', 'spätestens zehn Minuten danach', (x.status==='gemacht' && !ui.editNachher ? '<button type="button" class="link" data-act="edit-nachher">ändern</button>' : ''));
+    if(x.status==='vorher') h += '<p class="later">Kommt nach dem Experiment.</p>';
+    else h += nEdit ? nachherEdit(x) : nachherSummary(x);
+  }
+  h += ui.confirm==='del-exp'
+    ? confirmBox('Experiment Nr. '+x.nr+' mit allen Einträgen löschen?', 'del-exp', 'Ja, löschen')
+    : '<div class="under" style="margin-top:30px"><button type="button" class="link" data-act="ask-del-exp">Experiment löschen</button></div>';
+  ui.justDone = false;
+  return h;
+}
+
+/* ================= Leiter ================= */
+function viewLeiter(){
+  const cat = ui.ladderCat, meta = LADDER[cat];
+  const rungs = state.ladder.filter(r => r.cat===cat).sort((a,b) => b.tension-a.tension || a.createdAt-b.createdAt);
+  let h = head('Meine Leiter', 'Situationen sortiert nach Anspannung — von unten nach oben');
+  h += '<p>Zwei Sorten von Situationen, die unterschiedlich funktionieren. Trag ein, was dir einfällt, und schätze die Anspannung von 0 bis 100.</p>'
+    +'<p>Angefangen wird unten bei etwa 30 bis 40 — nicht bei 20 (zu leicht, kein Lerneffekt) und nicht bei 80 (zu viel auf einmal).</p>';
+  h += '<div class="seg" role="group" aria-label="Sorte">'+['A','B'].map(c => '<button type="button" data-act="ladder-cat" data-cat="'+c+'" aria-pressed="'+(c===cat)+'">'+c+' · '+LADDER[c].label+'</button>').join('')+'</div>';
+  h += band(cat+' · '+meta.label)+'<p class="cat-hint">'+meta.hint+'</p>';
+  if(!rungs.length) h += '<p class="ladder-empty">Diese Leiter ist noch leer. Fang mit dem an, was dir zuerst einfällt — sortiert wird von allein.</p>';
+  else {
+    h += '<ol class="ladder" reversed>'+rungs.map(r => {
+      const zone = r.tension>=30 && r.tension<=40, n = doneCount(r), isOpen = ui.openRung===r.id;
+      let s = '<li class="rung'+(zone?' zone':'')+'" data-id="'+r.id+'"><button type="button" class="rung-main" data-act="open-rung" data-id="'+r.id+'" aria-expanded="'+isOpen+'">'
+        +'<span class="rtxt hand">'+esc(r.text)+'</span><span class="tbox hand">'+r.tension+'</span></button>';
+      const m = [];
+      if(zone) m.push('<span class="here">Hier fängst du an</span>');
+      if(n) m.push('<span>'+n+'× gemacht'+(n>=2?' — beide Male leicht? Dann eine Stufe höher.':'')+'</span>');
+      if(m.length) s += '<div class="rung-meta">'+m.join('')+'</div>';
+      if(isOpen){
+        s += '<div class="rung-panel"><label class="vh" for="rt-'+r.id+'">Situation</label><textarea class="hand one" rows="1" id="rt-'+r.id+'" data-bind="rung.text" data-id="'+r.id+'">'+esc(r.text)+'</textarea>'
+          +scale({id:'rs-'+r.id, label:'Anspannung', value:r.tension, bind:'rung.tension', attrs:'data-id="'+r.id+'"'})
+          +'<button class="btn" data-act="new-exp" data-rung="'+r.id+'">Als Experiment anfangen</button>'
+          +'<div class="under"><button type="button" class="link" data-act="del-rung" data-id="'+r.id+'">Stufe entfernen</button></div></div>';
+      }
+      return s+'</li>';
+    }).join('')+'</ol>';
+    if(!rungs.some(r => r.tension>=30 && r.tension<=40)) h += '<p class="hint" style="margin:14px 0 0">Noch keine Stufe zwischen 30 und 40 — genau dort fängt man am besten an.</p>';
+  }
+  h += '<div class="add-rung"><label class="q" for="nr-text">Neue Stufe</label><textarea class="hand one" rows="1" id="nr-text" data-bind="new.text" placeholder="'+esc(meta.ph)+'">'+esc(ui.rung.text)+'</textarea>'
+    +scale({id:'nr-t', label:'Anspannung', value:ui.rung.tension, bind:'new.tension'})
+    +'<button class="btn" data-act="add-rung">Auf die Leiter stellen</button>'
+    +'<div class="under"><button type="button" class="link" data-act="toggle-ideas" aria-expanded="'+ui.ideas+'">'+(ui.ideas?'Ideen ausblenden':'Mir fällt nichts ein — Ideen zeigen')+'</button></div>';
+  if(ui.ideas) h += '<div class="chips">'+meta.ideas.map(t => '<button type="button" class="chip" data-act="idea" data-text="'+esc(t)+'">'+esc(t)+'</button>').join('')+'</div>';
+  h += '</div>';
+  h += '<div class="legend-note"><p>Kästchen rechts = geschätzte Anspannung (0 – 100). Hier fängst du an: bei 30 – 40. Wenn eine Stufe zweimal in Folge leicht war, geht es eine höher.</p></div>';
+  return h;
+}
+
+/* ================= Helfer ================= */
+function checkRow(id, text, custom){
+  return '<li><label><input type="checkbox" data-bind="helper" data-id="'+id+'"'+(state.helpers.checked[id]?' checked':'')+'>'+xmark()+'<span>'+esc(text)+'</span></label>'
+    +(custom?'<button type="button" class="x-btn" data-act="del-custom" data-id="'+id+'" aria-label="Eigenen Eintrag entfernen">×</button>':'')+'</li>';
+}
+function viewHelfer(){
+  let h = head('Meine heimlichen Helfer', 'Sicherheitsverhalten — die Tricks, mit denen ich Situationen „überstehe“');
+  h += '<p>Diese Dinge fühlen sich hilfreich an. Sie sind aber der Grund, warum Treffen so viel Energie kosten — und warum der Kopf hinterher sagt: „Ist ja nur gutgegangen, weil ich aufgepasst habe.“</p>'
+    +'<p>Kreuze an, was du kennst. Ergänze eigene. Später suchst du dir immer eins aus, das du weglässt.</p>';
+  HELPERS.forEach(g => {
+    h += band(g.label)+'<ul class="checks">'+g.items.map(it => checkRow(it[0], it[1], false)).join('')
+      +state.helpers.custom.filter(c => c.group===g.id).map(c => checkRow(c.id, c.text, true)).join('')+'</ul>'
+      +'<div class="add-row"><label class="vh" for="c-'+g.id+'">Eigenes ergänzen ('+g.label+')</label><input class="hand" id="c-'+g.id+'" data-bind="custom.text" data-group="'+g.id+'" data-enter="add-custom" placeholder="Eigenes ergänzen" value="'+esc(ui.custom[g.id]||'')+'" maxlength="90" autocomplete="off">'
+      +'<button type="button" class="plus" data-act="add-custom" data-group="'+g.id+'" aria-label="Eigenen Eintrag hinzufügen">+</button></div>';
+  });
+  h += '<p class="count" id="helper-count">'+helperCountText()+'</p>';
+  h += '<div class="callout soft"><b>Der Trick dabei:</b><p>Wenn du eine Absicherung weglässt, steigt die Anspannung kurz. Das ist kein Rückschritt — das ist das Signal, dass die Übung diesmal wirklich zählt.</p></div>';
+  return h;
+}
+
+/* ================= Nachlesen ================= */
+function parkHtml(){
+  let h = '<div class="park"><div class="add-row"><label class="vh" for="park">Stichwort für später</label><input class="hand" id="park" data-bind="park.text" data-enter="park-add" placeholder="Ein Stichwort, mehr nicht" value="'+esc(ui.park)+'" maxlength="40" autocomplete="off">'
+    +'<button type="button" class="plus" data-act="park-add" aria-label="Stichwort vertagen">+</button></div>';
+  if(state.parking.length) h += '<ul class="park-list">'+state.parking.slice().sort((a,b) => b.at-a.at).map(p => '<li><span class="hand">'+esc(p.text)+'</span><small>'+fmtStamp(p.at)+'</small>'
+    +'<button type="button" class="x-btn" data-act="park-del" data-id="'+p.id+'" aria-label="Stichwort streichen">×</button></li>').join('')+'</ul>';
+  return h+'</div>';
+}
+function viewLesen(){
+  let h = '<div class="jump">'
+    +[['warum','Warum das hier funktioniert'],['regeln','Sechs Spielregeln'],['muede','Warum Treffen so müde machen'],['pdf','PDF und Sicherung']]
+      .map(j => '<button type="button" class="chip" data-act="goto" data-tab="lesen" data-anchor="'+j[0]+'">'+j[1]+'</button>').join('')+'</div>';
+  h += '<section class="page" id="warum">'+head('Warum das hier funktioniert')
+    +'<p>Angst vor sozialen Situationen hält sich nicht, weil man zu wenig Willen hat. Sie hält sich, weil Vermeiden sofort belohnt wird. Der Kreislauf sieht so aus:</p>'
+    +'<ol class="steps">'+CYCLE.map(c => '<li><b>'+c[0]+'</b><span>'+c[1]+'</span></li>').join('')+'</ol>'
+    +'<div class="callout"><b>Der Ausweg ist nicht Aushalten. Es ist Nachsehen.</b><p>Der Lerneffekt entsteht nicht dadurch, dass die Angst irgendwann von selbst sinkt. Er entsteht in dem Moment, in dem etwas anderes passiert als befürchtet. Deshalb wird in diesem Heft vorher aufgeschrieben, was man erwartet — und nachher, was wirklich war. Die Lücke dazwischen ist der Wirkstoff.</p></div></section>';
+  h += '<section class="page" id="regeln"><h2 class="h1">Sechs Spielregeln</h2>'+rule()+pawList(RULES)+'</section>';
+  h += '<section class="page" id="muede"><h2 class="h1">Warum Treffen so müde machen</h2>'+rule()
+    +'<p>Wer sich in Gesellschaft ständig selbst beobachtet — wie klinge ich, wie wirke ich, was sage ich als Nächstes — lässt im Hintergrund einen zweiten Prozess mitlaufen. Der kostet enorm viel Kraft. Deshalb ist Kontakt anstrengend, obwohl man ihn eigentlich will.</p>'
+    +'<p>Der Hebel ist nicht, weniger Menschen zu treffen. Der Hebel ist, die Aufmerksamkeit nach außen zu drehen.</p>'
+    +band('Übungen für zwischendurch')+pawList(EXERCISES)
+    +'<div id="gruebeln">'+band('Gegen das Nachgrübeln')+'</div>'
+    +'<p>Das Durchkauen hinterher fühlt sich an wie Aufarbeiten, ist aber nur eine weitere Runde im selben Kreis — und frisst oft mehr Energie als die Situation selbst. Zwei Regeln:</p>'
+    +pawList([RUMINATION[0], [RUMINATION[1][0], RUMINATION[1][1], parkHtml()]])+'</section>';
+  h += '<section class="page" id="pdf">'+band('PDF und Sicherung')
+    +'<div class="stack"><button class="btn" data-act="pdf">Mein Heft als PDF speichern</button><button class="btn ghost" data-act="pdf" data-blank="1">Leeres Heft zum Ausdrucken</button></div>'
+    +'<div class="fine"><p>Deine Einträge liegen nur in diesem Browser auf diesem Gerät. Niemand sonst kann sie lesen — auch nicht, wer dir den Link geschickt hat.</p>'
+    +'<p>Das heißt aber auch: anderes Gerät, anderer Browser oder gelöschte Browserdaten bedeuten ein leeres Heft. Mit einer Sicherung nimmst du alles mit.</p></div>'
+    +'<div class="stack"><button class="btn ghost" data-act="backup">Sicherung speichern</button><button class="btn ghost" data-act="restore">Sicherung laden</button></div>';
+  if(ui.confirm==='import') h += confirmBox('Die Einträge in diesem Browser durch die Sicherung ersetzen?', 'import-yes', 'Ja, ersetzen');
+  h += ui.confirm==='reset'
+    ? confirmBox('Wirklich alle Einträge in diesem Browser löschen? Das lässt sich nicht rückgängig machen.', 'reset', 'Ja, alles löschen')
+    : '<div class="under" style="margin-top:14px"><button type="button" class="link" data-act="ask-reset">Alle Einträge löschen</button></div>';
+  h += '<div class="fine" style="margin-top:26px"><p>Dieses Heft ist Selbsthilfe und kein Ersatz für eine Therapie. Wenn die Angst deinen Alltag stark einengt oder du allein nicht weiterkommst: Hausarztpraxis oder psychotherapeutische Sprechstunde — Termine vermittelt die 116 117. Verhaltenstherapie arbeitet mit genau solchen Experimenten, nur mit jemandem an deiner Seite.</p></div></section>';
+  return h;
+}
+
+/* ================= Zeichnen ================= */
+const view = $('#view');
+function autosize(t){ t.style.height='auto'; t.style.height = t.scrollHeight+'px'; }
+function render(keep){
+  const sy = window.scrollY;
+  const f = {start:viewStart, exp:viewExp, leiter:viewLeiter, helfer:viewHelfer, lesen:viewLesen}[ui.tab] || viewStart;
+  view.innerHTML = f();
+  $$('.tabs button').forEach(b => { if(b.dataset.tab===ui.tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+  $$('textarea.hand', view).forEach(autosize);
+  tick();
+  mountSheet();
+  if(ui.anchor){ const a = document.getElementById(ui.anchor); ui.anchor=null; if(a){ a.scrollIntoView(); return; } }
+  window.scrollTo(0, keep ? sy : 0);
+}
+let toastT = null;
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(() => t.classList.remove('show'), 3200); }
+function tick(){
+  const t = $('#timer-t');
+  if(!t || !state.timer) return;
+  const left = state.timer.endsAt-Date.now();
+  if(left<=0){ t.textContent='Zehn Minuten sind um. Deckel drauf — für heute erledigt.'; t.parentNode.classList.add('over'); }
+  else { const s=Math.ceil(left/1000); t.textContent=Math.floor(s/60)+':'+pad(s%60); }
+}
+setInterval(tick, 1000);
+
+/* ================= Eingaben ================= */
+function setBound(el){
+  const b = el.dataset.bind;
+  let v = el.value;
+  if(el.type==='range'){
+    v = Number(v);
+    el.removeAttribute('data-unset');
+    el.style.setProperty('--f', v/100);
+    const out = el.parentNode.querySelector('output');
+    if(out) out.innerHTML = v+(el.dataset.suffix?'<small>'+esc(el.dataset.suffix)+'</small>':'');
+  }
+  if(el.tagName==='TEXTAREA') autosize(el);
+  const x = cur(), dot = b.indexOf('.'), scope = dot<0?b:b.slice(0,dot), key = dot<0?'':b.slice(dot+1);
+  if(b==='owner') state.owner = v;
+  else if(scope==='new'){ ui.rung[key] = v; return; }
+  else if(b==='custom.text'){ ui.custom[el.dataset.group] = v; return; }
+  else if(b==='park.text'){ ui.park = v; return; }
+  else if(scope==='exp' && x) x[key] = v;
+  else if(scope==='fear' && x){ const f = x.fears.find(f => f.id===el.dataset.fid); if(f) f[key] = v; }
+  else if(scope==='rung'){
+    const r = state.ladder.find(r => r.id===el.dataset.id);
+    if(r){
+      r[key] = v;
+      const li = el.closest('.rung');
+      if(li){ const t = $(key==='text'?'.rtxt':'.tbox', li); if(t) t.textContent = v; }
+    }
+  }
+  else return;
+  save();
+}
+document.addEventListener('input', e => {
+  const el = e.target;
+  if(!el.dataset || !el.dataset.bind || el.type==='checkbox' || el.tagName==='SELECT') return;
+  setBound(el);
+});
+['pointerup','click'].forEach(ev => document.addEventListener(ev, e => {
+  const el = e.target;
+  if(el && el.matches && el.matches('input[type=range][data-unset]')) setBound(el);
+}));
+document.addEventListener('keydown', e => {
+  const el = e.target;
+  if(e.key==='Enter' && el.dataset && el.dataset.enter){
+    e.preventDefault();
+    const btn = el.parentNode.querySelector('[data-act="'+el.dataset.enter+'"]');
+    if(btn) btn.click();
+  }
+});
+document.addEventListener('change', e => {
+  const el = e.target, b = el.dataset && el.dataset.bind, x = cur();
+  if(el.id==='restore-file'){ importBackup(el.files && el.files[0]); el.value=''; return; }
+  if(b==='helper'){
+    if(el.checked) state.helpers.checked[el.dataset.id] = true; else delete state.helpers.checked[el.dataset.id];
+    save();
+    const c = $('#helper-count'); if(c) c.textContent = helperCountText();
+  } else if(b==='exp.done' && x){
+    if(el.checked){
+      x.status='gemacht'; x.doneAt=x.doneAt||Date.now(); ui.editNachher=false; ui.justDone=true;
+      if(state.timer && state.timer.expId===x.id) state.timer=null;
+      save(true);
+      setTimeout(() => render(), 380);
+    } else { x.status='offen'; x.doneAt=null; ui.editNachher=false; save(true); render(true); }
+  } else if(b==='exp.pick' && x){
+    if(el.value){ x.dropped = el.value; const i = $('#dropped'); if(i){ i.value = x.dropped; autosize(i); } el.selectedIndex = 0; save(); }
+  } else if(b==='rung.tension'){ save(); render(true); }
+});
+
+/* ================= Aktionen ================= */
+function markSeen(){ if(ui.tab==='lesen' && !state.seen){ state.seen=true; save(); } }
+function newExp(rung){
+  pruneDrafts();
+  const nr = state.experiments.reduce((m,x) => Math.max(m,x.nr||0), 0)+1;
+  const x = normExp({id:uid(), nr, date:todayIso(), what:rung?rung.text:'', ladderId:rung?rung.id:null, status:'vorher', createdAt:Date.now()});
+  state.experiments.push(x);
+  Object.assign(ui, {tab:'exp', expId:x.id, editVorher:false, editNachher:false, away:false, confirm:null});
+  save(); render();
+}
+document.addEventListener('click', e => {
+  const el = e.target.closest ? e.target.closest('[data-act]') : null;
+  if(!el) return;
+  const a = el.dataset.act, x = cur(), d = el.dataset;
+  switch(a){
+    case 'tab':
+      if(d.tab==='exp' && ui.tab==='exp'){ ui.expId=null; ui.away=false; }
+      pruneDrafts(ui.expId); ui.tab=d.tab; ui.confirm=null; markSeen(); render(); break;
+    case 'goto':
+      pruneDrafts(ui.expId); ui.tab=d.tab; ui.anchor=d.anchor||null; ui.confirm=null; markSeen(); render(); break;
+    case 'new-exp': newExp(d.rung ? state.ladder.find(r => r.id===d.rung) : null); break;
+    case 'open-exp':
+      pruneDrafts(d.id); Object.assign(ui, {tab:'exp', expId:d.id, editVorher:false, editNachher:false, away:false, confirm:null}); render(); break;
+    case 'back-list': ui.expId=null; ui.away=false; ui.confirm=null; pruneDrafts(); render(); break;
+    case 'add-fear': if(x && x.fears.length<3){ x.fears.push(newFear()); save(); render(true); } break;
+    case 'del-fear': if(x && x.fears.length>1){ x.fears = x.fears.filter(f => f.id!==d.fid); save(); render(true); } break;
+    case 'save-vorher':
+      if(!x) break;
+      if(x.status==='vorher'){ x.status='offen'; ui.away=true; }
+      ui.editVorher=false; save(true); render(!ui.away); break;
+    case 'away-ok': Object.assign(ui, {away:false, tab:'start', expId:null}); render(); break;
+    case 'edit-vorher': ui.editVorher=true; render(true); break;
+    case 'edit-nachher': ui.editNachher=true; render(true); break;
+    case 'edit-done': ui.editNachher=false; ui.editVorher=false; render(); break;
+    case 'outcome': {
+      const f = x && x.fears.find(f => f.id===d.fid);
+      if(f){ f.outcome = f.outcome===d.val ? null : d.val; if(f.outcome!=='bisschen' && f.outcome!=='ja') f.badReal=null; save(); render(true); }
+      break; }
+    case 'dropped-ok': if(x){ x.droppedOk = x.droppedOk===d.val ? null : d.val; save(); render(true); } break;
+    case 'focus': if(x){ x.focus = x.focus===d.val ? '' : d.val; save(); render(true); } break;
+    case 'timer-start': if(x){ state.timer={expId:x.id, endsAt:Date.now()+600000}; save(); render(true); } break;
+    case 'timer-stop': state.timer=null; save(); render(true); break;
+    case 'not-done': if(x){ x.status='nicht'; x.doneAt=null; ui.editNachher=false; if(state.timer && state.timer.expId===x.id) state.timer=null; save(true); render(); } break;
+    case 'undo-not-done': if(x){ x.status='offen'; save(true); render(); } break;
+    case 'ask-del-exp': ui.confirm='del-exp'; render(true); break;
+    case 'del-exp':
+      if(x){ state.experiments = state.experiments.filter(y => y.id!==x.id); if(state.timer && state.timer.expId===x.id) state.timer=null;
+        ui.expId=null; ui.confirm=null; save(true); render(); toast('Experiment gelöscht.'); }
+      break;
+    case 'cancel': ui.confirm=null; ui.pendingImport=null; render(true); break;
+    case 'ladder-cat': ui.ladderCat=d.cat; ui.openRung=null; render(true); break;
+    case 'open-rung': ui.openRung = ui.openRung===d.id ? null : d.id; render(true); break;
+    case 'add-rung': {
+      const t = ui.rung.text.trim();
+      if(!t){ toast('Schreib erst die Situation dazu.'); const i=$('#nr-text'); if(i) i.focus(); break; }
+      if(ui.rung.tension==null){ toast('Wie hoch wäre die Anspannung? Zieh den Regler.'); break; }
+      state.ladder.push({id:uid(), cat:ui.ladderCat, text:t, tension:ui.rung.tension, createdAt:Date.now()});
+      ui.rung={text:'', tension:null}; save(); render(true); toast('Steht auf der Leiter.'); break; }
+    case 'toggle-ideas': ui.ideas=!ui.ideas; render(true); break;
+    case 'idea': {
+      ui.rung.text=d.text; render(true);
+      const i=$('#nr-text'); if(i) i.scrollIntoView({block:'center'});
+      break; }
+    case 'del-rung':
+      state.ladder = state.ladder.filter(r => r.id!==d.id);
+      state.experiments.forEach(y => { if(y.ladderId===d.id) y.ladderId=null; });
+      ui.openRung=null; save(); render(true); break;
+    case 'add-custom': {
+      const t = (ui.custom[d.group]||'').trim();
+      if(!t){ const i=$('#c-'+d.group); if(i) i.focus(); break; }
+      const id = 'c'+uid();
+      state.helpers.custom.push({id, group:d.group, text:t}); state.helpers.checked[id]=true; ui.custom[d.group]='';
+      save(); render(true); break; }
+    case 'del-custom':
+      state.helpers.custom = state.helpers.custom.filter(c => c.id!==d.id); delete state.helpers.checked[d.id]; save(); render(true); break;
+    case 'park-add': {
+      const t = ui.park.trim().slice(0,40);
+      if(!t){ const i=$('#park'); if(i) i.focus(); break; }
+      state.parking.push({id:uid(), text:t, at:Date.now()}); ui.park=''; save(); render(true); toast('Vertagt. Für heute ist Schluss.'); break; }
+    case 'park-del': state.parking = state.parking.filter(p => p.id!==d.id); save(); render(true); break;
+    case 'pdf': exportPdf(d.blank==='1', el); break;
+    case 'card': exportCard(d.kind, el, d.id ? state.experiments.find(e => e.id===d.id) : null); break;
+    case 'exp-mode': ui.expMode = d.mode==='befunde' ? 'befunde' : 'liste'; ui.sheetIdx = 0; render(true); break;
+    case 'sheet': moveSheet(Number(d.dir)); break;
+    case 'sheets': pruneDrafts(); Object.assign(ui, {tab:'exp', expId:null, away:false, expMode:'befunde', sheetIdx:0, confirm:null}); render(); break;
+    case 'backup': exportBackup(); break;
+    case 'restore': $('#restore-file').click(); break;
+    case 'import-yes':
+      if(ui.pendingImport){ state=ui.pendingImport; ui.pendingImport=null; ui.confirm=null; ui.expId=null; save(true); render(true); toast('Sicherung geladen.'); }
+      break;
+    case 'ask-reset': ui.confirm='reset'; render(true); break;
+    case 'reset': state=blank(); ui.expId=null; ui.confirm=null; ui.openRung=null; save(true); render(true); toast('Alles gelöscht.'); break;
+  }
+});
+window.addEventListener('pagehide', () => save(true));
+document.addEventListener('visibilitychange', () => { if(document.hidden) save(true); });
+
+/* ================= Dateien: PDF und Sicherung ================= */
+const JSPDF_URL = 'vendor/jspdf.umd.min.js';
+const downloadsP = (window.claude && typeof window.claude.use==='function')
+  ? Promise.resolve().then(() => window.claude.use('downloads')).catch(() => null)
+  : Promise.resolve(null);
+function loadJsPdf(){
+  if(window.jspdf && window.jspdf.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = JSPDF_URL;
+    s.onload = () => (window.jspdf && window.jspdf.jsPDF) ? res(window.jspdf.jsPDF) : rej(new Error('jspdf'));
+    s.onerror = () => rej(new Error('load'));
+    document.head.appendChild(s);
+  });
+}
+async function saveFile(filename, data){
+  const dl = await downloadsP;
+  if(dl){
+    try{ await dl.save({filename, data}); return 'saved'; }
+    catch(e){
+      const c = e && e.code;
+      return c==='declined' ? 'declined' : c==='rate_limited' ? 'busy' : 'failed';
+    }
+  }
+  const blob = data instanceof Blob ? data : new Blob([data], {type:'application/octet-stream'});
+  if(!dl && navigator.canShare && window.matchMedia && window.matchMedia('(pointer: coarse)').matches){
+    try{
+      const type = /\.png$/.test(filename) ? 'image/png' : /\.pdf$/.test(filename) ? 'application/pdf' : 'application/json';
+      const file = new File([blob], filename, {type});
+      if(navigator.canShare({files:[file]})){ await navigator.share({files:[file]}); return 'shared'; }
+    }catch(e){ if(e && e.name==='AbortError') return 'declined'; }
+  }
+  try{
+    const url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = filename; a.style.display='none';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    return 'fallback';
+  }catch(e){ return 'failed'; }
+}
+function fileToast(r, what){
+  if(r==='shared') return;
+  toast(r==='saved' ? what+' gespeichert.' : r==='declined' ? 'Nicht gespeichert.' : r==='busy' ? 'Es ist noch ein Speichern offen.'
+    : r==='fallback' ? what+' erstellt.' : 'Speichern ist in dieser Ansicht nicht möglich.');
+}
+let busy = false;
+async function exportPdf(blankMode, btn){
+  if(busy) return;
+  busy = true;
+  const label = btn ? btn.textContent : '';
+  if(btn){ btn.textContent='PDF wird erstellt …'; btn.disabled=true; }
+  try{
+    const J = await loadJsPdf();
+    const blob = buildPdf(J, state, blankMode).output('blob');
+    fileToast(await saveFile(blankMode ? 'Kleine-Schritte-leer.pdf' : 'Kleine-Schritte.pdf', blob), 'PDF');
+  }catch(e){ toast('Das PDF ließ sich nicht erstellen. Steht die Internetverbindung?'); }
+  finally{ busy=false; if(btn && btn.isConnected){ btn.textContent=label; btn.disabled=false; } }
+}
+async function exportBackup(){
+  const json = JSON.stringify({app:'kleine-schritte', saved:new Date().toISOString(), state}, null, 1);
+  fileToast(await saveFile('kleine-schritte-sicherung-'+todayIso()+'.json', new Blob([json], {type:'application/json'})), 'Sicherung');
+}
+function hasEntries(){ return !!(state.experiments.length || state.ladder.length || state.parking.length || state.owner || Object.keys(state.helpers.checked).length); }
+function importBackup(file){
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const d = JSON.parse(String(r.result));
+      if(!d || d.app!=='kleine-schritte' || !d.state) throw new Error('format');
+      const next = normalize(d.state);
+      if(hasEntries()){ ui.pendingImport=next; ui.confirm='import'; ui.tab='lesen'; ui.anchor='pdf'; render(); }
+      else { state=next; save(true); render(true); toast('Sicherung geladen.'); }
+    }catch(e){ toast('Diese Datei ist keine Sicherung von „Kleine Schritte“.'); }
+  };
+  r.onerror = () => toast('Die Datei ließ sich nicht lesen.');
+  r.readAsText(file);
+}
+
+/* ================= Blättern in der Sammlung per Wischen ================= */
+let swipe = null;
+document.addEventListener('touchstart', e => {
+  const s = e.target.closest ? e.target.closest('#sheet') : null;
+  swipe = (s && e.touches.length===1) ? {x:e.touches[0].clientX, y:e.touches[0].clientY} : null;
+}, {passive:true});
+document.addEventListener('touchend', e => {
+  if(!swipe) return;
+  const t = e.changedTouches[0], dx = t.clientX-swipe.x, dy = t.clientY-swipe.y;
+  swipe = null;
+  if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.5) moveSheet(dx < 0 ? 1 : -1);
+}, {passive:true});
+
+/* ================= Ein Experiment als Blatt: Vorher und Nachher nebeneinander ================= */
+const CARD = {paper:'#FBF8F3', ink:'#2A2725', ink3:'#756C62', band:'#EFE7DA', rose:'#EDD3C6', accent:'#A64B32', paw:'#C9A698', line:'#D6CBBB', pen:'#27407A'};
+const CARD_W = 540;
+const PAW_PAD = 'M12 12.2c-3.3 0-6.2 2.9-6.2 5.6 0 1.9 1.4 2.9 3 2.9 1.2 0 2-.5 3.2-.5s2 .5 3.2.5c1.6 0 3-1 3-2.9 0-2.7-2.9-5.6-6.2-5.6z';
+function cardPaw(ctx, cx, cy, size, color){
+  ctx.save();
+  ctx.translate(cx-size/2, cy-size/2); ctx.scale(size/24, size/24); ctx.fillStyle = color;
+  ctx.fill(new Path2D(PAW_PAD));
+  [[5.1,10.4,2,2.6,-22],[9.2,6.3,2.1,2.8,-8],[14.8,6.3,2.1,2.8,8],[18.9,10.4,2,2.6,22]].forEach(e => {
+    ctx.beginPath(); ctx.ellipse(e[0], e[1], e[2], e[3], e[4]*Math.PI/180, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.restore();
+}
+function drawCard(ctx, x, owner, dry, H){
+  const P = 34, CWd = CARD_W-2*P, gap = 14, colW = (CWd-gap)/2, xL = P, xR = P+colW+gap, pad = 12, inW = colW-2*pad;
+  const SERIF = '"Bitter",Rockwell,Georgia,serif', SANS = '"Figtree",Verdana,sans-serif', HAND = '"Patrick Hand","Bradley Hand","Segoe Print","Comic Sans MS",cursive';
+  const F = {title:'800 27px '+SERIF, lab:'700 13.5px '+SANS, cap:'700 12.5px '+SANS, small:'400 12px '+SANS, hand:'400 21px '+HAND, big:'400 32px '+HAND,
+    foot:'700 13px '+SERIF, stamp:'800 19px '+SERIF};
+  let y = 0;
+  const wrapL = (str, maxW) => {
+    const out = [];
+    String(str).split(/\n/).forEach(par => {
+      let line = '';
+      par.split(/\s+/).filter(Boolean).forEach(w => {
+        const t = line ? line+' '+w : w;
+        if(ctx.measureText(t).width <= maxW){ line = t; return; }
+        if(line) out.push(line);
+        line = w;
+        while(ctx.measureText(line).width > maxW && line.length > 1){
+          let k = line.length-1;
+          while(k > 1 && ctx.measureText(line.slice(0,k)).width > maxW) k--;
+          out.push(line.slice(0,k)); line = line.slice(k);
+        }
+      });
+      if(line) out.push(line);
+    });
+    return out.length ? out : [''];
+  };
+  const put = (str, x0, yTop, font, color, lh, maxW, align) => {
+    ctx.font = font;
+    const ls = maxW ? wrapL(str, maxW) : [String(str)];
+    if(!dry){
+      ctx.fillStyle = color; ctx.textAlign = align||'left'; ctx.textBaseline = 'alphabetic';
+      ls.forEach((ln,i) => ctx.fillText(ln, x0, yTop+lh*i+lh*0.74));
+    }
+    return ls.length*lh;
+  };
+  const hline = (x1, x2, yy) => { if(dry) return; ctx.strokeStyle = CARD.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x1, yy); ctx.lineTo(x2, yy); ctx.stroke(); };
+  const itemH = it => { ctx.font = it.big ? F.big : F.hand; return 17+wrapL(it.val, inW).length*(it.big?36:27)+6; };
+  const cell = (items, x0, y0) => {
+    let yy = y0;
+    items.forEach(it => { put(it.lab, x0, yy, F.small, CARD.ink3, 16); yy += 17; yy += put(it.val, x0, yy, it.big?F.big:F.hand, CARD.pen, it.big?36:27, inW)+6; });
+  };
+  const boxes = (L, R) => {            // links Vorher, rechts Nachher, gleich hoch
+    const h = Math.max(L.reduce((s,it) => s+itemH(it), 0), R.reduce((s,it) => s+itemH(it), 0))+2*pad-6;
+    if(!dry){
+      ctx.fillStyle = CARD.band; ctx.fillRect(xL, y, colW, h);
+      if(R.length){ ctx.fillStyle = CARD.rose; ctx.fillRect(xR, y, colW, h); }
+    }
+    cell(L, xL+pad, y+pad); cell(R, xR+pad, y+pad);
+    y += h+gap;
+  };
+  const full = (lab, val, color) => {
+    if(!val.trim()) return;
+    put(lab, P+16, y, F.lab, color||CARD.ink, 19); y += 21;
+    y += put(val.trim(), P+16, y, F.hand, CARD.pen, 27, CWd-16)+12;
+  };
+
+  if(!dry){ ctx.fillStyle = CARD.paper; ctx.fillRect(0, 0, CARD_W, H); }
+  y = 32;
+  if(!dry) cardPaw(ctx, P+11, y+17, 24, CARD.paw);
+  put('Experiment Nr. '+x.nr, P+33, y, F.title, CARD.ink, 34);
+  put(fmtDate(x.date), CARD_W-P, y+5, F.hand, CARD.pen, 27, 0, 'right');
+  y += 46;
+  hline(P, CARD_W/2-12, y); hline(CARD_W/2+12, CARD_W-P, y);
+  if(!dry) cardPaw(ctx, CARD_W/2, y, 11, CARD.paw);
+  y += 18;
+  put('Was mache ich?', P, y, F.lab, CARD.ink, 19); y += 21;
+  y += put(x.what.trim()||'Ohne Titel', P, y, F.hand, CARD.pen, 27, CWd)+18;
+
+  const used = x.fears.filter(fearUsed);
+  const list = used.length ? used : (x.fears[0] && x.fears[0].outcome ? [x.fears[0]] : []);
+  if(list.length || x.tensionBefore!=null || x.tensionStart!=null || x.tensionEnd!=null || x.dropped.trim() || x.focus){
+    put('VORHER', xL+pad, y, F.cap, CARD.accent, 18); put('NACHHER', xR+pad, y, F.cap, CARD.accent, 18);
+    y += 22;
+    if(!dry){ ctx.fillStyle = CARD.accent; ctx.fillRect(xL, y, colW, 2); ctx.fillRect(xR, y, colW, 2); }
+    y += 2+gap;
+  }
+  list.forEach((f, i) => {
+    const t = fearText(f);
+    if(list.length > 1){ put('Befürchtung '+(i+1), P, y, F.small, CARD.ink3, 16); y += 18; }
+    if(t) y += put(t, P, y, F.hand, CARD.pen, 27, CWd)+8;
+    const L = [{lab:'Erwartet', val:f.prob!=null ? f.prob+' %' : '—', big:true}];
+    if(f.bad!=null) L.push({lab:'So schlimm wäre es', val:f.bad+' von 100'});
+    const R = [{lab:'Eingetroffen', val:OUT[f.outcome]||'—', big:true}];
+    if(f.badReal!=null && f.outcome && f.outcome!=='nein') R.push({lab:'So schlimm war es', val:f.badReal+' von 100'});
+    boxes(L, R);
+    y += 4;
+  });
+  if(x.tensionBefore!=null || x.tensionStart!=null || x.tensionEnd!=null){
+    const a = x.tensionStart, b = x.tensionEnd;
+    boxes([{lab:'Anspannung vorher', val:x.tensionBefore!=null ? String(x.tensionBefore) : '—', big:true}],
+      [{lab:'Anspannung am Anfang und am Ende', val:(a!=null && b!=null) ? 'von '+a+' auf '+b : a!=null ? String(a) : b!=null ? String(b) : '—', big:true}]);
+  }
+  if(x.dropped.trim() || x.focus){
+    const L = [];
+    if(x.dropped.trim()) L.push({lab:'Diese Absicherung lasse ich weg', val:x.dropped.trim()});
+    if(x.focus) L.push({lab:'Aufmerksamkeit nach außen mit', val:x.focus});
+    boxes(L, x.dropped.trim() ? [{lab:'Weggelassen?', val:x.droppedOk||'—'}] : []);
+  }
+  y += 6;
+  const t0 = y;
+  if(x.status==='nicht'){
+    full('Diesmal nicht — auch das ist eine Auskunft.', x.blocker.trim() ? 'Was im Weg stand: '+x.blocker.trim() : 'Die Stufe war heute zu hoch.', CARD.accent);
+  } else {
+    full('Was ist wirklich passiert?', x.happened);
+    full('Was hat mich überrascht?', x.surprised);
+    full('Was nehme ich mit für nächstes Mal?', x.takeaway, CARD.accent);
+  }
+  if(y > t0 && !dry){ ctx.fillStyle = CARD.rose; ctx.fillRect(P, t0+2, 4, y-t0-14); }
+  y += 10;
+  if(x.status==='gemacht'){
+    ctx.font = F.stamp; const wG = ctx.measureText('Gemacht').width;
+    ctx.font = F.small; const dt = fmtStamp(x.doneAt), wD = ctx.measureText(dt).width;
+    if(!dry){
+      ctx.save();
+      ctx.translate(P+4, y+10); ctx.rotate(-4*Math.PI/180);
+      const bw = 40+wG+8+wD+12, bh = 38, r = 8;
+      ctx.strokeStyle = CARD.accent; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(r, 0); ctx.arcTo(bw, 0, bw, bh, r); ctx.arcTo(bw, bh, 0, bh, r); ctx.arcTo(0, bh, 0, 0, r); ctx.arcTo(0, 0, bw, 0, r); ctx.closePath(); ctx.stroke();
+      cardPaw(ctx, 21, 19, 22, CARD.accent);
+      ctx.fillStyle = CARD.accent; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      ctx.font = F.stamp; ctx.fillText('Gemacht', 40, 26);
+      ctx.font = F.small; ctx.fillText(dt, 40+wG+8, 25);
+      ctx.restore();
+    }
+  }
+  put('Kleine Schritte', CARD_W-P, y+8, F.foot, CARD.ink3, 18, 0, 'right');
+  if(owner) put(owner, CARD_W-P, y+27, F.hand, CARD.pen, 27, 0, 'right');
+  return y+72;
+}
+async function cardCanvas(x){
+  if(document.fonts && document.fonts.load){
+    try{
+      await Promise.race([
+        Promise.all(['800 27px "Bitter"','700 13px "Figtree"','400 12px "Figtree"','400 21px "Patrick Hand"'].map(f => document.fonts.load(f))),
+        new Promise(r => setTimeout(r, 2500))]);
+    }catch(e){}
+  }
+  const owner = state.owner.trim();
+  const h = Math.ceil(drawCard(document.createElement('canvas').getContext('2d'), x, owner, true, 0));
+  const scale = Math.min(2, 7600/h);
+  const c = document.createElement('canvas');
+  c.width = Math.round(CARD_W*scale); c.height = Math.round(h*scale);
+  const ctx = c.getContext('2d');
+  ctx.scale(scale, scale);
+  drawCard(ctx, x, owner, false, h);
+  return c;
+}
+async function exportCard(kind, btn, x0){
+  const x = x0 || cur();
+  if(!x || busy) return;
+  busy = true;
+  const pdf = kind==='pdf', label = btn ? btn.textContent : '';
+  if(btn){ btn.textContent = 'Moment …'; btn.disabled = true; }
+  try{
+    const c = await cardCanvas(x);
+    let blob;
+    if(pdf){
+      const J = await loadJsPdf();
+      const wmm = 148, hmm = wmm*c.height/c.width;
+      const doc = new J({unit:'mm', format:[wmm, hmm], orientation:hmm>=wmm?'portrait':'landscape', compress:true});
+      doc.setProperties({title:'Experiment Nr. '+x.nr});
+      doc.addImage(c.toDataURL('image/png'), 'PNG', 0, 0, wmm, hmm, undefined, 'FAST');
+      blob = doc.output('blob');
+    } else {
+      blob = await new Promise(res => c.toBlob(res, 'image/png'));
+      if(!blob) throw new Error('png');
+    }
+    const r = await saveFile('Experiment-'+x.nr+(pdf?'.pdf':'.png'), blob);
+    if(r==='failed' && !x0){ ui.cardImg = {id:x.id, url:c.toDataURL('image/png')}; busy = false; render(true); return; }
+    fileToast(r, pdf ? 'PDF' : 'Bild');
+  }catch(e){ toast(pdf ? 'Das PDF ließ sich nicht erstellen. Steht die Internetverbindung?' : 'Das Bild ließ sich nicht erstellen.'); }
+  finally{ busy = false; if(btn && btn.isConnected){ btn.textContent = label; btn.disabled = false; } }
+}
+
+/* ================= Das Heft als PDF (A5) ================= */
+const CP1252_EXTRA = '€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ';
+function pdfSafe(s){
+  s = String(s==null?'':s).replace(/\u00A0/g,' ').replace(/[\u2010\u2011\u2212]/g,'-');
+  let out = '';
+  for(const ch of s){
+    const c = ch.codePointAt(0);
+    if(c===9 || c===10 || c===13){ out += ' '; continue; }
+    if((c>=32 && c<=126) || (c>=161 && c<=255) || CP1252_EXTRA.indexOf(ch)>=0) out += ch;
+  }
+  return out;
+}
+function buildPdf(JsPDF, st, blankMode){
+  const doc = new JsPDF({unit:'mm', format:'a5', orientation:'portrait', compress:true});
+  const W=148, H=210, M=14, CW=W-2*M, BOT=H-13.5, PT=0.3528;
+  const C = {ink:[42,39,37], grey:[98,91,84], soft:[138,129,119], band:[240,232,220], band2:[224,210,190], rose:[237,211,198],
+    accent:[166,75,50], paw:[201,166,152], line:[188,178,164], pen:[39,64,122], cat:[38,35,31], white:[255,255,255]};
+  const S = pdfSafe;
+  doc.setProperties({title:'Kleine Schritte', subject:'Ein Arbeitsheft für mutige Experimente'});
+  let y = M, footLabel = '';
+  const font = (fam, style, size, col) => { const c = col||C.ink; doc.setFont(fam, style); doc.setFontSize(size); doc.setTextColor(c[0],c[1],c[2]); };
+  const fill = c => doc.setFillColor(c[0],c[1],c[2]);
+  const stroke = (c, w) => { doc.setDrawColor(c[0],c[1],c[2]); doc.setLineWidth(w||0.2); };
+  const lh = size => size*PT*1.38;
+  const base = size => size*PT*0.8;
+  const wrap = (t, w, exact) => doc.splitTextToSize(S(t), exact ? w : w-1.2);
+  const tw = t => doc.getTextWidth(S(t));
+
+  function pawAt(cx, cy, size, col){
+    const u = size/24; fill(col||C.paw);
+    doc.ellipse(cx, cy+4.3*u, 6*u, 4.5*u, 'F');
+    doc.ellipse(cx-6.9*u, cy-1.6*u, 2*u, 2.6*u, 'F');
+    doc.ellipse(cx-2.8*u, cy-5.7*u, 2.1*u, 2.8*u, 'F');
+    doc.ellipse(cx+2.8*u, cy-5.7*u, 2.1*u, 2.8*u, 'F');
+    doc.ellipse(cx+6.9*u, cy-1.6*u, 2*u, 2.6*u, 'F');
+  }
+  function bowlAt(cx, cy, w){
+    const u = w/40, x0 = cx-20*u, y0 = cy-13*u;
+    fill(C.band2);
+    doc.lines([[1,10,6,17,12,17],[12,0],[6,0,11,-7,12,-17]], x0+2*u, y0+8*u, [u,u], 'F', true);
+    doc.ellipse(x0+20*u, y0+8*u, 18*u, 5.5*u, 'F');
+    fill(C.white); doc.ellipse(x0+20*u, y0+7.6*u, 14*u, 3.3*u, 'F');
+  }
+  function catAt(cx, top, s){
+    const X = v => cx+(v-104)*s, Y = v => top+v*s;
+    fill(C.band); doc.circle(X(104), Y(112), 92*s, 'F');
+    doc.setLineCap('round'); doc.setLineJoin('round');
+    stroke(C.cat, 15*s);
+    doc.lines([[-26,6,-46,-12,-42,-38],[2,-14,14,-20,24,-14]], X(56), Y(208), [s,s], 'S', false);
+    doc.setLineCap('butt'); doc.setLineJoin('miter');
+    fill(C.cat);
+    doc.triangle(X(66),Y(66), X(74),Y(12), X(100),Y(42), 'F');
+    doc.triangle(X(142),Y(66), X(134),Y(12), X(108),Y(42), 'F');
+    doc.circle(X(104), Y(78), 40*s, 'F');
+    doc.lines([[-20,20,-30,60,-26,92],[1,12,8,18,20,18],[84,0],[10,0,16,-6,16,-18],[2,-35,-8,-72,-30,-92]], X(72), Y(108), [s,s], 'F', true);
+  }
+  function footer(){
+    for(let i=0;i<4;i++) pawAt(M+2+i*4.4, H-8.6+(i%2?0.9:-0.9), 2.5, C.band2);
+    if(footLabel){ font('helvetica','normal',7,C.soft); doc.text(S(footLabel), W-M, H-7.6, {align:'right'}); }
+  }
+  function newPage(label){ doc.addPage(); if(label!==undefined) footLabel = label; y = M+1; footer(); }
+  function ensure(h){ if(y+h>BOT){ newPage(); return true; } return false; }
+
+  function h1(str, sub){
+    font('times','bold',20);
+    wrap(str, CW).forEach(ln => { doc.text(ln, M, y+base(20)); y += 20*PT*1.16; });
+    if(sub){
+      y += 0.4; font('helvetica','italic',9.2,C.accent);
+      wrap(sub, CW).forEach(ln => { doc.text(ln, M, y+base(9.2)); y += lh(9.2); });
+    }
+    ruleLine();
+  }
+  function ruleLine(){
+    y += 2.4; stroke(C.line, 0.2);
+    doc.line(M, y, W/2-4, y); doc.line(W/2+4, y, W-M, y); pawAt(W/2, y, 3, C.paw);
+    y += 6;
+  }
+  function para(str, o){
+    o = o||{};
+    const size = o.size||9.2, x = o.x==null?M:o.x, w = o.w||(W-M-x);
+    const set = () => font('helvetica', o.style||'normal', size, o.color||C.ink);
+    set();
+    wrap(str, w).forEach(ln => { if(ensure(lh(size))) set(); doc.text(ln, x, y+base(size)); y += lh(size); });
+    y += o.after==null ? 2.2 : o.after;
+  }
+  function bandAt(x, w, cap, rest){
+    fill(C.band); doc.rect(x, y, w, 6.4, 'F');
+    font('helvetica','bold',7.4,C.accent);
+    const t = S(cap.toUpperCase());
+    doc.text(t, x+3, y+4.35, {charSpace:0.25});
+    if(rest){ const cw = doc.getTextWidth(t)+0.25*t.length; font('helvetica','bold',8,C.accent); doc.text(S('·  '+rest), x+3+cw+1.6, y+4.4); }
+  }
+  function bandRow(cap, rest){ ensure(18); y += 1.2; bandAt(M, CW, cap, rest); y += 6.4+2.6; }
+  function pawItem(title, body, sep, tight){
+    font('helvetica','normal',8.8); const bl = wrap(body, CW-9);
+    font('helvetica','bold',9.8); const tl = wrap(title, CW-9);
+    ensure(tl.length*lh(9.8)+bl.length*lh(8.8)+5);
+    pawAt(M+3, y+2.3, 4.2, C.paw);
+    font('helvetica','bold',9.8,C.ink); tl.forEach(ln => { doc.text(ln, M+9, y+base(9.8)); y += lh(9.8); });
+    y += 0.3;
+    font('helvetica','normal',8.8,C.ink); bl.forEach(ln => { doc.text(ln, M+9, y+base(8.8)); y += lh(8.8); });
+    y += tight ? 3.2 : 2.4;
+    if(sep){ stroke(C.line, 0.15); doc.line(M+9, y, W-M, y); }
+    if(!tight) y += 2.6;
+  }
+  function callout(title, body, col, titleCol){
+    font('helvetica','normal',8.8); const bl = wrap(body, CW-8);
+    font('helvetica','bold',9.8); const tl = wrap(title, CW-8);
+    const h = 2.8+tl.length*lh(9.8)+0.4+bl.length*lh(8.8)+2.2;
+    ensure(h+2);
+    fill(col); doc.rect(M, y, CW, h, 'F');
+    let yy = y+2.8;
+    font('helvetica','bold',9.8,titleCol||C.ink); tl.forEach(ln => { doc.text(ln, M+4, yy+base(9.8)); yy += lh(9.8); });
+    yy += 0.4;
+    font('helvetica','normal',8.8,C.ink); bl.forEach(ln => { doc.text(ln, M+4, yy+base(8.8)); yy += lh(8.8); });
+    y += h+4;
+  }
+  function step(n, title, body){
+    font('helvetica','normal',8.6); const bl = wrap(body, CW-18);
+    const h = 2.8+lh(9.8)+bl.length*lh(8.6)+2.2;
+    ensure(h+2.4);
+    fill(C.band); doc.rect(M, y, CW, h, 'F');
+    fill(C.rose); doc.circle(M+7, y+h/2, 3.5, 'F');
+    font('helvetica','bold',10,C.accent); doc.text(String(n), M+7, y+h/2+1.25, {align:'center'});
+    font('helvetica','bold',9.8,C.ink); doc.text(S(title), M+14, y+2.8+base(9.8));
+    font('helvetica','normal',8.6,C.grey);
+    let yy = y+2.8+lh(9.8);
+    bl.forEach(ln => { doc.text(ln, M+14, yy+base(8.6)); yy += lh(8.6); });
+    y += h+2.4;
+  }
+  function label(str, o){
+    o = o||{};
+    const size = o.size||9.2;
+    ensure(lh(size)+7);
+    font('helvetica', o.style||'bold', size, o.color||C.ink);
+    doc.text(S(str), M, y+base(size));
+    if(o.hint){
+      const w = tw(str);
+      font('helvetica','italic',7.4,C.soft);
+      if(M+w+1.5+tw(o.hint) <= W-M) doc.text(S(o.hint), M+w+1.5, y+base(size));
+      else { y += lh(size)-0.6; doc.text(S(o.hint), M, y+base(7.4)); y += lh(7.4)-lh(size)+0.6; }
+    }
+    y += lh(size)-0.4;
+  }
+  function field(value, minLines, o){
+    o = o||{};
+    const x = o.x==null?M:o.x, w = o.w||(W-M-x), size = o.size||10.2, st = o.step||6.1;
+    let lines = [];
+    if(!blankMode && value && String(value).trim()){
+      font('helvetica','italic',size,C.pen);
+      String(value).split(/\n/).forEach(p => { if(p.trim()) lines = lines.concat(wrap(p, w-2)); });
+    }
+    const n = Math.max(minLines, lines.length);
+    for(let i=0;i<n;i++){
+      ensure(st);
+      if(lines[i]){ font('helvetica','italic',size,C.pen); doc.text(lines[i], x+1, y+st-1.7); }
+      stroke(C.line, 0.2); doc.line(x, y+st, x+w, y+st);
+      y += st;
+    }
+    y += o.after==null ? 2.6 : o.after;
+  }
+  function inlineField(lbl, value){
+    font('helvetica','normal',8.6,C.ink);
+    const x = M+tw(lbl)+2;
+    if(!blankMode && value){
+      font('helvetica','italic',10,C.pen);
+      if(tw(value) > W-M-x-3){ label(lbl, {style:'normal', size:8.6}); field(value, 1, {after:1.6}); return; }
+    }
+    ensure(8);
+    font('helvetica','normal',8.6,C.ink); doc.text(S(lbl), M, y+5);
+    if(!blankMode && value){ font('helvetica','italic',10,C.pen); doc.text(S(value), x+1, y+5); }
+    stroke(C.line, 0.2); doc.line(x, y+6.2, W-M, y+6.2);
+    y += 8.8;
+  }
+  function box(x, yTop, s, on, col){
+    stroke(col||C.grey, 0.25); doc.rect(x, yTop, s, s);
+    if(on && !blankMode){
+      stroke(C.pen, 0.45);
+      doc.line(x-0.7, yTop-0.6, x+s+0.8, yTop+s+0.7);
+      doc.line(x+s+0.9, yTop-0.9, x-0.5, yTop+s+0.8);
+    }
+  }
+  function vbox(x, yTop, w, h, val){
+    stroke(C.grey, 0.25); doc.rect(x, yTop, w, h);
+    if(!blankMode && val!=null){ font('helvetica','italic',9.6,C.pen); doc.text(String(val), x+w/2, yTop+h-1.55, {align:'center'}); }
+  }
+  function scaleAt(lbl, value, x0, wAll, yTop){
+    font('helvetica','normal',8.6,C.ink); doc.text(S(lbl), x0, yTop+6.4);
+    const a = x0+tw(lbl)+3.5, b = x0+wAll-2.5, yy = yTop+5.4;
+    stroke(C.line, 0.25); doc.line(a, yy, b, yy);
+    [0,25,50,75,100].forEach(v => {
+      const px = a+(b-a)*v/100;
+      stroke(C.line, 0.25); doc.line(px, yy-1.1, px, yy+1.1);
+      font('helvetica','normal',6.2,C.soft); doc.text(String(v), px, yy+4.2, {align:'center'});
+    });
+    if(!blankMode && value!=null){
+      const px = a+(b-a)*value/100;
+      stroke(C.pen, 0.45); doc.line(px-1.3, yy-1.4, px+1.3, yy+1.4); doc.line(px+1.3, yy-1.4, px-1.3, yy+1.4);
+      font('helvetica','italic',8.4,C.pen); doc.text(String(value), px, yy-2.3, {align:'center'});
+    }
+  }
+  function scaleRow(lbl, value){ ensure(13); scaleAt(lbl, value, M, CW, y); y += 12.4; }
+  function probRow(f){
+    ensure(9);
+    const t1 = 'Wie wahrscheinlich ist das?', t2 = 'Wie schlimm wäre es wirklich?', fs = 8;
+    font('helvetica','normal',fs,C.ink); doc.text(S(t1), M, y+4.9);
+    const x1 = M+tw(t1)+1.6;
+    vbox(x1, y+0.9, 10, 5.4, f?f.prob:null);
+    font('helvetica','normal',fs,C.ink); doc.text('%', x1+10.9, y+4.9);
+    const endW = tw('/100'), x3 = W-M-endW-0.8-10, x2 = x3-1.6-tw(t2);
+    doc.text(S(t2), x2, y+4.9);
+    vbox(x3, y+0.9, 10, 5.4, f?f.bad:null);
+    font('helvetica','normal',fs,C.ink); doc.text('/100', x3+10.8, y+4.9);
+    y += 9;
+  }
+  function outcomeRow(prefix, f){
+    ensure(7.5);
+    let xx = M;
+    font('helvetica','normal',8.6,C.ink);
+    if(prefix){ doc.text(S(prefix), xx, y+4.6); xx += tw(prefix)+3; }
+    [['nein','nein'],['bisschen','ein bisschen'],['ja','ja']].forEach(o => {
+      box(xx, y+1.7, 3.1, !!(f && f.outcome===o[0]));
+      font('helvetica','normal',8.6,C.ink); doc.text(o[1], xx+4.5, y+4.6);
+      xx += 4.5+tw(o[1])+5;
+    });
+    if(f && !blankMode && f.outcome && f.outcome!=='nein' && f.badReal!=null){
+      font('helvetica','italic',8.4,C.pen); doc.text(S('wie schlimm: '+f.badReal+'/100'), xx+1, y+4.6);
+    }
+    y += 7.2;
+  }
+  function checkCols(left, right, blanksL, blanksR){
+    const gap = 6, colW = (CW-gap)/2, size = 8.5, tW = colW-6, L = size*PT*1.26, G = 1.7;
+    const measure = (items, blanks) => { font('helvetica','normal',size); let hh = 0; items.forEach(it => { hh += wrap(it.t, tW, true).length*L+G; }); return hh+blanks*6.2; };
+    const draw = (items, x, blanks, y0) => {
+      let yy = y0;
+      items.forEach(it => {
+        font('helvetica','normal',size,C.ink);
+        const ls = wrap(it.t, tW, true);
+        box(x, yy+0.3, 3.1, it.on);
+        font('helvetica','normal',size,C.ink);
+        ls.forEach((ln,i) => doc.text(ln, x+5.6, yy+base(size)+0.3+i*L));
+        yy += ls.length*L+G;
+      });
+      for(let i=0;i<blanks;i++){ box(x, yy+0.8, 3.1, false); stroke(C.line, 0.2); doc.line(x+5.6, yy+4, x+colW, yy+4); yy += 6.2; }
+      return yy;
+    };
+    ensure(Math.max(measure(left, blanksL), measure(right, blanksR))+2);
+    const y0 = y;
+    y = Math.max(draw(left, M, blanksL, y0), draw(right, M+colW+gap, blanksR, y0))+1;
+  }
+
+  /* ---------- Titel ---------- */
+  stroke(C.line, 0.25); doc.rect(8, 8, W-16, H-16);
+  font('times','bold',34); doc.text('Kleine Schritte', W/2, 49, {align:'center'});
+  font('helvetica','italic',11,C.accent); doc.text(S('Ein Arbeitsheft für mutige Experimente'), W/2, 58, {align:'center'});
+  stroke(C.line, 0.2); doc.line(W/2-30, 64.5, W/2-4, 64.5); doc.line(W/2+4, 64.5, W/2+30, 64.5); pawAt(W/2, 64.5, 3, C.paw);
+  catAt(W/2, 76, 0.3);
+  [[-44,139,0],[-39.5,136.6,1],[-35,139.4,0],[-30.5,137,1]].forEach(p => pawAt(W/2+p[0], p[1], 2.6, C.paw));
+  font('helvetica','italic',10,C.grey);
+  ['Mut ist nicht, keine Angst zu haben.', 'Mut ist, es trotzdem zu tun — und danach nachzusehen,', 'was wirklich passiert ist.'].forEach((ln,i) => doc.text(S(ln), W/2, 160+i*5.4, {align:'center'}));
+  font('helvetica','normal',8,C.soft); doc.text(S('Dieses Heft gehört'), W/2-34, 187.5);
+  stroke(C.line, 0.2); doc.line(W/2-34, 194.5, W/2+34, 194.5);
+  if(!blankMode && st.owner.trim()){ font('helvetica','italic',13,C.pen); doc.text(S(st.owner.trim()), W/2, 193, {align:'center'}); }
+
+  /* ---------- Warum das hier funktioniert ---------- */
+  newPage('');
+  h1('Warum das hier funktioniert');
+  para('Angst vor sozialen Situationen hält sich nicht, weil man zu wenig Willen hat. Sie hält sich, weil Vermeiden sofort belohnt wird. Der Kreislauf sieht so aus:', {after:3});
+  CYCLE.forEach((c,i) => step(i+1, c[0], c[1]));
+  y += 1.5;
+  callout('Der Ausweg ist nicht Aushalten. Es ist Nachsehen.', 'Der Lerneffekt entsteht nicht dadurch, dass die Angst irgendwann von selbst sinkt. Er entsteht in dem Moment, in dem etwas anderes passiert als befürchtet. Deshalb wird in diesem Heft vorher aufgeschrieben, was man erwartet — und nachher, was wirklich war. Die Lücke dazwischen ist der Wirkstoff.', C.rose);
+
+  /* ---------- Sechs Spielregeln ---------- */
+  newPage('');
+  h1('Sechs Spielregeln');
+  RULES.forEach((r,i) => pawItem(r[0], r[1], i<RULES.length-1));
+  bowlAt(W-M-9, H-24, 15);
+
+  /* ---------- Meine heimlichen Helfer ---------- */
+  newPage('');
+  h1('Meine heimlichen Helfer', 'Sicherheitsverhalten — die Tricks, mit denen ich Situationen „überstehe“');
+  para('Diese Dinge fühlen sich hilfreich an. Sie sind aber der Grund, warum Treffen so viel Energie kosten — und warum der Kopf hinterher sagt: „Ist ja nur gutgegangen, weil ich aufgepasst habe.“ Kreuze an, was du kennst. Ergänze eigene. Später suchst du dir immer eins aus, das du weglässt.', {after:3});
+  const hItems = g => g.items.map(it => ({t:it[1], on:!!st.helpers.checked[it[0]]}))
+    .concat(blankMode ? [] : st.helpers.custom.filter(c => c.group===g.id).map(c => ({t:c.text, on:!!st.helpers.checked[c.id]})));
+  const hb = blankMode ? 1 : 0;
+  {
+    const gap = 6, colW = (CW-gap)/2;
+    ensure(60);
+    bandAt(M, colW, HELPERS[0].label); bandAt(M+colW+gap, colW, HELPERS[1].label); y += 6.4+3;
+    checkCols(hItems(HELPERS[0]), hItems(HELPERS[1]), hb, hb);
+    y += 1.5;
+    ensure(40);
+    bandAt(M, CW, HELPERS[2].label); y += 6.4+3;
+    const v = hItems(HELPERS[2]), half = Math.ceil(v.length/2);
+    checkCols(v.slice(0, half), v.slice(half), blankMode?1:0, blankMode?1:0);
+  }
+  y += 2;
+  callout('Der Trick dabei:', 'Wenn du eine Absicherung weglässt, steigt die Anspannung kurz. Das ist kein Rückschritt — das ist das Signal, dass die Übung diesmal wirklich zählt.', C.band, C.accent);
+
+  /* ---------- Meine Leiter ---------- */
+  newPage('Leiter');
+  h1('Meine Leiter', 'Situationen sortiert nach Anspannung — von unten nach oben');
+  para('Zwei Sorten von Situationen, die unterschiedlich funktionieren. Trag ein, was dir einfällt, und schätze die Anspannung von 0 bis 100. Angefangen wird unten bei etwa 30 bis 40 — nicht bei 20 (zu leicht, kein Lerneffekt) und nicht bei 80 (zu viel auf einmal).', {after:3});
+  const rungsOf = c => blankMode ? [] : st.ladder.filter(r => r.cat===c).sort((a,b) => b.tension-a.tension || a.createdAt-b.createdAt);
+  if(!rungsOf('A').length && !rungsOf('B').length){
+    const gap = 8, colW = (CW-gap)/2, rows = 11, stp = 9;
+    bandAt(M, colW, 'A · '+LADDER.A.label); bandAt(M+colW+gap, colW, 'B · '+LADDER.B.label); y += 6.4+2.2;
+    font('helvetica','italic',7.2,C.grey);
+    doc.text(S(LADDER.A.hint), M+1, y+base(7.2)); doc.text(wrap(LADDER.B.hint, colW-1), M+colW+gap+1, y+base(7.2));
+    y += 7.5;
+    for(let i=0;i<rows;i++){
+      [M, M+colW+gap].forEach(x => {
+        font('helvetica','normal',7.4,C.soft); doc.text((rows-i)+'.', x, y+stp-2.2);
+        stroke(C.line, 0.2); doc.line(x+6, y+stp-1.6, x+colW-12.5, y+stp-1.6);
+        stroke(C.grey, 0.25); doc.rect(x+colW-11, y+stp-6.6, 11, 5.4);
+      });
+      y += stp;
+    }
+    y += 3;
+  } else {
+    ['A','B'].forEach(c => {
+      const rs = rungsOf(c);
+      bandRow(c+' · '+LADDER[c].label);
+      y -= 1.4; para(LADDER[c].hint, {style:'italic', size:8, color:C.grey, after:1.5});
+      if(!rs.length){ for(let i=0;i<3;i++){ ensure(8); stroke(C.line, 0.2); doc.line(M+7, y+7, W-M-14, y+7); stroke(C.grey, 0.25); doc.rect(W-M-12, y+1.4, 12, 5.6); y += 8.2; } }
+      rs.forEach((r,i) => {
+        font('helvetica','italic',10,C.pen);
+        const ls = wrap(r.text, CW-24), h = Math.max(7.2, ls.length*lh(10)+2.6);
+        ensure(h+1.2);
+        if(r.tension>=30 && r.tension<=40){ fill(C.band); doc.rect(M, y+0.2, CW, h, 'F'); }
+        font('helvetica','normal',7.4,C.soft); doc.text((rs.length-i)+'.', M+1, y+h-1.9);
+        font('helvetica','italic',10,C.pen); ls.forEach((ln,k) => doc.text(ln, M+8, y+base(10)+1.5+k*lh(10)));
+        stroke(C.line, 0.2); doc.line(M+7, y+h, W-M-14, y+h);
+        vbox(W-M-12, y+h-5.9, 12, 5.6, r.tension);
+        y += h+1.2;
+      });
+      y += 2;
+    });
+  }
+  {
+    font('helvetica','normal',7.8,C.ink);
+    const nl = wrap('Kästchen rechts = geschätzte Anspannung (0 – 100). Hier fängst du an: bei 30 – 40. Wenn eine Stufe zweimal in Folge leicht war, geht es eine höher.', CW-8);
+    const nh = 4.6+nl.length*lh(7.8);
+    ensure(nh+1);
+    fill(C.band); doc.rect(M, y, CW, nh, 'F');
+    font('helvetica','normal',7.8,C.ink);
+    nl.forEach((ln,i) => doc.text(ln, M+4, y+2.5+base(7.8)+i*lh(7.8)));
+    y += nh+2;
+  }
+
+  /* ---------- Warum Treffen so müde machen ---------- */
+  newPage('');
+  h1('Warum Treffen so müde machen');
+  para('Wer sich in Gesellschaft ständig selbst beobachtet — wie klinge ich, wie wirke ich, was sage ich als Nächstes — lässt im Hintergrund einen zweiten Prozess mitlaufen. Der kostet enorm viel Kraft. Deshalb ist Kontakt anstrengend, obwohl man ihn eigentlich will. Der Hebel ist nicht, weniger Menschen zu treffen. Der Hebel ist, die Aufmerksamkeit nach außen zu drehen.', {after:1});
+  bandRow('Übungen für zwischendurch');
+  EXERCISES.forEach(e => pawItem(e[0], e[1], false, true));
+  bandRow('Gegen das Nachgrübeln');
+  para('Das Durchkauen hinterher fühlt sich an wie Aufarbeiten, ist aber nur eine weitere Runde im selben Kreis — und frisst oft mehr Energie als die Situation selbst. Zwei Regeln:', {after:2.5});
+  RUMINATION.forEach(e => pawItem(e[0], e[1], false, true));
+  if(y < H-34) bowlAt(W/2, H-24, 15);
+
+  /* ---------- Experimente ---------- */
+  function expPage(x, n){
+    newPage('Experiment '+n);
+    pawAt(M+3, y+3.9, 5.2, C.paw);
+    font('times','bold',18); doc.text(S('Experiment Nr.'+(x?' '+x.nr:'')), M+9, y+base(18));
+    font('helvetica','normal',8.4,C.grey); doc.text('Datum', W-M-35, y+base(18));
+    stroke(C.line, 0.2); doc.line(W-M-25, y+base(18)+0.9, W-M, y+base(18)+0.9);
+    if(x){ font('helvetica','italic',10.4,C.pen); doc.text(S(fmtDate(x.date)), W-M-24, y+base(18)); }
+    y += 18*PT*1.1;
+    ruleLine();
+    label('Was mache ich?'); field(x?x.what:'', 1, {after:1});
+    const fears = x ? x.fears.filter(fearUsed) : [];
+    bandRow('Vorher', 'ausfüllen, bevor es losgeht');
+    label('Was befürchte ich ganz konkret?', {hint:'wer tut oder sagt was? nicht nur „es wird komisch“'});
+    if(fears.length){
+      fears.forEach((f,i) => { field((fears.length>1?(i+1)+'. ':'')+(fearText(f)||'—'), 1, {after:1.2}); probRow(f); });
+    } else {
+      inlineField('Wenn', ''); y -= 2.4; inlineField('dann', ''); y -= 0.6;
+      probRow(null);
+    }
+    scaleRow('Anspannung jetzt', x?x.tensionBefore:null);
+    label('Diese Absicherung lasse ich heute weg:'); field(x?x.dropped:'', 1, {after:1});
+    if(x && x.focus) inlineField('Aufmerksamkeit nach außen mit:', x.focus);
+    bandRow('Nachher', 'spätestens zehn Minuten danach');
+    if(x && x.status==='nicht'){
+      label('Diesmal nicht hingegangen oder abgebrochen. Was stand im Weg?'); field(x.blocker, 2);
+      return;
+    }
+    label('Was ist wirklich passiert?'); field(x?x.happened:'', 2, {after:1.4});
+    if(fears.length){
+      label('Ist meine Befürchtung eingetroffen?', {style:'normal', size:8.6});
+      fears.forEach((f,i) => outcomeRow(fears.length>1?(i+1)+'.':'', f));
+    } else outcomeRow('Ist meine Befürchtung eingetroffen?', null);
+    ensure(13.5);
+    scaleAt('Anspannung Anfang', x?x.tensionStart:null, M, 62, y);
+    scaleAt('am Ende', x?x.tensionEnd:null, M+65, CW-65, y);
+    y += 12.4;
+    if(x && x.dropped.trim() && x.droppedOk) inlineField('Absicherung weggelassen?', x.droppedOk);
+    label('Was hat mich überrascht?'); field(x?x.surprised:'', 1, {after:1.4});
+    font('helvetica','italic',8); const gl = wrap('Das allein ist der Erfolg — unabhängig davon, wie es sich angefühlt hat.', CW-13);
+    const gh = 7.6+gl.length*lh(8);
+    let tl = 2;
+    if(x && x.takeaway.trim()){ font('helvetica','italic',10.2,C.pen); let c = 0; x.takeaway.split(/\n/).forEach(p => { if(p.trim()) c += wrap(p, CW-2).length; }); tl = Math.max(tl, c); }
+    ensure(4.1+tl*6.1+3+gh+1);
+    label('Was nehme ich mit für nächstes Mal?', {color:C.accent}); field(x?x.takeaway:'', 2, {after:3});
+    ensure(gh+1);
+    fill(C.band); doc.rect(M, y, CW, gh, 'F');
+    box(M+3.4, y+2.6, 3.6, !!(x && x.status==='gemacht'), C.accent);
+    font('helvetica','bold',9.4,C.accent); doc.text('Gemacht.', M+10, y+5.6);
+    font('helvetica','italic',8,C.ink); gl.forEach((ln,i) => doc.text(ln, M+10, y+6.6+base(8)+i*lh(8)));
+    y += gh+3;
+  }
+  const exps = blankMode ? [] : st.experiments.filter(x => !isEmptyDraft(x)).sort((a,b) => a.nr-b.nr);
+  exps.forEach(x => expPage(x, x.nr));
+  const nextNr = exps.reduce((m,x) => Math.max(m, x.nr), 0);
+  for(let i=1; i<=(blankMode?4:1); i++) expPage(null, nextNr+i);
+
+  /* ---------- Was wirklich passiert ist ---------- */
+  const s = blankMode ? null : stats();
+  if(s && s.doneN){
+    newPage('');
+    h1(GAP_TITLE);
+    para((s.doneN===1?'Ein Experiment':s.doneN+' Experimente')+' gemacht — bis zum '+fmtDate(todayIso())+'.', {after:3});
+    if(s.n){
+      para((s.n===1?'Eine Befürchtung':s.n+' Befürchtungen')+' überprüft. Eingetroffen: '+s.c.nein+' × nein, '+s.c.bisschen+' × ein bisschen, '+s.c.ja+' × ja.');
+      const bw = CW, by = y+1;
+      let bx = M;
+      [['nein',C.ink],['bisschen',C.paw],['ja',C.accent]].forEach(k => { const w = bw*s.c[k[0]]/s.n; if(w>0){ fill(k[1]); doc.rect(bx, by, w, 3.2, 'F'); bx += w; } });
+      y += 8;
+      if(s.avgProb!=null) para('Gerechnet hattest du vorher im Schnitt mit '+s.avgProb+' %.');
+      if(s.hitN) para('Wo etwas eintraf: befürchtet '+s.badPred+' von 100 schlimm, tatsächlich '+s.badReal+'.');
+    }
+    if(s.tN) para('Anspannung im Schnitt: '+s.tStart+' am Anfang, '+s.tEnd+' am Ende.');
+    const notes = (title, list) => {
+      if(!list.length) return;
+      y += 2; label(title);
+      list.forEach(t => field(t, 1, {after:0.6}));
+    };
+    const all = st.experiments.filter(x => x.status==='gemacht').sort((a,b) => (b.doneAt||0)-(a.doneAt||0));
+    notes('Was mich überrascht hat', all.filter(x => x.surprised.trim()).slice(0,6).map(x => x.surprised.trim()));
+    notes('Was ich mitnehme', all.filter(x => x.takeaway.trim()).slice(0,6).map(x => x.takeaway.trim()));
+  }
+  return doc;
+}
+
+/* ================= Los ================= */
+if(state.timer && state.timer.endsAt < Date.now()-3600000){ state.timer = null; save(); }
+render();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => $$('textarea.hand', view).forEach(autosize));
+
+})();
+</script>
+<script>
+if('serviceWorker' in navigator){ window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
+</script>
+</body>
+</html>
