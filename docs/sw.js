@@ -1,6 +1,6 @@
 // Kleine Schritte – legt die App beim ersten Öffnen aufs Gerät, damit sie ohne Netz läuft.
 // Nach jeder Änderung an den Dateien die Versionsnummer hier erhöhen, sonst zeigt das Handy die alte Fassung.
-const CACHE = 'kleine-schritte-20261003-design';
+const CACHE = 'kleine-schritte-20261003-persist';
 const FILES = [
  "./",
  "index.html",

@@ -1966,6 +1966,7 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => $$('t
 })();
 </script>
 <script>
+if(navigator.storage && navigator.storage.persist){ navigator.storage.persist().catch(function(){}); }
 if('serviceWorker' in navigator){ window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
 </script>
 </body>
