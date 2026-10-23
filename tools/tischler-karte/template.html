@@ -1,0 +1,689 @@
+<!--HEAD-->
+<title>Tischler-Praktikum Hamburg</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>/*LEAFLET_CSS*/</style>
+<style>
+/* Layout: Werkstatt-Kartei. Links der Karteikasten (Filter + Rangliste), rechts die Karte;
+   die Karteikarte eines Betriebs liegt über der Karte (am Handy als Blatt von unten). */
+:root{
+  --paper:#F3F5F1; --card:#FFFFFF; --ink:#1B211F; --ink-2:#58625D; --rule:#D8DDD5; --hover:#E8ECE5;
+  --accent:#F2C30F; --accent-ink:#2B2200; --mark:#C4372C;
+  --land:#E8EBE4; --wood:#D6E0CD; --water:#B7D0DA; --road:#FFFFFF; --motorway:#BFC5BC; --rail:#8D9791; --border:#78827C; --ring:#4F5954;
+  --pin-stroke:#1B211F; --pip-off:#DCE0D9;
+  --f1:#EEDFC0; --f2:#D4A764; --f3:#A3612D; --f4:#553016;
+  --s1:#2B7A4B; --s2:#2C65AC; --s3:#A6720E; --s4:#757D78; --s5:#B23A30;
+  --font-display:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif;
+  --font-body:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --font-type:"Courier Prime","Courier New",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#151918; --card:#1F2523; --ink:#E6EAE4; --ink-2:#A0AAA4; --rule:#313835; --hover:#262D2A;
+  --accent:#F2C30F; --accent-ink:#2B2200; --mark:#E2594D;
+  --land:#1A1E1D; --wood:#1E2820; --water:#1B3340; --road:#2C3330; --motorway:#414845; --rail:#5E6863; --border:#7C8681; --ring:#9AA49F;
+  --pin-stroke:#E6EAE4; --pip-off:#343B38;
+  --f1:#E9D8B3; --f2:#D19F55; --f3:#B06B34; --f4:#6E3F1E;
+  --s1:#5DC089; --s2:#74A6E8; --s3:#E1AA3B; --s4:#9AA29D; --s5:#EF7C70;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#151918; --card:#1F2523; --ink:#E6EAE4; --ink-2:#A0AAA4; --rule:#313835; --hover:#262D2A;
+  --accent:#F2C30F; --accent-ink:#2B2200; --mark:#E2594D;
+  --land:#1A1E1D; --wood:#1E2820; --water:#1B3340; --road:#2C3330; --motorway:#414845; --rail:#5E6863; --border:#7C8681; --ring:#9AA49F;
+  --pin-stroke:#E6EAE4; --pip-off:#343B38;
+  --f1:#E9D8B3; --f2:#D19F55; --f3:#B06B34; --f4:#6E3F1E;
+  --s1:#5DC089; --s2:#74A6E8; --s3:#E1AA3B; --s4:#9AA29D; --s5:#EF7C70;
+  color-scheme:dark;
+}
+
+html{height:100%;box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+body{height:100%;margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.45 var(--font-body);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:2px}
+a:hover{text-decoration-color:currentColor}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.app{height:100%;display:grid;grid-template-columns:minmax(340px,410px) 1fr;grid-template-rows:auto 1fr}
+.masthead{grid-column:1;padding-block:20px 14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px;border-bottom:1px solid var(--rule)}
+.eyebrow{margin:0 0 4px;font:700 12px/1 var(--font-type);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+h1{margin:0;font:700 34px/1 var(--font-display);letter-spacing:.005em;text-wrap:balance}
+.lede{margin:8px 0 0;color:var(--ink-2);font-size:14px;max-width:46ch}
+.tabs{display:none}
+
+.panel{grid-column:1;grid-row:2;overflow:auto;min-height:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px;padding-block:0 24px;border-right:1px solid var(--rule)}
+.filters{position:sticky;top:0;z-index:2;background:var(--paper);padding-block:14px 10px;display:grid;gap:10px;border-bottom:1px solid var(--rule)}
+.search{width:100%;height:38px;padding:0 12px;border:1px solid var(--rule);border-radius:6px;background:var(--card);font-size:16px}
+.search::placeholder{color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border:1px solid var(--rule);border-radius:14px;background:transparent;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c);opacity:.35}
+.chip b{font-weight:600;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--card);color:var(--ink);border-color:color-mix(in srgb,var(--ink) 28%,var(--rule))}
+.chip[aria-pressed="true"] i{opacity:1}
+.chip:hover{border-color:var(--ink-2)}
+.selects{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.selects select{width:100%;min-width:0;height:34px;padding:0 8px;border:1px solid var(--rule);border-radius:6px;background:var(--card);font-size:14px}
+.count{margin:0;font:400 13px/1.2 var(--font-type);color:var(--ink-2)}
+.count button{border:0;background:none;padding:0;text-decoration:underline;cursor:pointer;font:inherit;color:var(--ink)}
+
+.list{list-style:none;margin:0;padding:6px 0 0}
+.row{width:100%;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 8px;margin:0 -8px;width:calc(100% + 16px);border:0;border-radius:6px;background:none;text-align:left;cursor:pointer}
+.row:hover{background:var(--hover)}
+.row[aria-current="true"]{background:var(--card);box-shadow:inset 0 0 0 1px var(--rule)}
+.nm{display:block;font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;margin-top:2px;font-size:13px;color:var(--ink-2)}
+.meta .st{display:inline-flex;align-items:center;gap:5px}
+.meta .st i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.score{display:grid;justify-items:end;gap:4px;font-variant-numeric:tabular-nums}
+.score b{font:600 20px/1 var(--font-display)}
+.score small{font:500 12px var(--font-display);color:var(--ink-2)}
+.mini{display:block;width:44px;height:4px;border-radius:2px;background:var(--pip-off);overflow:hidden}
+.mini i{display:block;height:100%;background:var(--ink)}
+.empty{padding:28px 0;color:var(--ink-2)}
+.empty button{margin-top:10px}
+
+/* Pins – gleiche Form in der Liste und auf der Karte. Holzton = inhaltlicher Fit (hell = wenig, dunkel = viel). */
+.pin{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--fill);color:var(--pin-ink);box-shadow:0 0 0 1.5px var(--pin-stroke);font:700 12px/1 var(--font-display);font-variant-numeric:tabular-nums;transition:transform .15s ease-out,box-shadow .15s ease-out}
+.f1{--fill:var(--f1);--pin-ink:#2A1C0B}.f2{--fill:var(--f2);--pin-ink:#2A1C0B}.f3{--fill:var(--f3);--pin-ink:#FFF8EE}.f4{--fill:var(--f4);--pin-ink:#FFF8EE}
+.pin.is-no{opacity:.6;box-shadow:0 0 0 1.5px var(--paper),0 0 0 3px var(--s5)}
+.pin-wrap{background:none;border:0}
+.pin-wrap:focus-visible{outline:none}
+.pin-wrap:focus-visible .pin,.pin.is-hover{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--ink)}
+.pin.is-active{transform:scale(1.3);box-shadow:0 0 0 2px var(--pin-stroke),0 0 0 5px var(--accent),0 0 0 6.5px var(--pin-stroke)}
+.small-pins .pin:not(.is-active){transform:scale(.55);font-size:0}
+
+.mapwrap{grid-column:2;grid-row:1/3;position:relative;min-width:0;min-height:0}
+#map{position:absolute;inset:0}
+.leaflet-container{background:var(--land);font:400 13px/1.3 var(--font-body)}
+.leaflet-bar{border:1px solid var(--rule)!important;box-shadow:none!important}
+.leaflet-bar a,.leaflet-bar button{background:var(--card);color:var(--ink);border-bottom-color:var(--rule)}
+.leaflet-bar a:hover,.leaflet-bar button:hover{background:var(--hover)}
+.leaflet-left{left:env(safe-area-inset-left,0px)}
+.leaflet-right{right:env(safe-area-inset-right,0px)}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--paper) 86%,transparent)!important;color:var(--ink-2)!important;font-size:11px}
+.leaflet-control-attribution a{color:var(--ink-2)!important}
+.leaflet-control-scale-line{background:color-mix(in srgb,var(--paper) 80%,transparent);border-color:var(--ink-2);color:var(--ink-2);font:400 11px var(--font-type)}
+.fitall{display:block;height:30px;padding:0 10px;border:0;border-radius:4px;cursor:pointer;font:600 13px var(--font-body)}
+.leaflet-tooltip.tip{background:var(--card);color:var(--ink);border:1px solid var(--rule);box-shadow:0 2px 8px rgb(0 0 0/.12);font:500 13px/1.25 var(--font-body);padding:5px 8px}
+.leaflet-tooltip.tip::before{display:none}
+.lbl-place{white-space:nowrap;font:500 12px/1 var(--font-display);letter-spacing:.04em;color:var(--ink-2);text-shadow:0 0 3px var(--land),0 0 3px var(--land),0 0 2px var(--land);pointer-events:none;transform:translate(-50%,-50%);display:inline-block}
+.lbl-town{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--ink) 70%,var(--land))}
+.lbl-water{font-style:italic;font-family:var(--font-body);font-weight:400;letter-spacing:.12em;color:color-mix(in srgb,var(--water) 40%,var(--ink-2))}
+.lbl-ring{font:700 11px/1 var(--font-type);color:var(--ring);text-shadow:0 0 3px var(--land),0 0 3px var(--land)}
+.lbl-home{display:flex;align-items:center;gap:6px;transform:translate(-11px,-50%);white-space:nowrap;font:700 12px/1 var(--font-type);color:var(--ink)}
+.lbl-home svg{flex:none}
+.lbl-home span{text-shadow:0 0 3px var(--land),0 0 3px var(--land),0 0 3px var(--land)}
+.hide-suburbs .lbl-suburb{display:none}
+.small-pins .lbl-home span{display:none}
+
+.legend{position:absolute;z-index:500;left:max(12px,env(safe-area-inset-left,0px));bottom:12px;display:grid;gap:7px;padding:10px 12px;border:1px solid var(--rule);border-radius:6px;background:color-mix(in srgb,var(--card) 92%,transparent);font-size:12px;color:var(--ink-2)}
+.legend .lt{font:700 11px/1 var(--font-type);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.legend .sw{display:flex;gap:10px;align-items:center}
+.legend .sw span{display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
+.legend .sw .pin{width:13px;height:13px;font-size:0;box-shadow:0 0 0 1px var(--pin-stroke)}
+.legend .ln{display:flex;align-items:center;gap:7px}
+.legend .ln .pin{width:13px;height:13px;font-size:0}
+
+/* Karteikarte */
+.sheet{position:absolute;z-index:1100;top:16px;right:max(16px,env(safe-area-inset-right,0px));width:min(410px,calc(100% - 32px));max-height:calc(100% - 32px);display:flex;flex-direction:column}
+.sheet.enter{animation:sheet-in .2s ease-out}
+@keyframes sheet-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tab{align-self:flex-start;margin-left:18px;padding:6px 12px 5px;border:1px solid var(--rule);border-bottom:0;border-radius:6px 6px 0 0;background:var(--card);font:700 13px/1 var(--font-type);letter-spacing:.04em;position:relative;top:1px}
+.tab span{color:var(--ink-2);font-weight:400}
+.card{position:relative;flex:1 1 auto;min-height:0;overflow:auto;background:var(--card);border:1px solid var(--rule);border-radius:4px 8px 8px 8px;box-shadow:0 10px 30px rgb(0 0 0/.14),0 2px 6px rgb(0 0 0/.06);overscroll-behavior:contain}
+.card-head{padding:18px 52px 14px 20px;border-bottom:2px solid var(--mark)}
+.card-head h2:focus{outline:none}
+.card-head h2{margin:0;font:700 27px/1.02 var(--font-display);text-wrap:balance;overflow-wrap:anywhere}
+.sub{margin:6px 0 0;font-size:14px;color:var(--ink-2)}
+.tag{display:inline-block;margin-top:10px;padding:3px 8px;border-radius:3px;background:var(--accent);color:var(--accent-ink);font:700 12px/1.2 var(--font-type);letter-spacing:.02em}
+.x{position:absolute;top:10px;right:10px;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;cursor:pointer;color:var(--ink-2)}
+.x:hover{background:var(--hover);color:var(--ink)}
+.card-body{display:grid;gap:18px;padding:16px 20px 18px}
+.lbl{margin:0 0 7px;font:700 11px/1 var(--font-type);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.card-body p{margin:0}
+.fit-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+.fit-head .lbl{margin:0}
+.fit-val{font:700 32px/1 var(--font-display);font-variant-numeric:tabular-nums}
+.fit-val small{font-size:17px;font-weight:500;color:var(--ink-2)}
+.fit-note{margin-top:6px!important;font-size:12.5px;color:var(--ink-2)}
+/* Zollstock: zehn Glieder, gefüllt bis zum Fit-Wert */
+.ruler{display:grid;grid-template-columns:repeat(10,1fr);height:28px;border-radius:2px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--rule)}
+.ruler span{position:relative;border-right:1px solid color-mix(in srgb,var(--ink) 22%,transparent);background-color:var(--pip-off);
+  background-image:linear-gradient(to right,var(--tick) 1px,transparent 1px),linear-gradient(to right,transparent calc(50% - .5px),var(--tick) calc(50% - .5px),var(--tick) calc(50% + .5px),transparent calc(50% + .5px));
+  background-size:20% 5px,100% 9px;background-repeat:repeat-x,no-repeat;--tick:color-mix(in srgb,var(--ink) 30%,transparent)}
+.ruler span:last-child{border-right:0}
+.ruler span.on{background-color:var(--accent);--tick:rgb(43 34 0/.55)}
+.ruler span b{position:absolute;right:3px;bottom:3px;font:700 11px/1 var(--font-display);color:var(--ink-2)}
+.ruler span.on b{color:var(--accent-ink)}
+.crit{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.crit li{display:grid;grid-template-columns:minmax(0,1fr) auto 34px;gap:12px;align-items:center}
+.crit .cn{font-weight:600;line-height:1.2}
+.crit .cn small{display:block;font-weight:400;font-size:12.5px;color:var(--ink-2)}
+.crit .cv{font:600 15px/1 var(--font-display);text-align:right;font-variant-numeric:tabular-nums}
+.crit .cv small{color:var(--ink-2);font-weight:500}
+.pips{display:inline-flex;gap:3px}
+.pips i{width:20px;height:9px;border-radius:2px;background:var(--pip-off)}
+.pips i.on{background:var(--ink)}
+.prak{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin-bottom:8px}
+.status{display:inline-flex;align-items:center;gap:7px;padding:4px 10px 4px 8px;border-radius:14px;background:color-mix(in srgb,var(--c) 14%,transparent);color:color-mix(in srgb,var(--c) 70%,var(--ink));font-weight:600;font-size:13.5px}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.chance{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.chance .pips i{width:14px}
+.note{font-style:italic}
+.adr{font-weight:500}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:6px!important;font-size:14px}
+.kontakt{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 12px;align-items:center;margin:0}
+.kontakt dt{font:700 11px/1 var(--font-type);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.kontakt dd{margin:0;min-width:0;overflow-wrap:anywhere;user-select:text}
+.kontakt .na{color:var(--ink-2);font-style:italic}
+.copy{height:28px;padding:0 9px;border:1px solid var(--rule);border-radius:5px;background:transparent;font-size:12.5px;cursor:pointer;color:var(--ink-2);white-space:nowrap}
+.copy:hover{color:var(--ink);border-color:var(--ink-2)}
+.src{font-size:12px;color:var(--ink-2)}
+.card-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 20px 16px;border-top:1px solid var(--rule)}
+.card-nav button{display:grid;gap:2px;min-width:0;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;background:transparent;cursor:pointer;text-align:left}
+.card-nav button:last-child{text-align:right}
+.card-nav button:hover:not(:disabled){background:var(--hover)}
+.card-nav button:disabled{opacity:.4;cursor:default}
+.card-nav b{font:700 12px/1 var(--font-type);letter-spacing:.04em}
+.card-nav span{font-size:12.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.method{margin-top:20px;border-top:1px solid var(--rule);padding-top:12px;font-size:14px}
+.method summary{cursor:pointer;font-weight:600;padding:4px 0}
+.method h3{margin:18px 0 6px;font:700 11px/1 var(--font-type);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.method dl{margin:0;display:grid;gap:8px}
+.method dt{font-weight:600}
+.method dd{margin:0;color:var(--ink-2)}
+.method p{margin:6px 0;color:var(--ink-2)}
+.btn{height:34px;padding:0 14px;border:1px solid var(--rule);border-radius:6px;background:var(--card);cursor:pointer;font-weight:600}
+
+@media (max-width:899px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .masthead{grid-column:1;padding-block:12px 10px;padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1{font-size:24px}
+  .lede,.eyebrow{display:none}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:10px;padding:3px;border-radius:8px;background:var(--hover)}
+  .tabs button{height:32px;border:0;border-radius:6px;background:transparent;font-weight:600;cursor:pointer;color:var(--ink-2)}
+  .tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgb(0 0 0/.1)}
+  .panel,.mapwrap{grid-column:1;grid-row:2}
+  .panel{border-right:0;padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .app[data-view="map"] .panel{display:none}
+  .app[data-view="list"] .mapwrap{display:none}
+  .sheet{top:auto;bottom:0;left:0;right:0;width:auto;max-height:66%}
+  .sheet .tab{margin-left:max(16px,env(safe-area-inset-left,0px))}
+  .card{border-radius:4px 12px 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .card-head{padding-left:max(18px,env(safe-area-inset-left,0px))}
+  .card-body,.card-nav{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+  .legend{bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){.pin,.sheet.enter{transition:none;animation:none}}
+</style>
+<!--/HEAD-->
+<div class="app" id="app" data-view="map">
+  <header class="masthead">
+    <p class="eyebrow">Ranking · Stand __STAND__</p>
+    <h1>Tischler-Praktikum Hamburg</h1>
+    <p class="lede" id="lede"></p>
+    <div class="tabs" role="tablist" aria-label="Ansicht">
+      <button type="button" role="tab" id="tab-map" aria-selected="true" aria-controls="mapwrap">Karte</button>
+      <button type="button" role="tab" id="tab-list" aria-selected="false" aria-controls="panel">Liste</button>
+    </div>
+  </header>
+
+  <section class="panel" id="panel" aria-label="Rangliste">
+    <div class="filters">
+      <label class="sr" for="q">Betriebe durchsuchen</label>
+      <input class="search" id="q" type="search" placeholder="Betrieb, Stadtteil oder Stichwort" autocomplete="off">
+      <div class="chips" id="chips" role="group" aria-label="Praktikum-Status"></div>
+      <div class="selects">
+        <label class="sr" for="typ">Typ</label>
+        <select id="typ"></select>
+        <label class="sr" for="sort">Sortierung</label>
+        <select id="sort">
+          <option value="rank">Nach Rang (Fit)</option>
+          <option value="km">Nach Entfernung</option>
+          <option value="ch">Nach Praktikum-Chance</option>
+        </select>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+    </div>
+    <ol class="list" id="list"></ol>
+
+    <details class="method" id="method">
+      <summary>So ist bewertet</summary>
+      <h3>Rang</h3>
+      <p>Zuerst inhaltlicher Fit (hoch → niedrig), bei Gleichstand Entfernung zu Winterhude (nah → weit), danach Praktikum-Chance (hoch → niedrig).</p>
+      <h3>Inhaltlicher Fit (0–10)</h3>
+      <p>Summe aus vier gleich gewichteten Kriterien, abgeleitet aus deinen Vorbildern (Stritzky, WFI, HAMBURGERmöbel/Peters) und deinen Wünschen: alte Stücke aufarbeiten, Neues entwerfen und bauen, feine Präzisionsarbeit, Mix aus Hand und Maschine. Die Werte sind eine Einschätzung aus öffentlich sichtbaren Infos; bei Betrieben, zu denen es nur Innungsangaben gibt, bewusst vorsichtig. Betriebe, die mehrere Wünsche abdecken, landen oben, reine Restaurierungswerkstätten deshalb im Mittelfeld.</p>
+      <dl>
+        <div><dt>Restaurierung / alte Stücke (0–3)</dt><dd>3 = Kerngeschäft Restaurierung antiker Möbel · 2 = fester Restaurierungs- bzw. Aufarbeitungszweig (Möbel, Altbautüren, Denkmal) · 1 = gelegentlich oder nur laut Innung · 0 = keine</dd></div>
+        <div><dt>Entwurf &amp; Möbelbau nach Maß (0–3)</dt><dd>3 = Kern: eigene Entwürfe/Unikate · 2 = Möbel nach Maß ist ein wichtiger Bereich · 1 = Nebenbereich · 0 = kaum</dd></div>
+        <div><dt>Feinarbeit &amp; Gestaltung (0–2)</dt><dd>2 = High-End/Design, feinste Oberflächen (Schellack, Furnier, Intarsien) · 1 = solide Qualität · 0 = montage- oder servicelastig</dd></div>
+        <div><dt>Hand + Maschine (0–2)</dt><dd>2 = ausgewogen · 1 = einseitig (fast nur Hand oder stark CNC/Bau) · 0 = überwiegend Montage</dd></div>
+      </dl>
+      <h3>Praktikum-Status</h3>
+      <dl>
+        <div><dt>1 · Ausgeschrieben</dt><dd>Konkreter Platz in der HWK-Praktikumsbörse oder ausdrücklich auf der eigenen Website angeboten</dd></div>
+        <div><dt>2 · Praktikumsbetrieb (Innung)</dt><dd>In der Betriebssuche der Tischler-Innung Hamburg als „Praktikumsbetrieb“ markiert (Selbstauskunft)</dd></div>
+        <div><dt>3 · Indiz (bildet aus / sucht Leute)</dt><dd>Bildet aus, nutzt Praktika zum Kennenlernen oder sucht gerade Personal</dd></div>
+        <div><dt>4 · Keine Info – anfragen</dt><dd>Nichts veröffentlicht – direkt anrufen oder vorbeigehen</dd></div>
+        <div><dt>5 · Aktuell nein</dt><dd>Ausdrücklich derzeit keine (Schnupper-)Praktika</dd></div>
+        <div><dt>Praktikum-Chance (0–3)</dt><dd>3 = sehr gut (offener Platz) · 2 = gut · 1 = offen/unbekannt · 0 = aktuell nicht</dd></div>
+      </dl>
+      <h3>Hinweise</h3>
+      <dl>
+        <div><dt>Orientierungspraktikum</dt><dd>Bis zu drei Monate zur Orientierung für eine Berufsausbildung: kein Mindestlohn nach § 22 MiLoG – senkt die Hürde für kleine Betriebe (keine Rechtsberatung).</dd></div>
+        <div><dt>Arbeitsbeginn</dt><dd>In Tischlereien oft gegen 7 Uhr – bei der Anfahrt einplanen.</dd></div>
+        <div><dt>Entfernung</dt><dd>Luftlinie ab Winterhuder Marktplatz, keine Fahrzeit. Die Ringe auf der Karte zeigen 5, 10, 20, 30 und 40 km.</dd></div>
+        <div><dt>Aktualität</dt><dd>Innungs- und Website-Angaben können veraltet sein – vor der Bewerbung kurz anrufen.</dd></div>
+      </dl>
+      <h3>Weitere Anlaufstellen</h3>
+      <dl>
+        <div><dt><a href="https://www.lehrstelle-handwerk.de/ausbildung/lehrstellenboerse-praktikumsboerse/praktikum-suchen" target="_blank" rel="noopener">HWK-Praktikumsbörse ↗</a></dt></div>
+        <div><dt>HWK Nachwuchsberatung</dt><dd>040 35905-455 · nachwuchs@hwk-hamburg.de</dd></div>
+        <div><dt><a href="https://www.tischler-innung.hamburg/fuer-kunden/ihr-tischler-vor-ort" target="_blank" rel="noopener">Tischler-Innung Betriebssuche ↗</a></dt></div>
+        <div><dt><a href="https://www.restauratoren.de/stellenangebote/hamburger-praxisjahr-restaurierung/" target="_blank" rel="noopener">Hamburger Praxisjahr Restaurierung ↗</a></dt><dd>12-monatiges Vorpraktikum, Bewerbung jeweils bis 31.03. – nur falls dich Restaurierung richtig packt.</dd></div>
+      </dl>
+      <h3>Daten</h3>
+      <p>Betriebsdaten: Firmenwebsites, Tischler-Innung Hamburg, HWK-Praktikumsbörse, hamburg-magazin.de (Quelle steht auf jeder Karte). Koordinaten und Kartengrundlage © OpenStreetMap-Mitwirkende (ODbL), Kartenkacheln OpenMapTiles/OpenFreeMap.</p>
+    </details>
+  </section>
+
+  <main class="mapwrap" id="mapwrap" aria-label="Karte">
+    <div id="map"></div>
+    <div class="legend" id="legend" aria-hidden="true">
+      <div class="lt">Inhaltlicher Fit</div>
+      <div class="sw">
+        <span><i class="pin f4"></i>8–9</span><span><i class="pin f3"></i>6–7</span><span><i class="pin f2"></i>4–5</span><span><i class="pin f1"></i>2–3</span>
+      </div>
+      <div class="ln"><i class="pin f2 is-no"></i>Aktuell kein Praktikum</div>
+      <div class="ln"><svg width="13" height="13" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 0v6M11 16v6M0 11h6M16 11h6" stroke="currentColor" stroke-width="2.4"/></svg>Winterhuder Marktplatz</div>
+    </div>
+    <div class="sheet" id="sheet" hidden>
+      <div class="tab" id="sheet-tab"></div>
+      <article class="card" id="card" role="region" aria-label="Karteikarte"></article>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const DATA = __DATA__;
+const BASE = __BASEMAP__;
+
+const HOME = [53.59436, 9.99991]; // Winterhuder Marktplatz (Referenzpunkt der Tabelle)
+const RINGS = [5, 10, 20, 30, 40];
+const CRIT = [
+  ['Restaurierung', 'alte Stücke aufarbeiten', 3],
+  ['Entwurf & Möbelbau', 'nach Maß, eigene Entwürfe', 3],
+  ['Feinarbeit & Gestaltung', 'Oberflächen, Furnier, Design', 2],
+  ['Hand + Maschine', 'ausgewogener Mix', 2],
+];
+const STATUS = {1: 'Ausgeschrieben', 2: 'Innung', 3: 'Indiz', 4: 'Keine Info', 5: 'Aktuell nein'};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const num = n => String(n).replace('.', ',');
+const pad = n => String(n).padStart(2, '0');
+const slug = s => s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').split('-').slice(0, 4).join('-');
+const fitClass = f => f >= 8 ? 'f4' : f >= 6 ? 'f3' : f >= 4 ? 'f2' : 'f1';
+const pips = (v, max) => `<span class="pips">${Array.from({length: max}, (_, i) => `<i${i < v ? ' class="on"' : ''}></i>`).join('')}</span>`;
+const narrow = matchMedia('(max-width: 899px)');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+DATA.forEach(d => { d.slug = slug(d.n); d.hay = [d.n, d.ort, d.typ, d.sp, d.ein, d.aw, d.adr].join(' ').toLowerCase(); });
+const bySlug = Object.fromEntries(DATA.map(d => [d.slug, d]));
+
+const state = {q: '', st: new Set([1, 2, 3, 4, 5]), typ: '', sort: 'rank', sel: null, shown: DATA};
+
+/* ---------- Filter & Liste ---------- */
+function filtered() {
+  const q = state.q.trim().toLowerCase();
+  const out = DATA.filter(d => state.st.has(d.st) && (!state.typ || d.typ === state.typ) && (!q || q.split(/\s+/).every(w => d.hay.includes(w))));
+  const cmp = {rank: (a, b) => a.r - b.r, km: (a, b) => a.km - b.km || a.r - b.r, ch: (a, b) => b.ch - a.ch || a.r - b.r}[state.sort];
+  return out.sort(cmp);
+}
+
+function buildFilters() {
+  $('#lede').textContent = `${DATA.length} Betriebe, sortiert nach inhaltlichem Fit. Entfernung als Luftlinie ab Winterhuder Marktplatz. Tippe einen Pin oder Eintrag an, um die Karteikarte zu öffnen.`;
+  $('#chips').innerHTML = Object.entries(STATUS).map(([k, label]) =>
+    `<button type="button" class="chip" data-st="${k}" aria-pressed="true" style="--c:var(--s${k})"><i></i>${label} <b>${DATA.filter(d => d.st == k).length}</b></button>`).join('');
+  const types = [...new Set(DATA.map(d => d.typ))].sort((a, b) => a.localeCompare(b, 'de'));
+  $('#typ').innerHTML = `<option value="">Alle Typen</option>` + types.map(t => `<option>${esc(t)}</option>`).join('');
+  $('#chips').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    const k = +b.dataset.st;
+    state.st.has(k) ? state.st.delete(k) : state.st.add(k);
+    b.setAttribute('aria-pressed', state.st.has(k));
+    update();
+  });
+  $('#q').addEventListener('input', e => { state.q = e.target.value; update(); });
+  $('#typ').addEventListener('change', e => { state.typ = e.target.value; update(); });
+  $('#sort').addEventListener('change', e => { state.sort = e.target.value; update(); });
+}
+
+function resetFilters() {
+  state.q = ''; state.typ = ''; state.st = new Set([1, 2, 3, 4, 5]);
+  $('#q').value = ''; $('#typ').value = '';
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'true'));
+  update();
+}
+
+function renderList() {
+  const list = state.shown;
+  $('#count').innerHTML = list.length === DATA.length ? `Alle ${DATA.length} Betriebe`
+    : `${list.length} von ${DATA.length} Betrieben · <button type="button" id="reset">Filter zurücksetzen</button>`;
+  $('#tab-list').textContent = `Liste · ${list.length}`;
+  $('#list').innerHTML = list.length ? list.map(d => `
+    <li><button type="button" class="row" data-slug="${d.slug}"${state.sel === d ? ' aria-current="true"' : ''}>
+      <span class="pin ${fitClass(d.fit)}${d.st === 5 ? ' is-no' : ''}">${d.r}</span>
+      <span><span class="nm">${esc(d.n)}</span>
+        <span class="meta"><span>${esc(d.ort)} · ${num(d.km)} km</span><span class="st" style="--c:var(--s${d.st})"><i></i>${esc(STATUS[d.st])}</span></span></span>
+      <span class="score" aria-label="Fit ${num(d.fit)} von 10"><span><b>${num(d.fit)}</b><small>/10</small></span><span class="mini"><i style="width:${d.fit * 10}%"></i></span></span>
+    </button></li>`).join('')
+    : `<li class="empty">Kein Betrieb passt zu diesen Filtern.<br><button type="button" class="btn" id="reset2">Filter zurücksetzen</button></li>`;
+}
+
+$('#panel').addEventListener('click', e => {
+  if (e.target.closest('#reset, #reset2')) return resetFilters();
+  const row = e.target.closest('.row');
+  if (row) select(bySlug[row.dataset.slug], {fromList: true});
+});
+$('#list').addEventListener('mouseover', e => hover(e.target.closest('.row')?.dataset.slug));
+$('#list').addEventListener('mouseleave', () => hover(null));
+
+/* ---------- Karte ---------- */
+const map = L.map('map', {preferCanvas: true, zoomSnap: 0.5, minZoom: 9, maxZoom: 16, maxBounds: [[53.15, 9.2], [54.0, 11.0]], maxBoundsViscosity: 0.8});
+map.attributionControl.setPrefix(false).addAttribution('© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap-Mitwirkende</a> · OpenMapTiles · OpenFreeMap');
+L.control.scale({imperial: false, position: 'bottomright'}).addTo(map);
+const canvas = L.canvas({padding: 0.4});
+map.fitBounds(L.latLngBounds(DATA.filter(d => d.km <= 13).map(d => [d.lat, d.lng])), {padding: [40, 40], animate: false});
+map.createPane('labels').style.zIndex = 450;
+map.getPane('labels').style.pointerEvents = 'none';
+
+const dec = a => { const o = []; let la = 0, ln = 0; for (let i = 0; i < a.length; i += 2) { la += a[i]; ln += a[i + 1]; o.push([la / 1e4, ln / 1e4]); } return o; };
+const base = {
+  wood: L.polygon(BASE.wood.map(p => p.map(dec)), {renderer: canvas, interactive: false, stroke: false, fillOpacity: 1}),
+  water: L.polygon(BASE.water.map(p => p.map(dec)), {renderer: canvas, interactive: false, stroke: false, fillOpacity: 1}),
+  river: L.polyline(BASE.river.map(dec), {renderer: canvas, interactive: false, weight: 1.6}),
+  rail: L.polyline(BASE.rail.map(dec), {renderer: canvas, interactive: false, weight: 1, dashArray: '3 3'}),
+  primary: L.polyline(BASE.primary.map(dec), {renderer: canvas, interactive: false, weight: 1.2}),
+  trunk: L.polyline(BASE.trunk.map(dec), {renderer: canvas, interactive: false, weight: 1.8}),
+  motorway: L.polyline(BASE.motorway.map(dec), {renderer: canvas, interactive: false, weight: 2.4}),
+  border: L.polyline(BASE.border.map(dec), {renderer: canvas, interactive: false, weight: 1.3, dashArray: '8 4 2 4'}),
+};
+const rings = RINGS.map(km => L.circle(HOME, {radius: km * 1000, renderer: canvas, interactive: false, fill: false, weight: 1, dashArray: '2 5'}));
+Object.values(base).forEach(l => l.addTo(map));
+rings.forEach(l => l.addTo(map));
+
+function paint() {
+  const v = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  base.wood.setStyle({fillColor: v('--wood')});
+  base.water.setStyle({fillColor: v('--water')});
+  base.river.setStyle({color: v('--water')});
+  base.rail.setStyle({color: v('--rail')});
+  base.primary.setStyle({color: v('--road')});
+  base.trunk.setStyle({color: v('--motorway')});
+  base.motorway.setStyle({color: v('--motorway')});
+  base.border.setStyle({color: v('--border')});
+  rings.forEach(r => r.setStyle({color: v('--ring'), opacity: 0.75}));
+}
+paint();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paint);
+new MutationObserver(paint).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+
+// Beschriftungen: Städte immer, Stadtteile ab Zoom 12; Überlappungen werden ausgeblendet.
+const labels = [];
+const addLabel = (latlng, html, cls, prio) => {
+  const m = L.marker(latlng, {pane: 'labels', interactive: false, keyboard: false,
+    icon: L.divIcon({className: '', html: `<span class="lbl-place ${cls}">${html}</span>`, iconSize: [0, 0]})}).addTo(map);
+  labels.push({m, prio});
+};
+BASE.places.filter(p => p[3] === 'town').forEach(p => addLabel([p[2], p[1]], esc(p[0]), 'lbl-town', 1));
+BASE.places.filter(p => p[3] === 'suburb').forEach(p => addLabel([p[2], p[1]], esc(p[0]), 'lbl-suburb', 10 + p[4]));
+[[[53.5465, 9.775], 'Elbe'], [[53.5715, 10.0065], 'Außenalster'], [[53.4255, 10.33], 'Elbe']].forEach(([ll, t]) => addLabel(ll, t, 'lbl-water', 0));
+RINGS.forEach(km => addLabel([HOME[0] + km / 111.32, HOME[1]], `${km} km`, 'lbl-ring', 0));
+L.marker(HOME, {pane: 'labels', interactive: false, keyboard: false, icon: L.divIcon({className: '', iconSize: [0, 0],
+  html: `<span class="lbl-home"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="var(--paper)" stroke="currentColor" stroke-width="2"/><circle cx="11" cy="11" r="1.6" fill="currentColor"/><path d="M11 0v4.5M11 17.5V22M0 11h4.5M17.5 11H22" stroke="currentColor" stroke-width="2"/></svg><span>Winterhuder Marktplatz</span></span>`})}).addTo(map);
+
+function declutter() {
+  const z = map.getZoom(), el = map.getContainer();
+  el.classList.toggle('hide-suburbs', z < 12);
+  el.classList.toggle('small-pins', z < 10.5);
+  if (z < 11 && map.hasLayer(base.primary)) map.removeLayer(base.primary);
+  if (z >= 11 && !map.hasLayer(base.primary)) base.primary.addTo(map);
+  const placed = [], size = map.getSize();
+  labels.slice().sort((a, b) => a.prio - b.prio).forEach(l => {
+    const span = l.m.getElement()?.firstElementChild; if (!span) return;
+    if (z < 12 && span.classList.contains('lbl-suburb')) return;
+    const p = map.latLngToContainerPoint(l.m.getLatLng());
+    if (p.x < -100 || p.y < -50 || p.x > size.x + 100 || p.y > size.y + 50) { span.style.visibility = ''; return; }
+    l.w ??= span.offsetWidth; l.h ??= span.offsetHeight;
+    const box = [p.x - l.w / 2 - 4, p.y - l.h / 2 - 2, p.x + l.w / 2 + 4, p.y + l.h / 2 + 2];
+    const hit = placed.some(b => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1]);
+    span.style.visibility = hit ? 'hidden' : '';
+    if (!hit) placed.push(box);
+  });
+}
+
+// Pins; Betriebe an (fast) gleicher Adresse leicht nebeneinander setzen.
+const pinLayer = L.layerGroup().addTo(map);
+DATA.forEach((d, i) => {
+  const twins = DATA.slice(0, i).filter(o => Math.abs(o.lat - d.lat) < 0.0006 && Math.abs(o.lng - d.lng) < 0.0009).length;
+  const dx = 22 * twins;
+  d.marker = L.marker([d.lat, d.lng], {
+    keyboard: true, title: '', alt: d.n, zIndexOffset: (100 - d.r) * 10,
+    icon: L.divIcon({className: 'pin-wrap', iconSize: [26, 26], iconAnchor: [13 - dx, 13],
+      html: `<span class="pin ${fitClass(d.fit)}${d.st === 5 ? ' is-no' : ''}">${d.r}</span>`}),
+  }).bindTooltip(`${pad(d.r)} · ${esc(d.n)}`, {direction: 'top', offset: [dx, -14], className: 'tip'})
+    .on('click', () => select(d));
+});
+
+const FitAll = L.Control.extend({options: {position: 'topleft'}, onAdd() {
+  const b = L.DomUtil.create('button', 'leaflet-bar fitall');
+  b.type = 'button'; b.textContent = 'Alle zeigen';
+  L.DomEvent.disableClickPropagation(b);
+  b.addEventListener('click', () => fit(state.shown, true));
+  return b;
+}});
+new FitAll().addTo(map);
+
+function fit(list, animate) {
+  if (!list.length) return;
+  const b = L.latLngBounds(list.map(d => [d.lat, d.lng]));
+  const pad = occluded();
+  map.fitBounds(b, {paddingTopLeft: [40, 40], paddingBottomRight: [40 + pad.right, 40 + pad.bottom], maxZoom: 14, animate: animate && !reduced.matches});
+}
+
+function renderPins() {
+  pinLayer.clearLayers();
+  state.shown.forEach(d => pinLayer.addLayer(d.marker));
+  if (state.sel) markActive(state.sel);
+}
+
+function pinEl(d) { return d?.marker.getElement()?.querySelector('.pin'); }
+function markActive(d) {
+  document.querySelectorAll('.pin.is-active').forEach(p => p.classList.remove('is-active'));
+  DATA.forEach(o => o.marker.setZIndexOffset((100 - o.r) * 10));
+  if (!d) return;
+  pinEl(d)?.classList.add('is-active');
+  d.marker.setZIndexOffset(5000);
+}
+function hover(s) {
+  document.querySelectorAll('.pin.is-hover').forEach(p => p.classList.remove('is-hover'));
+  if (s) pinEl(bySlug[s])?.classList.add('is-hover');
+}
+
+/* ---------- Karteikarte ---------- */
+const sheet = $('#sheet'), card = $('#card');
+
+function occluded() {
+  if (sheet.hidden) return {right: 0, bottom: 0};
+  return narrow.matches ? {right: 0, bottom: sheet.offsetHeight} : {right: sheet.offsetWidth + 16, bottom: 0};
+}
+
+function focusOn(d) {
+  const size = map.getSize(), occ = occluded();
+  const p = map.latLngToContainerPoint([d.lat, d.lng]);
+  const inView = p.x > 40 && p.y > 40 && p.x < size.x - occ.right - 40 && p.y < size.y - occ.bottom - 40;
+  if (inView && map.getZoom() >= 12) return;
+  const z = Math.max(map.getZoom(), 13);
+  const c = map.unproject(map.project([d.lat, d.lng], z).add([occ.right / 2, occ.bottom / 2]), z);
+  reduced.matches ? map.setView(c, z, {animate: false}) : map.flyTo(c, z, {duration: 0.6});
+}
+
+function contact(label, value, href) {
+  if (!value) return `<dt>${label}</dt><dd class="na">nicht angegeben</dd><span></span>`;
+  return `<dt>${label}</dt><dd>${href ? `<a href="${esc(href)}">${esc(value)}</a>` : esc(value)}</dd>`
+    + `<button type="button" class="copy" data-copy="${esc(value)}">Kopieren</button>`;
+}
+
+function renderCard(d) {
+  const list = state.shown, i = list.indexOf(d);
+  const prev = i > 0 ? list[i - 1] : null, next = i >= 0 && i < list.length - 1 ? list[i + 1] : null;
+  const route = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Winterhuder Marktplatz, 22299 Hamburg')}&destination=${encodeURIComponent(d.adr)}&travelmode=transit`;
+  const osm = `https://www.openstreetmap.org/?mlat=${d.lat}&mlon=${d.lng}#map=17/${d.lat}/${d.lng}`;
+  const tel = d.tel ? 'tel:' + d.tel.replace(/\(.*?\)/g, '').replace(/[^\d+]/g, '') : null;
+  const aw = d.aw ? (d.aw.startsWith('Vorbild') ? d.aw : 'Ähnlich wie: ' + d.aw) : '';
+  $('#sheet-tab').innerHTML = `Nr. ${pad(d.r)} <span>/ ${DATA.length}</span>`;
+  card.innerHTML = `
+    <header class="card-head">
+      <h2 id="card-title" tabindex="-1">${esc(d.n)}</h2>
+      <p class="sub">${esc(d.typ)} · ${esc(d.ort)}</p>
+      ${aw ? `<span class="tag">${esc(aw)}</span>` : ''}
+      <button type="button" class="x" id="close" aria-label="Karteikarte schließen"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </header>
+    <div class="card-body">
+      <section>
+        <div class="fit-head"><h3 class="lbl">Inhaltlicher Fit</h3><span class="fit-val">${num(d.fit)}<small> / 10</small></span></div>
+        <div class="ruler" role="img" aria-label="Fit ${num(d.fit)} von 10">${Array.from({length: 10}, (_, k) => {
+          const part = Math.max(0, Math.min(1, d.fit - k));
+          return `<span class="${part >= 1 ? 'on' : ''}"${part > 0 && part < 1 ? ` style="background-color:transparent;background-image:linear-gradient(to right,var(--accent) ${part * 100}%,var(--pip-off) ${part * 100}%)"` : ''}><b>${k + 1}</b></span>`;
+        }).join('')}</div>
+        <p class="fit-note">Platz ${d.r} von ${DATA.length} · Summe der vier Kriterien</p>
+      </section>
+      <section>
+        <h3 class="lbl">Kriterien</h3>
+        <ul class="crit">${CRIT.map(([name, hint, max], k) => `
+          <li><span class="cn">${esc(name)}<small>${esc(hint)}</small></span>${pips(d.c[k], max)}<span class="cv">${d.c[k]}<small>/${max}</small></span></li>`).join('')}
+        </ul>
+      </section>
+      <section>
+        <h3 class="lbl">Praktikum</h3>
+        <div class="prak">
+          <span class="status" style="--c:var(--s${d.st})"><i></i>${esc(d.stl)}</span>
+          <span class="chance">Chance ${pips(d.ch, 3)} ${d.ch}/3</span>
+        </div>
+        ${d.det ? `<p>${esc(d.det)}</p>` : ''}
+      </section>
+      ${d.ein ? `<section><h3 class="lbl">Einschätzung</h3><p class="note">${esc(d.ein)}</p></section>` : ''}
+      ${d.sp ? `<section><h3 class="lbl">Schwerpunkt</h3><p>${esc(d.sp)}</p></section>` : ''}
+      <section>
+        <h3 class="lbl">Lage</h3>
+        <p class="adr">${esc(d.adr)}</p>
+        <p>${num(d.km)} km Luftlinie ab Winterhuder Marktplatz</p>
+        <p class="links"><a href="${route}" target="_blank" rel="noopener">Route mit Bus &amp; Bahn ↗</a><a href="${osm}" target="_blank" rel="noopener">In OpenStreetMap ↗</a></p>
+      </section>
+      <section>
+        <h3 class="lbl">Kontakt</h3>
+        <dl class="kontakt">
+          ${contact('Telefon', d.tel, tel)}
+          ${contact('E-Mail', d.mail, d.mail && 'mailto:' + d.mail)}
+          <dt>Web</dt><dd>${d.href ? `<a href="${esc(d.href)}" target="_blank" rel="noopener">${esc(d.web)} ↗</a>` : '<span class="na">nicht angegeben</span>'}</dd><span></span>
+        </dl>
+      </section>
+      ${d.src ? `<p class="src">Quelle: ${esc(d.src)}</p>` : ''}
+    </div>
+    <footer class="card-nav">
+      <button type="button" data-go="${prev?.slug ?? ''}"${prev ? '' : ' disabled'}><b>← ${prev ? 'Nr. ' + pad(prev.r) : 'Anfang'}</b><span>${prev ? esc(prev.n) : '&nbsp;'}</span></button>
+      <button type="button" data-go="${next?.slug ?? ''}"${next ? '' : ' disabled'}><b>${next ? 'Nr. ' + pad(next.r) : 'Ende'} →</b><span>${next ? esc(next.n) : '&nbsp;'}</span></button>
+    </footer>`;
+  card.scrollTop = 0;
+}
+
+card.addEventListener('click', e => {
+  if (e.target.closest('#close')) return closeCard();
+  const go = e.target.closest('[data-go]');
+  if (go && go.dataset.go) return select(bySlug[go.dataset.go]);
+  const cp = e.target.closest('.copy');
+  if (cp) copyText(cp);
+});
+
+function copyText(btn) {
+  const done = t => { btn.textContent = t; setTimeout(() => { btn.textContent = 'Kopieren'; }, 1600); };
+  const fallback = () => {
+    const r = document.createRange(); r.selectNodeContents(btn.previousElementSibling);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    done('Markiert');
+  };
+  try { navigator.clipboard.writeText(btn.dataset.copy).then(() => done('Kopiert'), fallback); } catch { fallback(); }
+}
+
+function select(d, {fromList = false} = {}) {
+  if (!d) return;
+  const wasOpen = !sheet.hidden;
+  state.sel = d;
+  if (narrow.matches) setView('map');
+  renderCard(d);
+  sheet.hidden = false;
+  if (!wasOpen && !reduced.matches) { sheet.classList.remove('enter'); void sheet.offsetWidth; sheet.classList.add('enter'); }
+  markActive(d);
+  document.querySelectorAll('.row[aria-current]').forEach(r => r.removeAttribute('aria-current'));
+  document.querySelector(`.row[data-slug="${d.slug}"]`)?.setAttribute('aria-current', 'true');
+  if (!fromList || narrow.matches) $('#card-title').focus({preventScroll: true});
+  requestAnimationFrame(() => focusOn(d));
+  try { history.replaceState(null, '', '#' + d.slug); } catch {}
+}
+
+function closeCard() {
+  const d = state.sel;
+  state.sel = null;
+  sheet.hidden = true;
+  markActive(null);
+  document.querySelectorAll('.row[aria-current]').forEach(r => r.removeAttribute('aria-current'));
+  try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+  d?.marker.getElement()?.focus({preventScroll: true});
+}
+
+document.addEventListener('keydown', e => {
+  if (sheet.hidden || e.target.closest('input, select, textarea')) return;
+  if (e.key === 'Escape') closeCard();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    const list = state.shown, i = list.indexOf(state.sel);
+    const n = list[i + (e.key === 'ArrowRight' ? 1 : -1)];
+    if (i >= 0 && n) { e.preventDefault(); select(n); }
+  }
+});
+
+/* ---------- Ansicht (Handy: Karte / Liste) ---------- */
+function setView(v) {
+  $('#app').dataset.view = v;
+  $('#tab-map').setAttribute('aria-selected', v === 'map');
+  $('#tab-list').setAttribute('aria-selected', v === 'list');
+  if (v === 'map') map.invalidateSize();
+}
+$('#tab-map').addEventListener('click', () => setView('map'));
+$('#tab-list').addEventListener('click', () => setView('list'));
+narrow.addEventListener('change', () => map.invalidateSize());
+
+function update() {
+  state.shown = filtered();
+  if (state.sel && !state.shown.includes(state.sel)) closeCard();
+  renderList();
+  renderPins();
+  if (state.sel) renderCard(state.sel);
+}
+
+/* ---------- Start ---------- */
+buildFilters();
+update();
+map.on('zoomend moveend', declutter);
+declutter();
+const start = bySlug[decodeURIComponent(location.hash.slice(1))];
+if (start) select(start);
+</script>

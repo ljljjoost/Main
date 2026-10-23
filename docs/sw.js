@@ -1,6 +1,6 @@
 // Kleine Schritte – legt die App beim ersten Öffnen aufs Gerät, damit sie ohne Netz läuft.
 // Nach jeder Änderung an den Dateien die Versionsnummer hier erhöhen, sonst zeigt das Handy die alte Fassung.
-const CACHE = 'kleine-schritte-20261003-persist';
+const CACHE = 'kleine-schritte-20261023-tischler';
 const FILES = [
  "./",
  "index.html",
@@ -21,7 +21,9 @@ self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {
-  if(e.request.method !== 'GET' || new URL(e.request.url).origin !== self.location.origin) return;
+  const url = new URL(e.request.url);
+  // Die Tischler-Karte unter tischler/ gehört nicht zur App und soll immer frisch geladen werden.
+  if(e.request.method !== 'GET' || url.origin !== self.location.origin || url.pathname.includes('/tischler/')) return;
   e.respondWith(caches.match(e.request, {ignoreSearch:true}).then(hit => hit || fetch(e.request).then(res => {
     if(res.ok){ const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
     return res;
