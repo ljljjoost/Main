@@ -79,11 +79,7 @@ h1{margin:0;font:700 34px/1 var(--font-display);letter-spacing:.005em;text-wrap:
 .meta{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;margin-top:2px;font-size:13px;color:var(--ink-2)}
 .meta .st{display:inline-flex;align-items:center;gap:5px}
 .meta .st i{width:7px;height:7px;border-radius:50%;background:var(--c)}
-.score{display:grid;justify-items:end;gap:4px;font-variant-numeric:tabular-nums}
-.score b{font:600 20px/1 var(--font-display)}
-.score small{font:500 12px var(--font-display);color:var(--ink-2)}
-.mini{display:block;width:44px;height:4px;border-radius:2px;background:var(--pip-off);overflow:hidden}
-.mini i{display:block;height:100%;background:var(--ink)}
+.rk{font:400 12px/1 var(--font-type);color:var(--ink-2);white-space:nowrap}
 .empty{padding:28px 0;color:var(--ink-2)}
 .empty button{margin-top:10px}
 
@@ -109,7 +105,10 @@ h1{margin:0;font:700 34px/1 var(--font-display);letter-spacing:.005em;text-wrap:
 .leaflet-control-attribution a{color:var(--ink-2)!important}
 .leaflet-control-scale-line{background:color-mix(in srgb,var(--paper) 80%,transparent);border-color:var(--ink-2);color:var(--ink-2);font:400 11px var(--font-type)}
 .fitall{display:block;height:30px;padding:0 10px;border:0;border-radius:4px;cursor:pointer;font:600 13px var(--font-body)}
-.leaflet-tooltip.tip{background:var(--card);color:var(--ink);border:1px solid var(--rule);box-shadow:0 2px 8px rgb(0 0 0/.12);font:500 13px/1.25 var(--font-body);padding:5px 8px}
+.leaflet-tooltip.tip{width:232px;padding:0;overflow:hidden;white-space:normal;background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:6px;box-shadow:0 6px 18px rgb(0 0 0/.16);font:500 13px/1.25 var(--font-body)}
+.tip-in img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover;object-position:top;border-bottom:1px solid var(--rule);background:var(--pip-off)}
+.tip-in b{display:block;padding:8px 10px 0;font-weight:600}
+.tip-in span{display:block;padding:3px 10px 9px;font-size:12px;color:var(--ink-2)}
 .leaflet-tooltip.tip::before{display:none}
 .lbl-place{white-space:nowrap;font:500 12px/1 var(--font-display);letter-spacing:.04em;color:var(--ink-2);text-shadow:0 0 3px var(--land),0 0 3px var(--land),0 0 2px var(--land);pointer-events:none;transform:translate(-50%,-50%);display:inline-block}
 .lbl-town{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--ink) 70%,var(--land))}
@@ -138,6 +137,12 @@ h1{margin:0;font:700 34px/1 var(--font-display);letter-spacing:.005em;text-wrap:
 .card{position:relative;flex:1 1 auto;min-height:0;overflow:auto;background:var(--card);border:1px solid var(--rule);border-radius:4px 8px 8px 8px;box-shadow:0 10px 30px rgb(0 0 0/.14),0 2px 6px rgb(0 0 0/.06);overscroll-behavior:contain}
 .card-head{padding:18px 52px 14px 20px;border-bottom:2px solid var(--mark)}
 .card-head h2:focus{outline:none}
+.card-head .logo{display:block;width:auto;height:auto;max-width:190px;max-height:46px;margin-bottom:12px;border-radius:4px;box-shadow:0 0 0 1px var(--rule)}
+.shot{display:block;margin:16px 20px 0;border:1px solid var(--rule);border-radius:6px;overflow:hidden;text-decoration:none;color:var(--ink-2)}
+.shot img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover;object-position:top;background:var(--pip-off)}
+.shot span{display:flex;flex-wrap:wrap;gap:2px 8px;padding:8px 10px;border-top:1px solid var(--rule);font-size:12.5px}
+.shot b{color:var(--ink);font-weight:600}
+.shot:hover b{text-decoration:underline}
 .card-head h2{margin:0;font:700 27px/1.02 var(--font-display);text-wrap:balance;overflow-wrap:anywhere}
 .sub{margin:6px 0 0;font-size:14px;color:var(--ink-2)}
 .tag{display:inline-block;margin-top:10px;padding:3px 8px;border-radius:3px;background:var(--accent);color:var(--accent-ink);font:700 12px/1.2 var(--font-type);letter-spacing:.02em}
@@ -218,6 +223,7 @@ h1{margin:0;font:700 34px/1 var(--font-display);letter-spacing:.005em;text-wrap:
   .card{border-radius:4px 12px 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px)}
   .card-head{padding-left:max(18px,env(safe-area-inset-left,0px))}
   .card-body,.card-nav{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+  .shot{margin-left:max(18px,env(safe-area-inset-left,0px));margin-right:max(18px,env(safe-area-inset-right,0px))}
   .legend{bottom:10px}
 }
 @media (prefers-reduced-motion:reduce){.pin,.sheet.enter{transition:none;animation:none}}
@@ -296,7 +302,7 @@ h1{margin:0;font:700 34px/1 var(--font-display);letter-spacing:.005em;text-wrap:
   <main class="mapwrap" id="mapwrap" aria-label="Karte">
     <div id="map"></div>
     <div class="legend" id="legend" aria-hidden="true">
-      <div class="lt">Inhaltlicher Fit</div>
+      <div class="lt">Inhaltlicher Fit · Zahl im Pin</div>
       <div class="sw">
         <span><i class="pin f4"></i>8–9</span><span><i class="pin f3"></i>6–7</span><span><i class="pin f2"></i>4–5</span><span><i class="pin f1"></i>2–3</span>
       </div>
@@ -329,14 +335,14 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const num = n => String(n).replace('.', ',');
 const pad = n => String(n).padStart(2, '0');
-const slug = s => s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
-  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').split('-').slice(0, 4).join('-');
 const fitClass = f => f >= 8 ? 'f4' : f >= 6 ? 'f3' : f >= 4 ? 'f2' : 'f1';
 const pips = (v, max) => `<span class="pips">${Array.from({length: max}, (_, i) => `<i${i < v ? ' class="on"' : ''}></i>`).join('')}</span>`;
 const narrow = matchMedia('(max-width: 899px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const canHover = matchMedia('(hover: hover)').matches;
+const host = u => new URL(u).host.replace(/^www\./, '');
 
-DATA.forEach(d => { d.slug = slug(d.n); d.hay = [d.n, d.ort, d.typ, d.sp, d.ein, d.aw, d.adr].join(' ').toLowerCase(); });
+DATA.forEach(d => { d.hay = [d.n, d.ort, d.typ, d.sp, d.ein, d.aw, d.adr].join(' ').toLowerCase(); });
 const bySlug = Object.fromEntries(DATA.map(d => [d.slug, d]));
 
 const state = {q: '', st: new Set([1, 2, 3, 4, 5]), typ: '', sort: 'rank', sel: null, shown: DATA};
@@ -350,7 +356,7 @@ function filtered() {
 }
 
 function buildFilters() {
-  $('#lede').textContent = `${DATA.length} Betriebe, sortiert nach inhaltlichem Fit. Entfernung als Luftlinie ab Winterhuder Marktplatz. Tippe einen Pin oder Eintrag an, um die Karteikarte zu öffnen.`;
+  $('#lede').textContent = `${DATA.length} Betriebe, sortiert nach inhaltlichem Fit. Entfernung als Luftlinie ab Winterhuder Marktplatz. Die Zahl im Pin ist der Fit (0–10). Tippe einen Pin oder Eintrag an, um die Karteikarte mit Website-Vorschau zu öffnen.`;
   $('#chips').innerHTML = Object.entries(STATUS).map(([k, label]) =>
     `<button type="button" class="chip" data-st="${k}" aria-pressed="true" style="--c:var(--s${k})"><i></i>${label} <b>${DATA.filter(d => d.st == k).length}</b></button>`).join('');
   const types = [...new Set(DATA.map(d => d.typ))].sort((a, b) => a.localeCompare(b, 'de'));
@@ -381,10 +387,10 @@ function renderList() {
   $('#tab-list').textContent = `Liste · ${list.length}`;
   $('#list').innerHTML = list.length ? list.map(d => `
     <li><button type="button" class="row" data-slug="${d.slug}"${state.sel === d ? ' aria-current="true"' : ''}>
-      <span class="pin ${fitClass(d.fit)}${d.st === 5 ? ' is-no' : ''}">${d.r}</span>
+      <span class="pin ${fitClass(d.fit)}${d.st === 5 ? ' is-no' : ''}"><span class="sr">Fit </span>${num(d.fit)}</span>
       <span><span class="nm">${esc(d.n)}</span>
         <span class="meta"><span>${esc(d.ort)} · ${num(d.km)} km</span><span class="st" style="--c:var(--s${d.st})"><i></i>${esc(STATUS[d.st])}</span></span></span>
-      <span class="score" aria-label="Fit ${num(d.fit)} von 10"><span><b>${num(d.fit)}</b><small>/10</small></span><span class="mini"><i style="width:${d.fit * 10}%"></i></span></span>
+      <span class="rk">Nr. ${pad(d.r)}</span>
     </button></li>`).join('')
     : `<li class="empty">Kein Betrieb passt zu diesen Filtern.<br><button type="button" class="btn" id="reset2">Filter zurücksetzen</button></li>`;
 }
@@ -479,9 +485,10 @@ DATA.forEach((d, i) => {
   d.marker = L.marker([d.lat, d.lng], {
     keyboard: true, title: '', alt: d.n, zIndexOffset: (100 - d.r) * 10,
     icon: L.divIcon({className: 'pin-wrap', iconSize: [26, 26], iconAnchor: [13 - dx, 13],
-      html: `<span class="pin ${fitClass(d.fit)}${d.st === 5 ? ' is-no' : ''}">${d.r}</span>`}),
-  }).bindTooltip(`${pad(d.r)} · ${esc(d.n)}`, {direction: 'top', offset: [dx, -14], className: 'tip'})
-    .on('click', () => select(d));
+      html: `<span class="pin ${fitClass(d.fit)}${d.st === 5 ? ' is-no' : ''}">${num(d.fit)}</span>`}),
+  }).on('click', () => select(d));
+  if (canHover) d.marker.bindTooltip(() => `<div class="tip-in">${d.shot ? `<img src="${d.shot}" alt="" width="640" height="400">` : ''}
+    <b>${esc(d.n)}</b><span>Fit ${num(d.fit)}/10 · Nr. ${pad(d.r)} · ${esc(d.ort)}</span></div>`, {direction: 'top', offset: [dx, -14], className: 'tip'});
 });
 
 const FitAll = L.Control.extend({options: {position: 'topleft'}, onAdd() {
@@ -553,11 +560,15 @@ function renderCard(d) {
   $('#sheet-tab').innerHTML = `Nr. ${pad(d.r)} <span>/ ${DATA.length}</span>`;
   card.innerHTML = `
     <header class="card-head">
+      ${d.logo ? `<img class="logo" src="${d.logo}" alt="Logo ${esc(d.n)}">` : ''}
       <h2 id="card-title" tabindex="-1">${esc(d.n)}</h2>
       <p class="sub">${esc(d.typ)} · ${esc(d.ort)}</p>
       ${aw ? `<span class="tag">${esc(aw)}</span>` : ''}
       <button type="button" class="x" id="close" aria-label="Karteikarte schließen"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     </header>
+    ${d.shot ? `<a class="shot" href="${esc(d.site)}" target="_blank" rel="noopener">
+      <img src="${d.shot}" alt="Startseite von ${esc(host(d.site))}" width="640" height="400">
+      <span><b>${esc(host(d.site))} ↗</b> Startseite, Screenshot vom ${d.shotd}</span></a>` : ''}
     <div class="card-body">
       <section>
         <div class="fit-head"><h3 class="lbl">Inhaltlicher Fit</h3><span class="fit-val">${num(d.fit)}<small> / 10</small></span></div>

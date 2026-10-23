@@ -17,7 +17,7 @@ Nach Änderungen in `docs/sw.js` den Wert `const CACHE = ...` ändern, sonst zei
 
 ## Tischler-Karte
 
-Unter `docs/tischler/` liegt eine Karte der Tischlereien aus dem Praktikums-Ranking (mit GitHub Pages: `…/tischler/`). Ein Klick auf einen Pin öffnet die Karteikarte des Betriebs mit Fit, Kriterien, Praktikum-Status und Kontakt.
+Unter `docs/tischler/` liegt eine Karte der Tischlereien aus dem Praktikums-Ranking (mit GitHub Pages: `…/tischler/`). Die Zahl im Pin ist der inhaltliche Fit (0–10). Ein Klick öffnet die Karteikarte mit Logo, Website-Vorschau, Kriterien, Praktikum-Status und Kontakt.
 
 Neu bauen, wenn sich die Tabelle ändert:
 
@@ -25,5 +25,15 @@ Neu bauen, wenn sich die Tabelle ändert:
 pip install openpyxl
 python3 tools/tischler-karte/build.py Tischler-Praktikum_Hamburg_Ranking.xlsx
 ```
+
+Website-Vorschau und Logos neu holen (braucht Node mit Playwright und Pillow):
+
+```
+node tools/tischler-karte/previews.mjs tools/tischler-karte/sites.json roh/
+python3 tools/tischler-karte/images.py roh/
+python3 tools/tischler-karte/build.py Tischler-Praktikum_Hamburg_Ranking.xlsx
+```
+
+`sites.json` schreibt `build.py`. Logos, die die Erkennung falsch greift, stehen in `images.py` unter `WRONG_LOGO`.
 
 Die Grundkarte (`tools/tischler-karte/basemap.json`) erzeugt `basemap.py` aus OpenStreetMap-Vektorkacheln; das ist nur nötig, wenn sich der Kartenausschnitt ändern soll.
